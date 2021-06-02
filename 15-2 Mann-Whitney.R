@@ -1,6 +1,8 @@
 library(tidyverse)
 library(ggpubr)
 
+##### EXAMPLE 1 #####
+
 ill <- c(640, 160, 1280, 320, 80, 640, 640, 160, 1280, 640, 160)
 healthy <- c(10, 320, 160, 160, 320, 320, 10, 320, 320, 80, 640)
 
@@ -39,3 +41,45 @@ wilcox.test(data$outcome~data$healthy, exact = FALSE, alternative="greater")
 # ill group (healthy=0) is greater than the healthy group (healthy=1)
 # R will do the comparison in the order that it sees the grouping
 # and it sees the 0 group first
+
+##### EXAMPLE 2 #####
+
+conf <- c(9.6, 10.4, 9.7, 10.3, 9.2, 9.3, 9.9, 9.5, 9.0, 10.9)
+not <- c(10.7, 10.7, 10.4, 10.9, 10.5, 10.3, 9.6, 11.1, 11.2, 10.4)
+
+### CHECK NORMALITY ###
+
+c <- tibble(conf)
+n <- tibble(not)
+
+p1 <- ggplot(data=c, aes(sample=conf)) +
+  stat_qq(size=3) + 
+  stat_qq_line() + 
+  xlab("Theoretical") +
+  ylab("Sample") +
+  ggtitle("Confined")+
+  theme_minimal()
+
+p2 <- ggplot(data=n, aes(sample=not)) +
+  stat_qq(size=3) + 
+  stat_qq_line() + 
+  xlab("Theoretical") +
+  ylab("Sample") +
+  ggtitle("Not Confined")+
+  theme_minimal()
+
+both <- ggarrange(p1, p2, ncol=2, nrow=1)
+both
+
+#ggsave("/Users/sseals/Desktop/L71fig2.png")
+
+#### TEST ####
+
+brain <- c(9.6, 10.4, 9.7, 10.3, 9.2, 9.3, 9.9, 9.5, 9.0, 10.9,
+           10.7, 10.7, 10.4, 10.9, 10.5, 10.3, 9.6, 11.1, 11.2, 10.4)
+
+notconf <- c(rep(0,10), rep(1,10))
+
+data <- tibble(brain, notconf)
+
+wilcox.test(data$brain~data$notconf, alternative="two.sided", exact = FALSE)
