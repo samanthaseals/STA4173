@@ -47,8 +47,6 @@ wilcox.test(data$outcome~data$healthy, exact = FALSE, alternative="greater")
 conf <- c(9.6, 10.4, 9.7, 10.3, 9.2, 9.3, 9.9, 9.5, 9.0, 10.9)
 not <- c(10.7, 10.7, 10.4, 10.9, 10.5, 10.3, 9.6, 11.1, 11.2, 10.4)
 
-### CHECK NORMALITY ###
-
 c <- tibble(conf)
 n <- tibble(not)
 
@@ -72,8 +70,6 @@ both <- ggarrange(p1, p2, ncol=2, nrow=1)
 both
 
 #ggsave("/Users/sseals/Desktop/L71fig2.png")
-
-#### TEST ####
 
 brain <- c(9.6, 10.4, 9.7, 10.3, 9.2, 9.3, 9.9, 9.5, 9.0, 10.9,
            10.7, 10.7, 10.4, 10.9, 10.5, 10.3, 9.6, 11.1, 11.2, 10.4)
