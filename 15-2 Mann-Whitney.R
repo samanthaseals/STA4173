@@ -79,3 +79,50 @@ notconf <- c(rep(0,10), rep(1,10))
 data <- tibble(brain, notconf)
 
 wilcox.test(data$brain~data$notconf, alternative="two.sided", exact = FALSE)
+
+##### EXAMPLE 3 - LARGE SAMPLE SIZE #####
+
+X <- c(7, 76 , 7 , 33 , 4 , 20 , 4 , 59 , 91 , 5 , 287 , 472 , 52 , 19 , 128 , 28 , 103 , 25 , 68 , 17 , 109 , 3)
+Y <- c(115 , 412 , 200 , 55 , 62 , 253 , 219 , 225 , 122 , 245 , 129 , 168 , 239 , 71 , 118 , 130 , 12 )
+
+x <- tibble(X)
+y <- tibble(Y)
+
+p1 <- ggplot(data=x, aes(sample=X)) +
+  stat_qq(size=3) + 
+  stat_qq_line() + 
+  xlab("Theoretical") +
+  ylab("Sample") +
+  ggtitle("Model X")+
+  theme_minimal()
+
+p2 <- ggplot(data=y, aes(sample=Y)) +
+  stat_qq(size=3) + 
+  stat_qq_line() + 
+  xlab("Theoretical") +
+  ylab("Sample") +
+  ggtitle("Model Y")+
+  theme_minimal()
+
+both <- ggarrange(p1, p2, ncol=2, nrow=1)
+both
+
+#ggsave("/Users/sseals/Desktop/L72fig1.png")
+
+
+outcome <- c(7, 76 , 7 , 33 , 4 , 20 , 4 , 59 , 91 , 5 , 287 , 472 , 52 , 19 , 128 , 28 , 103 , 25 , 68 , 17 , 109 , 3,
+             115 , 412 , 200 , 55 , 62 , 253 , 219 , 225 , 122 , 245 , 129 , 168 , 239 , 71 , 118 , 130 , 12 )
+
+X <- c(rep(1,22), rep(0,17))
+
+data <- tibble(outcome, X)
+
+data$rank <- rank(data$outcome, ties.method = "average")
+
+data %>% 
+  group_by(X) %>%
+  summarize_at(vars(rank),
+               list(name = sum))
+  
+
+wilcox.test(data$outcome~data$X, alternative="greater", exact = FALSE)
