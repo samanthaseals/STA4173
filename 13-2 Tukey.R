@@ -34,4 +34,7 @@ ggplot(tky, aes(colour=cut(`p adj`, c(0, 0.05, 1),
   xlab("Parwise Comparison") +
   ylab("Difference") +
   labs(colour="") +
-  theme_minimal()
+  theme_minimal() +
+  theme(text = element_text(size=20))
+
+#ggsave("/Users/sseals/Desktop/L79fig2.png")
