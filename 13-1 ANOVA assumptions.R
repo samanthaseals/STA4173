@@ -24,5 +24,3 @@ data <- data %>% mutate (system = factor(system))
 m1 <- aov(strength ~ system, data=data)
 
 almost_sas(m1)
-
-#ggsave("/Users/sseals/Desktop/L80fig1.png")
