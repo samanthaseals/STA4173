@@ -37,6 +37,9 @@ healthy <- c(rep(0,11), rep(1,11))
 data <- tibble(outcome, healthy)
 
 wilcox.test(data$outcome~data$healthy, exact = FALSE, alternative="greater")
+# left side of the ~ is the outcome of interest
+# right side of the ~ is the grouping variable
+
 # assign the alternative "greater" because we want to know if the 
 # ill group (healthy=0) is greater than the healthy group (healthy=1)
 # R will do the comparison in the order that it sees the grouping
