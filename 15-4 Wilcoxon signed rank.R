@@ -24,10 +24,16 @@ p
 #ggsave("/Users/sseals/Desktop/L73fig1.png")
 
 data$absdiff <- abs(data$diff)
+
+# remove diff=0
+data <- data %>% filter(diff != 0)
+
 data$rank <- rank(data$absdiff, ties.method = "average")
 data$rank <- if_else(data$diff<0, data$rank*(-1), data$rank)
 
 data$sign <- if_else(data$diff<0, "-", "+")
+
+
 
 data %>% 
   group_by(sign) %>%
@@ -58,6 +64,10 @@ p
 #ggsave("/Users/sseals/Desktop/L73fig3.png")
 
 data$absdiff <- abs(data$diff)
+
+# remove diff=0
+data <- data %>% filter(diff != 0)
+
 data$rank <- rank(data$absdiff, ties.method = "average")
 data$rank <- if_else(data$diff<0, data$rank*(-1), data$rank)
 
