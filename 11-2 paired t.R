@@ -8,7 +8,7 @@ garage <- tibble(g1, g2)
 
 # garage$d <- garage$g1 - garage$g2
 # mean(garage$d)
-# sqrt(var(garage$d))
+# sd(garage$d)
 
 # hypothesis test
 t.test(garage$g1, garage$g2, paired = TRUE, alternative = "greater")
@@ -26,7 +26,7 @@ student <- tibble(s1, s2)
 
 # student$d <- student$s1 - student$s2
 # mean(student$d)
-# sqrt(var(student$d))
+# sd(student$d)
 
 # hypothesis test and two-side CI
 t <- t.test(student$s1, student$s2, paired = TRUE, alternative = "two")

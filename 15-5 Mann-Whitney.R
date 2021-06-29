@@ -36,7 +36,7 @@ healthy <- c(rep(0,11), rep(1,11))
 
 data <- tibble(outcome, healthy)
 
-wilcox.test(data$outcome~data$healthy, exact = FALSE, alternative="greater")
+wilcox.test(data$outcome ~ data$healthy, exact = FALSE, alternative="greater")
 # left side of the ~ is the outcome of interest
 # right side of the ~ is the grouping variable
 
