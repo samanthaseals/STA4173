@@ -9,12 +9,15 @@ system <- c(rep("Cojet",5), rep("Silistor",5), rep("Cimara",5), rep("Ceramic",5)
 
 data <- tibble(system, strength)
 
+# group means and variances
 data %>%
   group_by(system) %>%
     summarise(mean = mean(strength), 
               var = var(strength)) 
 
+# overall mean
 mean(strength)
 
+# ANOVA
 m1 <- lm(strength ~ system, data=data)
 anova(m1)
