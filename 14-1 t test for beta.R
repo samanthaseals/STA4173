@@ -11,3 +11,4 @@ data$residual <- resid(lm(chol ~ age, data = data))
 data$residual2 <- data$residual^2
 
 sd(data$age)
+
