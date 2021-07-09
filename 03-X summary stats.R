@@ -9,7 +9,7 @@ median(scores)
 var(scores)
 
 # std. dev.
-sqrt(var(scores))
+sd(scores)
 
 # 5 number summary + mean
 summary(scores)
