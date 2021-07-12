@@ -1,6 +1,7 @@
 library(tidyverse)
 library(car)
 
+# create data 
 x1 <- c(19.5, 24.7, 30.7, 29.8, 19.1, 25.6, 31.4, 27.9,
         22.1, 25.5, 31.1, 30.4, 18.7, 19.7, 14.6, 29.5,
         27.7, 30.2, 22.7, 25.2)
@@ -19,8 +20,21 @@ y <- c(11.9, 22.8, 18.7, 20.1, 12.9, 21.7, 27.1, 25.4,
 
 data <- tibble(y, x1, x2, x3)
 
+# correlation matrix
 cor(data)
 
-m1 <- lm(y ~ x1 + x2 + x3, data=one)
-
+# full model
+m1 <- lm(y ~ x1 + x2 + x3, data=data)
 vif(m1)
+
+# model without x1
+m2 <- lm(y ~ x2 + x3, data=data)
+vif(m2)
+
+# model without x2
+m3 <- lm(y ~ x1 + x3, data=data)
+vif(m3)
+
+# model without x3
+m4 <- lm(y ~ x1 + x2, data=data)
+vif(m4)
