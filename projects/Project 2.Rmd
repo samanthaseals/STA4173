@@ -1,0 +1,78 @@
+---
+title: 'STA4173: Project 2 Assignment'
+date: 'Last updated: `r Sys.Date()`'
+output:
+  html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE)
+```
+
+## Project Description
+
+In this project, we will be analyzing data from the [Top 1000 Movies on IMDB](https://www.kaggle.com/harshitshankhdhar/imdb-dataset-of-top-1000-movies-and-tv-shows). Specifically, we will be investigating IMDB ratings as they are related to runtime (< 2 hours, 2-3 hours, and > 3 hours) and genre (the number of genres a movie is classified as: 1, 2, or 3). To get started, see the starter code available on this course's GitHub repository.
+
+### Meat of Project
+
+You will be putting together a polished document demonstrating your analysis skills based on what you've learned over the past few weeks. The hypothesis testing is only a small piece of your project, though. You must write a cohesive summary from start to finish -- explain what hypotheses you are examining (both in sentence form and in mathematical form) and explain the results. You will write a paper using R Markdown; the paper will be submitted as a .html file to the appropriate dropbox on Canvas. 
+
+### Pieces That You Will Include
+
+  1. Describe the data using the following tables: 
+  
+|                           | 1 Category | 2 Categories | 3 Categories |
+|---------------------------|------------|--------------|--------------|
+| Mean (Standard Deviation) |            |              |              |
+| Median (IQR)              |            |              |              |
+
+|                           | Less than 2 Hours | 2 to 3 Hours      | 3 or More Hours |
+|---------------------------|-------------------|-------------------|-----------------|
+| Mean (Standard Deviation) |                   |                   |                 |
+| Median (IQR)              |                   |                   |                 |
+
+  2. Construct side-by-side boxplots comparing the distribution for IMDB rating (IMDB_Rating) between the number of genres the movie is considered to be in (No_Cat) and, separately, the length of the movie (Hours) There is code for the number of categories available in the starter code; copy, paste, and edit to create the plots for the runtime.
+  
+  3. Describe the distributions. Are they skewed? Do you think there's a difference between the ratings of movies that fall into 1, 2, or 3 genres? What about the ratings of movies that are < 120 minutes as compared to those that are 120 minutes or longer? 
+  
+  4. Use one-way ANOVA to determine if there's a difference in the average IMDB ratings (IMDB_Rating) between the number of genres a movie belongs to (No_Cat). Test at the &alpha; = 0.05 level. Include the formal test results (including the formal hypotheses), but in your interpretation, make sure that you explain the results such that a non-statistician can understand. 
+  
+  5. Use the Kruskal-Wallis test to determine if there's a difference in median IMDB ratings (IMDB_Rating) between the number of genres a movie belongs to (No_Cat). Test at the &alpha; = 0.05 level. Include the formal test results (including the formal hypotheses), but in your interpretation, make sure that you explain the results such that a non-statistician can understand. 
+  
+  6. Construct the graph for assessing ANOVA assumptions. Are any of the ANOVA assumptions broken? Justify your answer and include statements about the specific graphs.
+  
+  7. Use the Brown-Forsythe-Leveine test to formally test the variance assumption. Test at the &alpha; = 0.05$ level. Include the formal test results (including the formal hypotheses), but in your interpretation, make sure that you explain the results such that a non-statistician can understand. Include whether or not the assumption is broken.
+  
+  8. Based on your answers to 6 and 7, which test should be reported? Explain why you're choosing the test you're choosing. (Hint: you will either choose ANOVA or Kruskal-Wallis.)
+  
+  9. Use two-way ANOVA to show that there is not an interaction between number of genres (No_Cat) and length of movie (Hours). Test at the &alpha; = 0.05 level. Include the formal test results (including the formal hypotheses), but in your interpretation, make sure that you explain the results such that a non-statistician can understand.
+  
+  10. Remove the interaction term from your ANOVA model. Are there main effects of number of genres (No_Cat) and length of movie (Hours)? Test at the &alpha; = 0.05 level. Include the formal test results (including the formal hypotheses), but in your interpretation, make sure that you explain the results such that a non-statistician can understand.
+  
+  11. Perform posthoc testing on the significant main effect(s) by constructing the Tukey's graph of simultaneous intervals. In your interpretation, explain which groups are significantly different.
+  
+  12. Construct the graph for assessing ANOVA assumptions. Are any of the ANOVA assumptions broken? Justify your answer and include statements about the specific graphs.
+ 
+## Rubric
+
+### 75 points: responses to questions
+
+  - 10 points: table of summary statistics (1)
+  - 5 points: box plots (2)
+  - 5 points: distribution description (3)
+  - 5 points: one-way ANOVA (4)
+  - 5 points: Kruskal-Wallis (5)
+  - 10 points: assumption graph and assessment (6)
+  - 5 points: Brown-Forsythe-Levine (7)
+  - 5 points: correct choice between ANOVA and Kruskal-Wallis (8)
+  - 5 points: two-way ANOVA (9)
+  - 5 points: removal of interaction term (10)
+  - 5 points: Tukey's (11)
+  - 10 points: assumption graph and assessment (12)
+  
+### 25 points: paper presentation
+
+  - 5 points: formatting (appropriate section headers, lists, etc.)
+  - 5 points: correct grammar and spelling
+  - 5 points: organization and flow of presentation  
+  - 10 points: clear explanations such that a non-statistician can understand
