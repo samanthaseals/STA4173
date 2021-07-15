@@ -12,7 +12,6 @@ knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
 # pull in packages we need
 library(googlesheets4)
 library(tidyverse)
-library(pgirmess) 
 library(car)
 library(ggpubr)
 
