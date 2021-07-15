@@ -18,6 +18,12 @@ sex <- c(rep("F", 6), rep("M", 6))
 
 data <- tibble(sex, age, chol)
 
+# sums
+data %>% group_by(sex) %>% summarize(sum = sum(chol))
+data %>% group_by(age) %>% summarize(sum = sum(chol))
+data %>% group_by(age, sex) %>% summarize(sum = sum(chol))
+sum(chol)
+
 # ANOVA with interaction
 m1 <- lm(chol ~ age + sex + age:sex, data = data)
 anova(m1)
@@ -61,9 +67,32 @@ product <- c(rep("breakfast cereal", 30), rep("video game", 30))
 
 data <- tibble(product, age, attn)
 
+# sums
+data %>% group_by(age) %>% summarize(sum = sum(attn))
+data %>% group_by(product) %>% summarize(sum = sum(attn))
+data %>% group_by(age, product) %>% summarize(sum = sum(attn))
+sum(attn)
+
 # ANOVA with interaction
 m1 <- lm(attn ~ age + product + age:product, data = data)
 anova(m1)
+
+# profile plot
+cereal <- c(229, 196, 219)
+game <- c(231, 305, 456)
+
+age_g <- c("5-6 years", "7-8 years", "9-10 years")
+
+graph <- tibble(age_g, cereal, game)
+
+ggplot(data=graph, aes(x=age_g)) +
+  geom_line(aes(y=cereal), color="black", group=1) +
+  geom_line(aes(y=game), color="black", group=1) +
+  theme_minimal() +
+  labs(x = "Age Group", y = "Average Attention Span") +
+  geom_text(aes(x = "9-10 years" , y = 456, label = "Video Game")) +
+  geom_text(aes(x = "9-10 years" , y = 219, label = "Breakfast Cereal")) + 
+  theme(text = element_text(size=20))
 
 # ANOVA assumptions
 almost_sas(m1)
