@@ -40,14 +40,3 @@ observed_table
 
 # chi-squared test for independence
 chisq.test(observed_table)
-
-
-
-
-count <- c(600, 63, 112, 144,
-           720, 142, 355, 459,
-           93, 51, 119, 127)
-
-marital <- c(rep(c("Married", "Widowed", "Divorced", "Never Married"), 3))
-
-happiness <- c(rep("Very Happy", 4), rep("Pretty Happy", 4), rep("Not Too Happy", 4))
