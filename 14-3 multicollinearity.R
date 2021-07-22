@@ -25,16 +25,24 @@ cor(data)
 
 # full model
 m1 <- lm(y ~ x1 + x2 + x3, data=data)
+
+# request VIF of model
 vif(m1)
 
 # model without x1
 m2 <- lm(y ~ x2 + x3, data=data)
+
+# request VIF of model
 vif(m2)
 
 # model without x2
 m3 <- lm(y ~ x1 + x3, data=data)
+
+# request VIF of model
 vif(m3)
 
 # model without x3
 m4 <- lm(y ~ x1 + x2, data=data)
+
+# request VIF of model
 vif(m4)
