@@ -1,5 +1,3 @@
-library(tidyverse)
-
 ##### EXAMPLE 1 #####
 
 # enter counts in a matrix
