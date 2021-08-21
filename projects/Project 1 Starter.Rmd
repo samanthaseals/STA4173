@@ -1,0 +1,110 @@
+---
+title: 'STA4173: Project 1'
+author: 'Your Name Here'
+date: 'Last updated: `r Sys.Date()`'
+output:
+  html_document
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
+
+# pull in packages we need
+library(googlesheets4)
+library(ggpubr)
+library(tidyverse)
+
+# you may need to install them first
+# install.packages("googlesheets4")
+# install.packages("ggpubr")
+# install.packages("tidyverse")
+
+# NOTE -- you may need additional packages, depending on what is asked of you below :-)
+
+options(scipen = 999)
+
+# call in data
+data <- read_sheet("https://docs.google.com/spreadsheets/d/1ByIX8wOJKk-CjtJ6XJcg1JyxJN6cJSWbvx6vxNoviDs/edit#gid=0")
+
+data <- read_csv("/Users/sseals/Downloads/Library Spending - Library.csv")
+
+# regions as defined by the Census Bureau
+data$Region <- if_else(data$state %in% c("Connecticut", "Maine", "Massachusetts", "New Hampshire", "Rhode Island", "Vermont", "New Jersey", "New York", "Pennsylvania"), "Northeast",
+               if_else(data$state %in% c("Illinois", "Indiana", "Michigan", "Ohio", "Wisconsin", "Iowa", "Kansas", "Minnseota", "Missouri", "Nebraska", "North Dakota", "South Dakota"), "Midwest",
+               if_else(data$state %in% c("Delaware", "Florida", "Georgia", "Maryland", "North Carolina", "South Carolina", "Virginia", "District of Columbia", "West Virginia", "Alabama", "Kentucky", "Mississippi", "Tennessee", "Arkansas", "Louisiana", "Oklahoma", "Texas"), "South", "West")))
+
+# filter to only South region
+data_south <- data %>% filter(Region == "South")
+
+# filter to only West region
+data_west <- data %>% filter(Region == "West")
+
+# filter to South and West regions
+data_south_west <- data %>% filter(Region %in% c("South", "West"))
+```
+
+#### 1. Describe the data. 
+
+```{r}
+summaries <- data_south_west %>% group_by(Region) %>% 
+  summarize(mean00 = mean(`2000`), sd00 = sd(`2000`), median00 = median(`2000`), iqr00 = IQR(`2000`))
+
+# NOTE -- you must edit the code in this chunk to get the summary statistics for the other years (copy, paste, and edit :-) )
+```
+  
+|       |                           | 2000 | 2005 | 2010 | 2015 |
+|-------|---------------------------|------|------|------|------|
+| South | Mean (Standard Deviation) | `r round(summaries$mean00[1],2)` (`r round(summaries$sd00[1],2)`)     |  INSERT FOR 2005    |   INSERT FOR 2010   |  INSERT FOR 2015    |
+|       | Median (IQR)              | `r round(summaries$median00[1],2)` (`r round(summaries$iqr00[1],2)`)     |  INSERT FOR 2005    |   INSERT FOR 2010   |  INSERT FOR 2015    |
+| West  | Mean (Standard Deviation) | `r round(summaries$mean00[2],2)` (`r round(summaries$sd00[2],2)`)     |  INSERT FOR 2005    |   INSERT FOR 2010   |  INSERT FOR 2015    |
+|       | Median (IQR)              |  `r round(summaries$median00[2],2)` (`r round(summaries$iqr00[2],2)`)    |  INSERT FOR 2005    |   INSERT FOR 2010   |  INSERT FOR 2015    |
+
+#### 2. Construct side-by-side boxplots comparing the South and West regions for 2000, 2005, 2010, and 2015. 
+
+```{r}
+bp00 <- ggplot(data=data_south_west, aes(y= `2000`, x=Region, fill=Region)) +
+          geom_boxplot() +
+          theme_minimal() +
+          labs(y = "Spending", x = "Region") +
+          ylim(min=0, max=1500000) +
+          ggtitle("2000")
+
+# NOTE -- you must edit the code to be able to construct the final image (below) -- copy, paste, and change values to get the boxplots together, below
+
+#bp <- ggarrange(bp00, bp05, bp10, bp15, ncol=2, nrow=2)
+
+#bp
+
+```
+  
+#### 3. Describe the distributions. Are they skewed? Do you think there's a difference between the two regions? 
+
+```{r}
+
+```
+  
+#### 4. Use the appropriate *t* test to determine if there is a difference in library spending between the South and West regions in 2005. Test at the &alpha; = 0.05 level. Include the formal test results (including the formal hypotheses), but in your interpretation, make sure that you explain the results such that a non-statistician can understand.
+  
+#### 5. Assess the variance assumption. Test at the &alpha; = 0.05 level. Include the formal test results (including the formal hypotheses), but in your interpretation, make sure that you explain the results such that a non-statistician can understand. Include whether or not the assumption is broken.
+  
+#### 6. Assess the normality assumption. In your interpretation, make sure that you explain the results such that a non-statistician can understand. Include whether or not the assumption is broken.
+  
+#### 7. Use the appropriate nonparametric test to determine if there is a difference in library spending between the South and West regions in 2005. Test at the &alpha; = 0.05 level. Include the formal test results (including the formal hypotheses), but in your interpretation, make sure that you explain the results such that a non-statistician can understand.
+  
+#### 8. Based on your answers to 5 and 6, which test should be reported? Explain why you're choosing the test you're choosing. (Hint: you will either choose the *t* test or the nonparametric test.)
+  
+#### 9. Use the appropriate *t* test to determine if there is a difference in library spending between 2005 and 2010 for all states. Test at the &alpha; = 0.05 level. Include the formal test results (including the formal hypotheses), but in your interpretation, make sure that you explain the results such that a non-statistician can understand.
+  
+#### 10. Assess the normality assumption. In your interpretation, make sure that you explain the results such that a non-statistician can understand. Include whether or not the assumption is broken.
+  
+#### 11. Use the appropriate nonparametric test to determine if there is a difference in library spending between 2005 and 2010 for all states. Test at the &alpha; = 0.05 level. Include the formal test results (including the formal hypotheses), but in your interpretation, make sure that you explain the results such that a non-statistician can understand.
+  
+#### 12. Based on your answers to 10, which test should be reported? Explain why you're choosing the test you're choosing. (Hint: you will either choose the *t* test or the nonparametric test.)
+
+
+
+
+
+
+
+
