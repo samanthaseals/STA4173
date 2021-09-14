@@ -10,23 +10,23 @@ output:
 knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
 
 # pull in packages we need
-library(googlesheets4)
-library(ggpubr)
+library(gsheet)
 library(tidyverse)
+library(ggpubr)
 
 # you may need to install them first
-# install.packages("googlesheets4")
-# install.packages("ggpubr")
+# install.packages("gsheet")
 # install.packages("tidyverse")
+# install.packages("ggpubr")
 
-# NOTE -- you may need additional packages, depending on what is asked of you below :-)
+# NOTE 1 -- you may need additional packages, depending on what is asked of you below :-)
+
+# NOTE 2 -- you do *not* need to edit anything below this note in the code chunk. All of the data management has been done for you. Once you confirm that the data has pulled in properly, you are ready to begin the project.
 
 options(scipen = 999)
 
 # call in data
-data <- read_sheet("https://docs.google.com/spreadsheets/d/1ByIX8wOJKk-CjtJ6XJcg1JyxJN6cJSWbvx6vxNoviDs/edit#gid=0")
-
-data <- read_csv("/Users/sseals/Downloads/Library Spending - Library.csv")
+data <- data <- as_tibble(gsheet2tbl("https://docs.google.com/spreadsheets/d/1ByIX8wOJKk-CjtJ6XJcg1JyxJN6cJSWbvx6vxNoviDs/edit#gid=0"))
 
 # regions as defined by the Census Bureau
 data$Region <- if_else(data$state %in% c("Connecticut", "Maine", "Massachusetts", "New Hampshire", "Rhode Island", "Vermont", "New Jersey", "New York", "Pennsylvania"), "Northeast",
@@ -71,17 +71,10 @@ bp00 <- ggplot(data=data_south_west, aes(y= `2000`, x=Region, fill=Region)) +
 
 # NOTE -- you must edit the code to be able to construct the final image (below) -- copy, paste, and change values to get the boxplots together, below
 
-#bp <- ggarrange(bp00, bp05, bp10, bp15, ncol=2, nrow=2)
-
-#bp
-
+# ggarrange(bp00, bp05, bp10, bp15, ncol=2, nrow=2)
 ```
   
 #### 3. Describe the distributions. Are they skewed? Do you think there's a difference between the two regions? 
-
-```{r}
-
-```
   
 #### 4. Use the appropriate *t* test to determine if there is a difference in library spending between the South and West regions in 2005. Test at the &alpha; = 0.05 level. Include the formal test results (including the formal hypotheses), but in your interpretation, make sure that you explain the results such that a non-statistician can understand.
   
