@@ -25,5 +25,8 @@ t.test(rbc ~ rat, data = data, alternative = "two")
 # note that if you want a two-sided CI, you must specify a two-tailed test
 # (if I want a one-tailed test, I will have a separate t.test() call for the CI)
 
+# change the conf.level for different alpha
+t.test(rbc ~ rat, data = data, alternative = "two", conf.level = 0.99)
+
 # check the variance assumption (see 11-4 two-var.R for more details)
 var.test(rbc ~ rat, data = data, alternative = "two.sided")
