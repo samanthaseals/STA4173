@@ -26,7 +26,7 @@ library(ggpubr)
 options(scipen = 999)
 
 # call in data
-data <- data <- as_tibble(gsheet2tbl("https://docs.google.com/spreadsheets/d/1ByIX8wOJKk-CjtJ6XJcg1JyxJN6cJSWbvx6vxNoviDs/edit#gid=0"))
+data <- as_tibble(gsheet2tbl("https://docs.google.com/spreadsheets/d/1ByIX8wOJKk-CjtJ6XJcg1JyxJN6cJSWbvx6vxNoviDs/edit#gid=0"))
 
 # regions as defined by the Census Bureau
 data$Region <- if_else(data$state %in% c("Connecticut", "Maine", "Massachusetts", "New Hampshire", "Rhode Island", "Vermont", "New Jersey", "New York", "Pennsylvania"), "Northeast",
