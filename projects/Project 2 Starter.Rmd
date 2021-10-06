@@ -10,7 +10,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
 
 # pull in packages we need
-library(googlesheets4)
+library(gsheet)
 library(tidyverse)
 library(car)
 library(ggpubr)
@@ -24,7 +24,7 @@ library(ggpubr)
 options(scipen = 999)
 
 # call in data
-data <- read_sheet("https://docs.google.com/spreadsheets/d/14rl-_jmNSoA67CPWcqQFku6GRDKDTBosAHLHok4PQCI/edit#gid=0")
+data <- as_tibble(gsheet2tbl("https://docs.google.com/spreadsheets/d/14rl-_jmNSoA67CPWcqQFku6GRDKDTBosAHLHok4PQCI/edit#gid=0"))
 
 # count the number of categories the movie can be classified as
 data$No_Cat <- str_count(data$Genre, ",")+1
