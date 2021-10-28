@@ -30,7 +30,7 @@ options(scipen = 999)
 data <- na.omit(penguins)
 ```
 
-#### 1. Describe the data using the following table: 
+#### 1. Describe the data (body mass) using the following table: 
   
 |                           | Adélie     | Chinstrap    | Gentoo       |
 |---------------------------|------------|--------------|--------------|
