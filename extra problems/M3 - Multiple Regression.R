@@ -30,7 +30,7 @@ confint(m1)
 
 # check for outliers
 data$outlier <- abs(rstandard(m1))>2.5
-data$outlier
+data %>% count(outlier)
 
 # check for leverage/influence
 gg_cooksd(m1) + 
@@ -68,6 +68,7 @@ confint(m3)
 
 # check for outliers
 data$outlier <- abs(rstandard(m3))>2.5
+data %>% count(outlier)
 data$outlier
 
 # check for leverage/influence
