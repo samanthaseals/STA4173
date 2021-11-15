@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
 | **Bush - 2000** | 763         | 65           |
 | **Gore - 2000** | 59          | 680          |
 
-####  2. The director of library services at a university did a survey of types of books (by subject) in the circulation library. Then they used library records to take a random sample of 1000 books checked out last term and classified the books in the sample by subject. The following data shows the overall percentage of each category in the collection and the number included in the random sample. Is there evidence to suggest that the subject distribution of books in the library does not fit the distribution of books checked out by students?
+####  2. The director of library services at a community college conducted a survey of types of books (by subject) in the circulation library. Then they used library records to take a random sample of 1000 books checked out last term and classified the books in the sample by subject. The following data shows the overall percentage of each category in the collection and the number included in the random sample. Is there evidence to suggest that the subject distribution of books in the library does not fit the distribution of books checked out by students?
 
 | Subject         | Percent Owned | Number in Sample |
 |-----------------|---------------|------------------|
