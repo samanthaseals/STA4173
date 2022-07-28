@@ -59,7 +59,7 @@ data <- na.omit(penguins)
   
 #### 12. Formally assess multicollinearity -- are there any problem predictors?
 
-#### 13. Formally assess potential outliers -- are there any pbservations we should investigate? Use the table() function to determine the number of potential outliers. (Note: I am not asking you to perform a sensitivity analysis here.)
+#### 13. Formally assess potential outliers -- are there any observations we should investigate? Use the table() function to determine the number of potential outliers. (Note: I am not asking you to perform a sensitivity analysis here.)
 
 #### 14. Construct the graph to assess leverage/influence -- are there any observations we should investigate? (Note: I am not asking you to perform a sensitivity analysis here.)
   
