@@ -11,7 +11,7 @@ show_sidebar: false
 | Week | Day | Date  | Topic(s) | Class Materials | 
 |:-:|:-:|:-:|---|:-:|:-:|:-:|:-:|
 | 1    | M   | 01/09 | Review of summary statistics | [html](https://samanthaseals.github.io/STA4173/slides/L01.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L01.qmd) |
-|      | W   | 01/11 | Review of statistical inference | [html](https://samanthaseals.github.io/STA4173/slides/L01.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L01.qmd)  |
+|      | W   | 01/11 | Review of statistical inference | [html](https://samanthaseals.github.io/STA4173/slides/L02.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L02.qmd)  |
 |      | F   | 01/13 | Introduction to R / R lab | |
 | 2    | M   | 01/16 | MLK Holiday - no class | |
 |      | W   | 01/18 | Independent two-sample *t*-test | |
