@@ -1,0 +1,68 @@
+---
+title: "Lab: Week 1"
+author: "Your Name Here"
+format: 
+  html:
+    self-contained: true
+execute:
+  echo: true
+editor: source
+---
+
+Monday's lecture: [refresher on summary statistics](https://github.com/samanthaseals/STA4173/blob/master/slides/L01.qmd)
+
+Wednesday's lecture: [refresher on inferential statistics](https://github.com/samanthaseals/STA4173/blob/master/slides/L02.qmd)
+
+College mathematics instructors suggest that students spend 2 hours outside class studying for every hour in class. So, for a 4-credit-hour math class, students should spend at least 8 hours (480 minutes) studying each week. The given data, from Michael Sullivan's College Algebra class, represent the time spent on task recorded in MyLabMath (in minutes) for randomly selected students during the third week of the semester. The data is as follows:
+
+<center>504 267 220 322 538 542 428 481 413 302 602</center><br>
+
+1. Create the vector of numbers.
+
+```{r}
+
+```
+
+2. Find the mean study time.
+
+```{r}
+
+```
+
+3. Find the standard deviation of study time.
+
+```{r}
+
+```
+
+4. Construct the 95% confidence interval for the mean study time.
+
+```{r}
+
+```
+
+5. Using the CI from 4, determine if students are studying less than 480 minutes per week.
+
+6. Perform the appropriate hypothesis test to determine if students are studying less than 480 minutes per week.
+
+```{r}
+
+```
+
+7. Bonus! Construct a relevant data visualization.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
