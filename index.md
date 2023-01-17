@@ -14,7 +14,7 @@ show_sidebar: false
 |      | W   | 01/11 | Review of statistical inference | [html](https://samanthaseals.github.io/STA4173/slides/L02.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L02.qmd)  |
 |      | F   | 01/13 | Introduction to R / R lab | [html](https://samanthaseals.github.io/STA4173/labs/W01.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/W01.qmd) |
 | 2    | M   | 01/16 | MLK Holiday - no class | |
-|      | W   | 01/18 | Independent two-sample *t*-test | |
+|      | W   | 01/18 | Independent two-sample *t*-test | [html](https://samanthaseals.github.io/STA4173/slides/L03.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L03.qmd) |
 |      | F   | 01/20 | R lab | |
 | 3    | M   | 01/23 | Dependent *t*-test | |
 |      | W   | 01/25 | Assumptions on *t*-tests | |
