@@ -1,0 +1,53 @@
+---
+title: "Lab: Week 2"
+author: "Your Name Here"
+format: 
+  html:
+    self-contained: true
+execute:
+  echo: true
+editor: source
+---
+
+Wednesday's lecture: [independent *t*-tests](https://github.com/samanthaseals/STA4173/blob/master/slides/L03.qmd)
+
+Call in necessary libraries:
+
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse)
+```
+
+Ramp metering is a traffic engineering idea that requires cars entering a freeway to stop for a certain period of time before joining the traffic flow. The theory is that ramp metering controls the number of cars on the freeway and the number of cars accessing the freeway, resulting in a freer flow of cars, which ultimately results in faster travel times. To test whether ramp metering is effective in reducing travel times, engineers in Minneapolis, Minnesota, conducted an experiment in which a section of freeway had ramp meters installed on the on-ramps. The response variable for the study was speed of the vehicles. A random sample of 15 cars on the highway for a Monday at 6 p.m. with the ramp meters on and a second random sample of 15 cars on a different Monday at 6 p.m. with the meters off resulted in the following speeds (in miles per hour).
+
+```{r}
+speed <- c(28, 48, 56, 38, 31, 25, 43, 46, 50, 35, 55, 40, 42, 26, 47,
+           24, 26, 42, 34, 37, 31, 47, 38, 17, 29, 23, 40, 37, 52, 41)
+meter <- c(rep("on", 15), rep("off", 15))
+data <- tibble(meter, speed)
+head(data)
+```
+
+1. Explain why this is *independent* data.
+
+2. Describe the data using the overall mean and the group means.
+
+```{r}
+
+```
+
+3. Find the 90% CI for the difference in speeds when the ramp meters are on vs. off.
+
+```{r}
+
+```
+
+4. Using the CI from part 3, is there sufficient evidence to suggest that the ramp meters are effective in maintaining a higher speed on the freeway?
+
+5. Use the two-sample $t$-test to determine if the ramp meters are effective in maintaining a higher speed on the freeway. Test at the $\alpha=0.10$ level.
+
+```{r}
+
+```
+
+6. Bonus! Construct a relevant data visualization.
+
