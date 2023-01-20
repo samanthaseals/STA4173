@@ -1,0 +1,73 @@
+---
+title: "Lab: Week 1 - data viz"
+author: "Dr. Seals"
+format: 
+  html:
+    self-contained: true
+execute:
+  echo: true
+editor: source
+---
+
+College mathematics instructors suggest that students spend 2 hours outside class studying for every hour in class. So, for a 4-credit-hour math class, students should spend at least 8 hours (480 minutes) studying each week. The given data, from Michael Sullivan's College Algebra class, represent the time spent on task recorded in MyLabMath (in minutes) for randomly selected students during the third week of the semester. The data is as follows:
+
+<center>504 267 220 322 538 542 428 481 413 302 602</center><br>
+
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse)
+time <- c(504, 267, 220, 322, 538, 542, 428, 481, 413, 302, 602)
+student <- c(seq(1, 11, 1))
+data <- tibble(student, time)
+```
+
+## Boxplot (plain)
+
+```{r}
+data %>% ggplot(aes(y = time)) +
+  geom_boxplot() +
+  labs(x = "",
+       y = "Time Studied") +
+  theme_bw() +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank())
+```
+
+## Boxplot with data overlaid
+
+```{r}
+data %>% ggplot(aes(y = time)) +
+  geom_boxplot() +
+  geom_point(aes(y = time, x = 0), size=2.5) +
+  labs(x = "",
+       y = "Time Studied") +
+  theme_bw() +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank())
+```
+
+## "Scatterplot"
+
+```{r}
+data %>% ggplot(aes(x = student, y = time)) +
+  geom_point(size=2.5) +
+  labs(x = "",
+       y = "Time Studied") +
+  theme_bw() +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank())
+```
+
+## Confidence interval
+
+```{r}
+t.test(time)
+data %>% ggplot() +
+  geom_errorbar(aes(xmin = 334.9953, xmax = 504.8229, y = 0), width = 0) +
+  geom_point(aes(x = time, y =0), color = "gray") +
+  geom_point(aes(x = 419.9091, y = 0), size = 5) +
+  labs(y = "",
+       x = "Time Studied") +
+  theme_bw() + 
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
+```
