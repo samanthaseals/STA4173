@@ -392,19 +392,19 @@ var.test(rbc ~ rat, data = data)
 
 - **Hypotheses**
 
--   $H_0: \ \sigma^2_{\text{E}} = \sigma^2_{\text{S}}$
--   $H_1: \ \sigma^2_{\text{E}} \ne \sigma^2_{\text{S}}$
+    -   $H_0: \ \sigma^2_{\text{E}} = \sigma^2_{\text{S}}$
+    -   $H_1: \ \sigma^2_{\text{E}} \ne \sigma^2_{\text{S}}$
 
 -   **Test Statistic and *p*-Value**
 
--   $F_0 = 0.977$
--   $p = 0.967$
+    -   $F_0 = 0.977$
+    -   $p = 0.967$
 
 - **Conclusion/Interpretation**
 
--   Fail to reject $H_0$. 
-
-- There is not sufficient evidence to suggest that the variances are different between earth and space rats.
+    -   Fail to reject $H_0$. 
+    
+    - There is not sufficient evidence to suggest that the variances are different between earth and space rats.
 
 ## What Next?
 
