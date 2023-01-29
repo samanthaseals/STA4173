@@ -19,7 +19,7 @@ show_sidebar: false
 | 3    | M   | 01/23 | Dependent *t*-test | [html](https://samanthaseals.github.io/STA4173/slides/L04.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L04.qmd)  |
 |      | W   | 01/25 | Assumptions on *t*-tests | [html](https://samanthaseals.github.io/STA4173/slides/L05.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L05.qmd) |
 |      | F   | 01/27 | R lab | [html](https://samanthaseals.github.io/STA4173/labs/W03.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/W03.qmd)  |
-| 4    | M   | 01/30 | Independent medians | |
+| 4    | M   | 01/30 | Independent medians | [html](https://samanthaseals.github.io/STA4173/slides/L06.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L06.qmd) |
 |      | W   | 02/01 | Dependent medians | |
 |      | F   | 02/03 | R lab | |
 | 5    | M   | 02/06 | Project 1 | |
