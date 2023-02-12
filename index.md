@@ -25,7 +25,7 @@ show_sidebar: false
 | 5    | M   | 02/06 | Project 1 | |
 |      | W   | 02/08 | Project 1 | |
 |      | F   | 02/10 | Project 1 | |
-| 6    | M   | 02/13 | One-way ANOVA | |
+| 6    | M   | 02/13 | One-way ANOVA | [html](https://samanthaseals.github.io/STA4173/slides/L08.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L08.qmd)  |
 |      | W   | 02/15 | Posthoc testing | |
 |      | F   | 02/17 | R lab | |
 | 7    | M   | 02/20 | ANOVA assumptions | |
