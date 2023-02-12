@@ -1,0 +1,330 @@
+---
+title: "Analysis of Variance"
+subtitle: "STA4173: Biostatistics"
+execute:
+  echo: true
+format: 
+  revealjs:
+    theme: uwf
+    self-contained: true
+    slide-number: false
+    footer: "[STA4173 - Biostatistics](https://samanthaseals.github.io/STA4173)"
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+editor: source
+---
+
+## Introduction
+
+
+- We have previously discussed testing the difference between two groups.
+
+    - What about when there are three or more groups? 
+
+- We will use a method called \textbf{an}alysis \textbf{o}f \textbf{va}riance (ANOVA).
+
+    - This method partitions the variance of the outcome into variance due to the groups and variance due to "other" factors.
+
+- Fun fact: the two-sample *t*-test is a special case of ANOVA.
+
+    - If you perform ANOVA when comparing two means, you will obtain the same results as the two-sample *t*-test.
+
+## Hypotheses
+
+- Hypotheses all take the same form:
+
+    - $H_0: \ \mu_1 = \mu_2 = ... = \mu_k$
+    - $H_1:$ at least one is different
+
+- Note 1: you must fill in the "k" when writing hypotheses!
+
+    - e.g., if there are four means, your hypotheses are
+    
+        - $H_0: \ \mu_1 = \mu_2 = \mu_3 = \mu_4$
+        - $H_1:$ at least one is different
+
+- Note 2: ANOVA does not tell us which means are different, just if a general difference exists!
+
+## ANOVA Table
+
+- The computations for ANOVA are more involved than what we've seen before.  
+
+- An ANOVA table will be constructed in order to perform the hypothesis test.
+
+| **Source** | **Sum of Squares** | **df** | **Mean Squares** | ***F*** |
+|-|-|-|-|-|
+Treatment | SS<sub>Trt</sub> | df<sub>Trt</sub> | MS<sub>Trt</sub> | *F*<sub>0</sub>
+Error | SS<sub>E</sub> | df<sub>E</sub> | MS<sub>E</sub> |
+Total | SS<sub>Tot</sub> | df<sub>Tot</sub> | | |
+
+- Once this is put together, we can perform the hypothesis test.
+
+    - Our test statistic is the *F*<sub>0</sub>.
+    
+## The *F* Distribution
+
+- The *F* distribution is derived as the ratio of two variances. 
+
+    - The variances each have degrees of freedom: df<sub>numerator</sub> and df<sub>denominator</sub>
+
+- The *F* distribution's shape depends on the df,
+
+<center><img src="images/L08a.png"></center>
+
+## ANOVA Computations
+
+- Again, here's where we are headed with our computations: 
+
+| **Source** | **Sum of Squares** | **df** | **Mean Squares** | ***F*** |
+|-|-|-|-|-|
+Treatment | SS<sub>Trt</sub> | df<sub>Trt</sub> | MS<sub>Trt</sub> | *F*<sub>0</sub>
+Error | SS<sub>E</sub> | df<sub>E</sub> | MS<sub>E</sub> |
+Total | SS<sub>Tot</sub> | df<sub>Tot</sub> | | |
+
+- We are partitioning the variance of our outcome into:
+
+    - Variance due to the grouping (treatment)
+    - Variance due to "other" factors (error)
+
+        - Think of this like a "catch all" for other sources of error -- things we did not adjust for in our model.
+
+## ANOVA Computations
+
+- Before we begin our computations, it would be helpful if we know $$ \bar{x}, \ \ n_i, \ \ \bar{x}_i, \ \ s_i^2 $$ where 
+
+    - $\bar{x}$ is the overall mean,
+    - $n_i$ is the sample size for group $i$,
+    - $\bar{x}_i$ is the mean for group $i$, and
+    - $s_i^2$ is the variance for group $i$
+
+## ANOVA Computations
+
+- We begin our computations with the sums of squares: $$\begin{align*}
+    \text{SS}_{\text{Trt}} &= \sum_{i=1}^k n_i(\bar{x}_i-\bar{x})^2 \\
+    \text{SS}_{\text{E}} &= \sum_{i=1}^k (n_i-1)s_i^2 \\
+    \text{SS}_{\text{Tot}} &= \text{SS}_{\text{Trt}} + \text{SS}_{\text{E}}
+\end{align*} $$ where
+
+    -  $k$ is the number of groups
+    
+- and each sum of squares has degrees of freedom: 
+
+    - $\text{df}_{\text{Trt}} = k-1$ (number of groups -- 1)
+    - $\text{df}_{\text{E}} = n-k$ (overall sample size -- number of groups)
+    - $\text{df}_{\text{Tot}} = n-1$ (overall sample size -- 1) = $\text{df}_{\text{Trt}} + \text{df}_{\text{E}}$ 
+    
+## ANOVA Computations
+
+- Once we have the sum of squares and corresponding degrees of freedom, we have the mean squares.
+
+- Generally, mean squares are the sum of square divided by the df,
+$$ \text{MS}_X = \frac{\text{SS}_X}{\text{df}_X}$$
+
+- In the case of one-way ANOVA,$$\begin{align*}
+    \text{MS}_{\text{Trt}} &= \frac{\text{SS}_{\text{Trt}}}{\text{df}_{\text{Trt}}} \\
+    \text{MS}_{\text{E}} &= \frac{\text{SS}_{\text{E}}}{\text{df}_{\text{E}}}
+\end{align*}$$
+    - Note that there is **no** $\text{MS}_{\text{Tot}}$! 
+
+## ANOVA Computations
+
+- Finally, we have the test statistic. 
+
+- Generally, we construct an $F$ for ANOVA by dividing the MS of interest by MS$_{\text{E}}$,
+$$ F_X = \frac{\text{MS}_X}{\text{MS}_{\text{E}}} $$
+
+- In one-way ANOVA, we are only constructing the $F$ for treatment,
+$$F_0 = \frac{\text{MS}_{\text{Trt}}}{\text{MS}_{\text{E}}} $$
+
+## ANOVA Computations
+
+- We are finally done constructing our ANOVA table! As a reminder,
+
+| **Source** | **Sum of Squares** | **df** | **Mean Squares** | ***F*** |
+|-|-|-|-|-|
+Treatment | SS<sub>Trt</sub> | df<sub>Trt</sub> | MS<sub>Trt</sub> | *F*<sub>0</sub>
+Error | SS<sub>E</sub> | df<sub>E</sub> | MS<sub>E</sub> |
+Total | SS<sub>Tot</sub> | df<sub>Tot</sub> | | |    
+
+## ANOVA: R Syntax
+
+- We will use both the [`lm()`](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/lm) and [`anova()`](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/anova) functions in R.
+
+    - ANOVA is regression (and regression is ANOVA).
+    - We use `lm()` to define the model.
+    - We use `anova()` to construct the ANOVA table.
+
+```{r, echo = TRUE, eval = FALSE}
+m <- lm([continuous variable] ~ [grouping variable],
+        data = [dataset])
+anova(m)
+```
+
+- Alternatively, we can use the `aov()` and `summary()` functions.
+
+```{r, echo = TRUE, eval = FALSE}
+m <- aov([continuous variable] ~ [grouping variable],
+         data = [dataset])
+summary(m)
+```
+
+## Example - Dental
+
+- Prosthodontists specialize in the restoration of oral function, including the use of dental implants, veneers, dentures, and crowns. A researcher wanted to compare the shear bond strength of different repair kits for repairs of chipped porcelain veneer. 
+
+- He randomly divided 20 porcelain specimens into four treatment groups: group 1 used the Cojet system, group 2 used the Silistor system, group 3 used the Cimara system, and group 4 used the Ceramic Repair system. 
+    
+- At the conclusion of the study, shear bond strength (in megapascals, MPa) was measured according to ISO 10477. The data are as follows,
+
+```{r, echo = FALSE}
+library(tidyverse)
+```
+
+```{r}
+strength <- c(15.4, 12.9, 17.2, 16.6, 19.3,
+              17.2, 14.3, 17.6, 21.6, 17.5,
+               5.5,  7.7, 12.2, 11.4, 16.4,
+              11.0, 12.4, 13.5,  8.9,  8.1)
+system <- c(rep("Cojet",5), rep("Silistor",5), rep("Cimara",5), rep("Ceramic",5))
+data <- tibble(system, strength)
+```
+
+## Example - Dental
+
+```{r}
+head(data, n=3)
+```
+
+- What is the continuous variable?
+
+- What is the grouping variable?
+
+## Example - Dental
+
+```{r}
+head(data, n=3)
+```
+
+- What is the continuous variable?
+
+    -  <font color="#db0b9d">strength</font>
+
+- What is the grouping variable?
+
+    -  <font color="#db0b9d">system</font>
+
+## Example - Dental
+
+- Let's now have R put together the ANOVA table for us using `lm()` and `anova()`.
+
+```{r}
+m <- lm(strength ~ system, data = data)
+anova(m)
+```
+
+## Example - Dental
+
+- Let's look at the alternative using the `aov()` and `summary()` functions.
+
+```{r}
+m <- aov(strength ~ system, data = data)
+summary(m)
+```
+
+## Hypothesis Testing
+
+- **Hypotheses**
+
+    - $H_0: \ \mu_1 = \mu_2 = ... = \mu_k$ 
+    - $H_1:$ at least one mean is different
+
+- **Test Statistic**
+
+    - $F_0$ (pulled from the ANOVA table)
+
+- ***p*-Value**
+
+    - $p = P[F_{\text{df}_{F_0 \ge \text{Trt}}, \text{df}_{\text{E}}}]$
+    
+- **Rejection Region**
+
+    - Reject $H_0$ if $p<\alpha$.
+
+## Example - Dental
+
+- Recall the ANOVA table from the dental example:
+
+```{r}
+summary(m)
+```
+
+- Determine if there is a difference in average strength between the groups. Test at the $\alpha=0.01$ level.
+
+## Example - Dental
+
+- **Hypotheses**
+
+    - $H_0: \ \mu_1 = \mu_2 = \mu_3 = \mu_4$ 
+    - $H_1:$ at least one mean is different
+
+- **Test Statistic and *p*-Value**
+
+    - $F_0 = 7.545$
+    - $p = 0.002$
+    
+- **Rejection Region**
+
+    - Reject $H_0$ if $p<\alpha$; $\alpha = 0.01$.
+    
+- **Conclusion/Interpretation**
+
+    - Reject $H_0$ at the $\alpha=0.01$ level.
+    
+    - There is sufficient evidence to suggest that there is a difference in average strength between the four groups.
+
+## Example - Penguins
+
+- Let's consider the [Palmer Penguin](https://allisonhorst.github.io/palmerpenguins/) data in R.
+
+    - Briefly, there is data on body characteristics for three species of penguins.
+
+- Determine if there is a difference in bill lengths between the three species. Test at the $\alpha=0.05$ level.
+
+```{r, echo = TRUE}
+penguins <- palmerpenguins::penguins
+m1 <- lm(bill_length_mm ~ species, data = penguins)
+anova(m1)
+```
+## Example - Penguins
+
+- **Hypotheses**
+
+    - $H_0: \ \mu_1 = \mu_2 = \mu_3$ 
+    - $H_1:$ at least one mean is different
+
+- **Test Statistic and *p*-Value**
+
+    - $F_0 = 410.6$
+    - $p < 0.001$
+    
+- **Rejection Region**
+
+    - Reject $H_0$ if $p<\alpha$; $\alpha = 0.05$.
+    
+- **Conclusion/Interpretation**
+
+    - Reject $H_0$ at the $\alpha=0.05$ level.
+    
+    - There is sufficient evidence to suggest that there is a difference in bill length between the three species.
+    
+## Example - Penguins
+
+<center>
+```{r}
+penguins %>% ggplot(aes(y = bill_length_mm, x = species, fill = species)) +
+  geom_boxplot() +
+  theme_bw()
+```
+</center>
