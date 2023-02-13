@@ -27,7 +27,7 @@ show_sidebar: false
 |      | F   | 02/10 | Project 1 | |
 | 6    | M   | 02/13 | One-way ANOVA | [html](https://samanthaseals.github.io/STA4173/slides/L08.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L08.qmd)  |
 |      | W   | 02/15 | Posthoc testing | [html](https://samanthaseals.github.io/STA4173/slides/L09.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L09.qmd)  |
-|      | F   | 02/17 | R lab | |
+|      | F   | 02/17 | R lab | [html](https://samanthaseals.github.io/STA4173/labs/W06.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/W06.qmd) |
 | 7    | M   | 02/20 | ANOVA assumptions | |
 |      | W   | 02/22 | Kruskal-Wallis | |
 |      | F   | 02/24 | R lab | |
