@@ -246,7 +246,7 @@ summary(m)
 
 - ***p*-Value**
 
-    - $p = P[F_{\text{df}_{F_0 \ge \text{Trt}}, \text{df}_{\text{E}}}]$
+    - $p = P[F_0 \ge F_{\text{df}_{\text{Trt}}, \text{df}_{\text{E}}}]$
     
 - **Rejection Region**
 
