@@ -141,7 +141,7 @@ TukeyHSD(m)$system
 
 ```{r}
 m <- aov(strength ~ system, data = data)
-TukeyHSD(m)$system
+TukeyHSD(m, conf.level = 0.99)$system
 ```
 
 - Which are significantly different at the $\alpha=0.01$ level?
@@ -168,7 +168,8 @@ results <- summary(m)
 (LSD.test([dataset]$[continuous], # continuous outcome
           [dataset]$[grouping], # grouping variable
           results[[1]]$Df[2], # df_E
-          results[[1]]$`Mean Sq`[2]) # MSE
+          results[[1]]$`Mean Sq`[2], # MSE
+          alpha = [alpha level]) # can omit if alpha = 0.05
   )[5] # limit to only the pairwise comparison results
 ```
 
@@ -182,7 +183,8 @@ results <- summary(m)
 LSD.test(data$strength, 
          data$system, 
          results[[1]]$Df[2], 
-         results[[1]]$`Mean Sq`[2])[5]
+         results[[1]]$`Mean Sq`[2],
+         alpha = 0.01)[5]
 ```
 
 - Which are significantly different at the $\alpha=0.01$ level?
@@ -197,13 +199,16 @@ results <- summary(m)
 LSD.test(data$strength, 
          data$system, 
          results[[1]]$Df[2], 
-         results[[1]]$`Mean Sq`[2])[5]
+         results[[1]]$`Mean Sq`[2],
+         alpha = 0.01)[5]
 ```
 
 - Which are significantly different at the $\alpha=0.01$ level?
 
     - <font color="#db0b9d">Silistor-Ceramic</font>
     - <font color="#db0b9d">Silistor-Cimara</font>
+    - <font color="#db0b9d">Cojet-Ceramic</font>
+    - <font color="#db0b9d">Cojet-Cimara</font>    
 
 ## Dunnett's Test 
 
