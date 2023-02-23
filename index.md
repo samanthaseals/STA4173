@@ -30,7 +30,7 @@ show_sidebar: false
 |      | F   | 02/17 | R lab | [html](https://samanthaseals.github.io/STA4173/labs/W06.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/W06.qmd) |
 | 7    | M   | 02/20 | ANOVA assumptions | [html](https://samanthaseals.github.io/STA4173/slides/L10.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L10.qmd)  |
 |      | W   | 02/22 | Kruskal-Wallis | [html](https://samanthaseals.github.io/STA4173/slides/L11.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L11.qmd) |
-|      | F   | 02/24 | R lab | |
+|      | F   | 02/24 | R lab | [html](https://samanthaseals.github.io/STA4173/labs/W07.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/W07.qmd) |
 | 8    | M   | 02/27 | Two-way ANOVA | |
 |      | W   | 03/01 | Profile plots and posthoc testing | |
 |      | F   | 03/03 | R lab | |
