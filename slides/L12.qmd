@@ -193,6 +193,16 @@ summary(m)
 - **Rejection Region**
 
     - Reject $H_0$ if $p<\alpha$.
+    
+## Example
+
+- Let's now test the interaction between age and diet. Test at the $\alpha=0.05$ level.
+
+- Here's the information we need:
+
+```{r}
+summary(m)
+```
 
 ## Example
 
@@ -208,7 +218,7 @@ summary(m)
 
 - **Rejection Region**
 
-    - Reject $H_0$ if $p<\alpha$.
+    - Reject $H_0$ if $p<\alpha$; $\alpha=0.05$.
     
 - **Conclusion/Interpretation**
 
@@ -285,17 +295,17 @@ summary(m)
 
 - For Factor A with $a$ levels,
 
-    - $H_0: \mu_1 = \mu_2 = \hdots = \mu_a$ 
-    -$H_1:$ at least one is different
+    - $H_0: \mu_1 = \mu_2 = ... = \mu_a$ 
+    - $H_1:$ at least one is different
 
 - For Factor B with $b$ levels,
 
-    - $H_0: \mu_1 = \mu_2 = \hdots = \mu_b$ 
+    - $H_0: \mu_1 = \mu_2 = ... = \mu_b$ 
     - $H_1:$ at least one is different
 
 ## Example
 
-- We now want to determine if there are main effects of age and diet. Test at the $\alpha=0.05$ level of significance.
+- We now want to determine if there are main effects of age and diet. Test at the $\alpha=0.05$ level.
 
 - The ANOVA table without the interaction term:
 
@@ -329,8 +339,8 @@ summary(m)
 
 - **Hypotheses**
 
-    - $H_0:$ there is not a main effect of age ($\mu_1 = \mu_2 = \mu_3$)
-    - $H_1:$ there not a main effect of age (at least one $\mu_i$ is different)
+    - $H_0:$ there is not a main effect of age ($\mu_1 = \mu_2$)
+    - $H_1:$ there not a main effect of age ($\mu_1 \ne \mu_2$)
 
 - **Test Statistic and *p*-Value**
 
@@ -343,9 +353,9 @@ summary(m)
 
 - **Conclusion/Interpretation**
     
-    - Reject $H_0$.
+    - Fail to reject $H_0$.
     
-    - There is sufficient evidence to suggest that at least one diet reults in a different birth weight.
+    - There is not sufficient evidence to suggest that there is a difference in birth weights across the age groups.
 
     
 
