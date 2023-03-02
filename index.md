@@ -33,7 +33,7 @@ show_sidebar: false
 |      | F   | 02/24 | R lab | [html](https://samanthaseals.github.io/STA4173/labs/W07.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/W07.qmd) |
 | 8    | M   | 02/27 | Two-way ANOVA | [html](https://samanthaseals.github.io/STA4173/slides/L12.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L12.qmd) |
 |      | W   | 03/01 | Profile plots and posthoc testing | [html](https://samanthaseals.github.io/STA4173/slides/L13.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L13.qmd) |
-|      | F   | 03/03 | R lab | |
+|      | F   | 03/03 | R lab | [html](https://samanthaseals.github.io/STA4173/labs/W08.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/W08.qmd) |
 | 9    | M   | 03/06 | Project 2 | |
 |      | W   | 03/08 | Project 2 | |
 |      | F   | 03/10 | Project 2 | |
