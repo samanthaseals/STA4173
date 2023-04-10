@@ -44,12 +44,12 @@ show_sidebar: false
 |      | W   | 03/22 | Simple linear regression | [html](https://samanthaseals.github.io/STA4173/slides/L15.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L15.qmd)  |
 |      | F   | 03/24 | R lab | [html](https://samanthaseals.github.io/STA4173/labs/W10.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/W10.qmd) |
 | 11   | M   | 03/27 | Multiple regression | |
-|      | W   | 03/29 | Multiple regression | [html](https://samanthaseals.github.io/STA4173/slides/L15.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L15.qmd) |
+|      | W   | 03/29 | Multiple regression | [html](https://samanthaseals.github.io/STA4173/slides/L16.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L16.qmd) |
 |      | F   | 03/31 | R lab | [html](https://samanthaseals.github.io/STA4173/labs/W11.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/W11.qmd) |
 | 12   | M   | 04/03 | Project 3 | |
 |      | W   | 04/05 | Project 3 | |
 |      | F   | 04/07 | Project 3 | |
-| 13   | M   | 04/10 | Categorical analysis | |
+| 13   | M   | 04/10 | Categorical analysis | [html](https://samanthaseals.github.io/STA4173/slides/L17.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L17.qmd) |
 |      | W   | 04/12 | Categorical analysis | |
 |      | F   | 04/14 | R lab | |
 | 14   | M   | 04/17 | Project 4 | |
