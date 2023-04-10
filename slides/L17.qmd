@@ -1,0 +1,398 @@
+---
+title: "Tests for Proportions: Part 1"
+subtitle: "STA4173: Biostatistics"
+execute:
+  echo: true
+  message: false
+  warning: false
+format: 
+  revealjs:
+    theme: uwf
+    self-contained: true
+    slide-number: false
+    footer: "[STA4173 - Biostatistics](https://samanthaseals.github.io/STA4173)"
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+editor: source
+---
+
+## Introduction
+
+- Before today, we have focused on continuous outcomes.
+
+- Now we will focus on categorical (or qualitative) outcomes.
+
+- Today, we will review how to test one and two sample proportions.
+
+- We will estimate a proportion using $\hat{p}$, $$\hat{p} = \frac{x}{n}$$.
+    
+- We will estimate the difference between two proportions using $\hat{p}_1 - \hat{p}_2$, $$\hat{p_1}- \hat{p_2} = \frac{x_1}{n_1} - \frac{x_2}{n_2}$$
+
+## One-Sample Proportions
+
+<center><img src = "images/L17a.png"></center>
+
+## One-Sample Proportions
+
+- **(1--$\alpha$)100% CI for a population proportion, $p$** $$\hat{p} \pm z_{\alpha/2} \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}$$
+
+- To construct this interval, we require both:
+    - $n\hat{p}(1-\hat{p}) \ge 10$ and 
+    - $n \le 0.05N$
+    
+## One-Sample Proportions
+
+- We will use either the [`binom.test()`](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/binom.test) function or the [`prop.test()`](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/prop.test) function.
+
+- If we have $n \le 30$,
+
+```{r, eval = FALSE}
+binom.test(x = [number of successes], 
+           n = [sample size], 
+           p = [hypothesized proportion], 
+           alternative = [alternative])
+```
+
+- If we have $n > 30$,
+
+```{r, eval = FALSE}
+prop.test(x = [number of successes], 
+          n = [sample size], 
+          p = [hypothesized proportion], 
+          alternative = [alternative],
+          correct=FALSE)
+```
+
+## One-Sample Proportions
+
+- Humira is a medication used to treat rheumatoid arthritis (RA). 
+
+- In clinical trials of Humira, 705 subjects diagnosed with RA were administered 40 mg of Humira every other week. 
+
+- Of the 705 subjects, 66 reported nausea as a side effect. 
+
+- It is known that the proportion of RA subjects in similar studies receiving a placebo who report nausea as a side effect is 0.08. 
+
+- Does the sample evidence represent significant evidence that a higher proportion of subjects receiving Humira experience nausea as a side effect than those taking a placebo? 
+- Use the $\alpha = 0.05$ level of significance.
+
+- **What are the important pieces?**
+
+## One-Sample Proportions
+
+- Humira is a medication used to treat rheumatoid arthritis (RA). 
+
+- In clinical trials of Humira, 705 subjects diagnosed with RA were administered 40 mg of Humira every other week. 
+
+- Of the <font color="#db0b9d">705 subjects</font>, <font color="#db0b9d">66 reported nausea as a side effect</font>. 
+
+- It is known that the proportion of RA subjects in <font color="#db0b9d">similar studies receiving a placebo who report nausea as a side effect is 0.08</font>. 
+
+- Does the sample evidence represent significant evidence that a higher proportion of subjects receiving Humira experience nausea as a side effect than those taking a placebo? 
+- Use the $\alpha = 0.05$ level of significance.
+
+- **What are the important pieces?**
+    
+## One-Sample Proportions
+
+- What is the point estimate, \boldmath $\hat{p}$?
+
+- What is the 95% confidence interval for $p$?
+
+- Are there a higher proportion of subjects taking Humira experiencing nausea as a side effect than those taking a placebo?
+
+## One-Sample Proportions
+
+- Of the <font color="#db0b9d">705 subjects</font>, <font color="#db0b9d">66 reported nausea as a side effect</font>. 
+    
+- It is known that the proportion of RA subjects in <font color="#db0b9d">similar studies receiving a placebo who report nausea as a side effect is 0.08</font>. 
+
+```{r}
+prop.test(x = 66, 
+          n = 705,
+          correct=FALSE)
+```
+
+- Thus, the point estimate is $\hat{p} = 0.094$ and the 95% CI for $p$ is $(0.07, 0.12)$.
+
+## One-Sample Proportions
+
+- Of the <font color="#db0b9d">705 subjects</font>, <font color="#db0b9d">66 reported nausea as a side effect</font>. 
+    
+- It is known that the proportion of RA subjects in <font color="#db0b9d">similar studies receiving a placebo who report nausea as a side effect is 0.08</font>. 
+
+```{r}
+prop.test(x = 66, 
+          n = 705,
+          p = 0.08,
+          alternative = "greater",
+          correct=FALSE)
+```
+
+## One-Sample Proportions
+
+- **Hypotheses:**
+
+    - $H_0: \ p \le 0.08$ 
+    - $H_1: \ p > 0.08$
+
+- **Test Statistic and *p*-Value**
+
+    - $\chi^2 = 1.77$ or $z_0 = \sqrt{1.7761} = `r round(sqrt(1.7761),3)`$
+    - $p= 0.091$
+    
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha=0.05$.
+
+- **Conclusion / Interpretation**
+
+    - Fail to reject $H_0$. 
+    
+    - There is not sufficient evidence to suggest that the proportion of subjects taking Humira who experience nausea is greater than 0.08.
+
+## One-Sample Proportions
+
+- Which do you think is easier to raise -- a boy or a girl? 
+
+- When asked this question in 1947, 24\% of all Americans said raising a girl was easier. 
+- In June 2018, the Gallup Organization surveyed 1500 adult Americans, of which 408 felt it was easier to raise a girl. 
+
+- Does this result suggest the proportion of adult Americans who believe it is easier to raise a girl has changed since 1947? 
+
+- Test at the $\alpha=0.10$ level.
+
+- **What are the important pieces?**
+
+## One-Sample Proportions
+
+- Which do you think is easier to raise -- a boy or a girl? 
+
+- When asked <font color="#db0b9d">this question in 1947, 24\%</font> of all Americans said raising a girl was easier. 
+
+- In June 2018, the Gallup Organization <font color="#db0b9d">surveyed 1500 adult Americans</font>, of which <font color="#db0b9d">408 felt it was easier</font> to raise a girl. 
+
+- Does this result suggest the proportion of adult Americans who believe it is easier to raise a girl has changed since 1947? 
+
+- Test at the $\alpha=0.10$ level.
+
+- **What are the important pieces?**
+
+## One-Sample Proportions
+
+```{r}
+prop.test(x = 408, 
+          n = 1500,
+          p = 0.24,
+          correct=FALSE)
+```
+
+- Thus, the point estimate is $\hat{p} = 0.272$ and the 95% CI for $p$ is $(0.25, 0.30)$.
+
+## One-Sample Proportions
+
+- **Hypotheses**
+
+    - $H_0: \ p = 0.24$ 
+    - $H_1: \ p \ne 0.24$
+
+- **Test Statistic and *p*-Value**
+
+    - $\chi^2 = 8.42$ or $z_0 = \sqrt{8.4211} = `r round(sqrt(8.4211),3)`$
+    - $p= 0.004$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha=0.10$.
+
+- **Conclusion / Interpretation**
+
+    - Reject $H_0$. 
+    
+    - There is sufficient evidence to suggest that the proportion of adult Americans who believe that it is easier to raise a girl has changed since 1947.
+    
+
+## Two-Sample Proportions
+
+<center><img src = "images/L17b.png"></center>
+
+## Two-Sample Proportions
+
+- **(1--$\alpha$)100% CI for $p_1-p_2$** $$(\hat{p}_1 - \hat{p}_2) \pm z_{\alpha/2} \sqrt{\frac{\hat{p}_1 (1-\hat{p}_1)}{n_1} + \frac{\hat{p}_2(1-\hat{p}_2)}{n_2}}$$ where
+
+    - The point estimate, $\hat{p}_1-\hat{p}_2$, is computed as $$\hat{p}_1 - \hat{p}_2 = \frac{x_1}{n_1} - \frac{x_2}{n_2},$$ and
+
+    - $x_i$ is the number of individuals in group $i$ with a specified characteristic
+    
+    - $n_i$ is the sample size for group $i$
+
+- To construct this interval, we require: 
+
+    - $n_1 \hat{p}_1(1-\hat{p}_1) \ge 10$ and 
+    - $n_2 \hat{p}_2(1-\hat{p}_2) \ge 10$.
+
+## Two-Sample Proportions
+
+- We again use the [`prop.test()`](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/prop.test) function.
+
+```{r, echo = TRUE, eval = FALSE}
+prop.test(x = c(x_1, x_2), 
+          n = c(n_1, n_2), 
+          alternative = [alternative],
+          correct=FALSE)
+```
+
+## Two-Sample Proportions
+
+- In clinical trials of Nasonex, 3774 adult and adolescent allergy patients (patients 12 years and older) were randomly divided into two groups. 
+
+    - The patients in group 1 (experimental group) received 200 $\mu$g of Nasonex.
+    
+        - Of the 2103 patients in the experimental group, 547 reported headaches as a side effect.
+    
+    - The patients in group 2 (control group) received a placebo.  
+    
+        - Of the 1671 patients in the control group, 368 reported headaches as a side effect. 
+        
+- Is there evidence to conclude that the proportion of Nasonex users who experienced headaches as a side effect is greater than the proportion in the control group?
+
+- Test at the $\alpha= 0.05$ level of significance.
+
+- **What are the important pieces?**
+
+## Two-Sample Proportions
+
+- In clinical trials of Nasonex, 3774 adult and adolescent allergy patients (patients 12 years and older) were randomly divided into two groups. 
+
+    - The patients in <font color="#db0b9d">group 1</font> (experimental group) received 200 $\mu$g of Nasonex.
+    
+        - Of the <font color="#db0b9d">2103 patients</font> in the experimental group, <font color="#db0b9d">547 reported headaches as a side effect</font>.
+    
+    - The patients in <font color="#db0b9d">group 2</font> (control group) received a placebo.  
+    
+        - Of the <font color="#db0b9d">1671 patients</font> in the control group, <font color="#db0b9d">368 reported headaches as a side effect</font>. 
+        
+- Is there evidence to conclude that the proportion of Nasonex users who experienced headaches as a side effect is greater than the proportion in the control group?
+
+- Test at the $\alpha= 0.05$ level of significance.
+
+- **What are the important pieces?**
+
+## Two-Sample Proportions
+
+- Of the <font color="#db0b9d">2103 patients</font> in the experimental group, <font color="#db0b9d">547 reported headaches as a side effect</font>.
+
+- Of the <font color="#db0b9d">1671 patients</font> in the control group, <font color="#db0b9d">368 reported headaches as a side effect</font>. 
+
+```{r, echo = TRUE}
+prop.test(x = c(547, 368), 
+          n = c(2103, 1671), 
+          correct=FALSE)
+```
+- Thus, $\hat{p}_{\text{Exp}} = 0.260$, $\hat{p}_{\text{Ctrl}} = 0.220$ and $\hat{p}_{\text{Exp}} - \hat{p}_{\text{Ctrl}} = `r round(0.2601046-0.2202274, 3)`$.
+
+- The 95% CI for $\hat{p}_{\text{Exp}} - \hat{p}_{\text{Ctrl}}$ is $(0.013, 0.067)$.
+
+## Two-Sample Proportions
+
+```{r, echo = TRUE}
+prop.test(x = c(547, 368), 
+          n = c(2103, 1671), 
+          alternative = "greater",
+          correct=FALSE)
+```
+
+## Two-Sample Proportions
+
+- **Hypotheses**
+
+    - $H_0: \ p_{\text{Exp}} \le p_{\text{Ctrl}}$  
+    - $H_1: \ p_{\text{Exp}} > p_{\text{Ctrl}}$ 
+
+- **Test Statistic and *p*-value**
+
+    - $\chi^2 = 8.06$ or $z_0 = \sqrt{8.0618} = `r round(sqrt(8.0618),3)`$
+    - $p= 0.002$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha=0.05$.
+
+- **Conclusion / Interpretation**
+
+    - Reject $H_0$. 
+    
+    - There is sufficient evidence to suggest that the proportion of Nasonex users who experienced headaches as a side effect is greater than that of the control group.
+
+## Two-Sample Proportions
+
+-  A professor from the Department of Art wants to determine citizen support of spending federal tax money on the arts. 
+
+- Of a random sample of 220 women, 59 responded yes. 
+
+- Another random sample of 175 men showed that 56 responded yes. 
+
+- Does this information indicate a difference between the population proportion of women and the population proportion of men who favor spending more federal tax dollars on the arts? 
+
+- Test at the $\alpha=0.01$ level. 
+
+- **What are the important pieces?**
+
+## Two-Sample Proportions
+
+-  A professor from the Department of Art wants to determine citizen support of spending federal tax money on the arts. 
+
+- Of a random sample of <font color="#db0b9d">220 women</font>, <font color="#db0b9d">59 responded yes</font>. 
+
+- Another random sample of <font color="#db0b9d">175 men</font> showed that <font color="#db0b9d">56 responded yes</font>. 
+
+- Does this information indicate a difference between the population proportion of women and the population proportion of men who favor spending more federal tax dollars on the arts? 
+
+- Test at the $\alpha=0.01$ level. 
+
+- **What are the important pieces?**
+    
+## Two-Sample Proportions
+
+- Of a random sample of <font color="#db0b9d">220 women</font>, <font color="#db0b9d">59 responded yes</font>. 
+
+- Another random sample of <font color="#db0b9d">175 men</font> showed that <font color="#db0b9d">56 responded yes</font>. 
+
+```{r, echo = TRUE}
+prop.test(x = c(59, 56), 
+          n = c(220, 175), 
+          correct=FALSE)
+```
+
+- Thus, $\hat{p}_{\text{W}} = 0.268$, $\hat{p}_{\text{M}} = 0.320$ and $\hat{p}_{\text{W}} - \hat{p}_{\text{M}} = `r round(0.2681818-0.3200000, 3)`$.
+
+- The 95% CI for $\hat{p}_{\text{M}} - \hat{p}_{\text{W}}$ is $(-0.142, 0.039)$.
+    
+## Two-Sample Proportions
+
+- **Hypotheses**
+
+    - $H_0: \ p_{\text{W}} = p_{\text{M}}$  
+    - $H_1: \ p_{\text{W}} \ne p_{\text{M}}$ 
+
+- **Test Statistic and *p*-value**
+
+    - $\chi^2 = 1.27$ or $z_0 = \sqrt{1.2681} = `r round(sqrt(1.2681),3)`$
+    - $p= 0.260$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha=0.01$.
+
+- **Conclusion / Interpretation**
+
+    - Fail to reject $H_0$. 
+    
+    - There is not sufficient evidence to suggest that there is a difference in the proportion of men and women who favor spending more federal tax dollars on the arts.
+
+
+
+
+
