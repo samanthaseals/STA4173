@@ -8,7 +8,8 @@ execute:
 format: 
   revealjs:
     theme: uwf
-    self-contained: true
+    embed-resources: true
+    self-contained-math: true
     slide-number: false
     footer: "[STA4173 - Biostatistics](https://samanthaseals.github.io/STA4173)"
     width: 1600
@@ -53,14 +54,14 @@ editor: source
     - $H_0:$ The random variable follows the specified distribution.
     - $H_1:$ The random variable does not follow the specified distribution.
 
-**Test Statistic**
+- **Test Statistic**
 
-    - $\chi^2_0 &= \sum_{i=1}^k \frac{(O_i-E_i)^2}{E_i}$, where $O_i$ = observed and  $E_i$ = expected
+    - $\chi^2_0 = \sum_{i=1}^k \frac{(O_i-E_i)^2}{E_i}$, where $O_i$ = observed and  $E_i$ = expected
 
-***p*-Value**
+- ***p*-Value**
     - $p = P[\chi^2_{k-1} \ge \chi^2_0]$, where $k$ = number of categories
 
-**Rejection Region**
+- **Rejection Region**
 
     - Reject $H_0$ if $p < \alpha$
 
@@ -179,7 +180,7 @@ chisq.test(counts, p = probs)
 
 - Like in the goodness-of-fit test, we will first compute expected values.
 
-<center><img src = "images/L18b.png"></center>
+<center><img src = "images/L18b.png" width = 1000></center>
 
 - We find the expected values,$$E_{ij} = \frac{R_i C_j}{n}$$ where
     - $R_i$ is the total for row $i$,
