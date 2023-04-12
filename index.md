@@ -50,7 +50,7 @@ show_sidebar: false
 |      | W   | 04/05 | Project 3 | |
 |      | F   | 04/07 | Project 3 | |
 | 13   | M   | 04/10 | Categorical analysis | [html](https://samanthaseals.github.io/STA4173/slides/L17.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L17.qmd) |
-|      | W   | 04/12 | Categorical analysis | |
+|      | W   | 04/12 | Categorical analysis | [html](https://samanthaseals.github.io/STA4173/slides/L18.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L18.qmd) |
 |      | F   | 04/14 | R lab | |
 | 14   | M   | 04/17 | Project 4 | |
 |      | W   | 04/19 | Project 4 | |
