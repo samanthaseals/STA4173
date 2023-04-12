@@ -1,0 +1,450 @@
+---
+title: "Tests for Proportions: Part 2"
+subtitle: "STA4173: Biostatistics"
+execute:
+  echo: true
+  message: false
+  warning: false
+format: 
+  revealjs:
+    theme: uwf
+    self-contained: true
+    slide-number: false
+    footer: "[STA4173 - Biostatistics](https://samanthaseals.github.io/STA4173)"
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+editor: source
+---
+
+## Introduction
+
+- We previously discussed analysis of one and two proportions.
+
+    - Both used a $z$ test.
+    
+    - Remember that a proportion is just a mean.
+    
+- Today we will discuss other methods of comparing proportions. 
+
+    - Goodness of fit
+    
+    - Chi-square test for independence
+
+    - McNemar's test for two dependent proportions
+
+## Goodness-of-Fit
+
+- The goodness-of-fit test allows us to determine if a frequency distribution follows a specific distribution.
+
+    - This could be a named distribution (e.g., normal)
+
+    - It could also be a distribution without a name (e.g., the probabilities are specified)
+
+- Before we can perform the goodness-of-fit test, we must compute expected counts.$$E_i = n p_i$$
+
+    - e.g., suppose that we expect 25\% of Skittles to be red; if we have 100 Skittles, we then expect 25 of them to be red.
+    
+## Goodness-of-Fit
+
+- **Hypotheses**
+
+    - $H_0:$ The random variable follows the specified distribution.
+    - $H_1:$ The random variable does not follow the specified distribution.
+
+**Test Statistic**
+
+    - $\chi^2_0 &= \sum_{i=1}^k \frac{(O_i-E_i)^2}{E_i}$, where $O_i$ = observed and  $E_i$ = expected
+
+***p*-Value**
+    - $p = P[\chi^2_{k-1} \ge \chi^2_0]$, where $k$ = number of categories
+
+**Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$
+
+## Goodness-of-Fit
+
+- In R, we will use the `chisq.test()` function and plug in both the counts and the expected probabilities
+
+```{r, echo = TRUE, eval = FALSE}
+counts <- c(O_1, O_2, ..., O_k) # create O_i vector
+probs <- c(p_1, p_2, ..., p_k) # create p_i vector
+chisq.test(counts, p = probs)
+```
+
+## Goodness-of-Fit
+
+- Using the economy data, below (based on the 2017 Current Population Survey, adjusted for inflation), determine if there is evidence to suggest that the distribution of income has changed since 2000. 
+
+- Test at the $\alpha = 0.05$ level of significance.
+
+| Income | Observed | Probability |
+|-|:-:|:-:|
+| Under \$15,000 | 161 | 0.099 |
+| \$15,000 - \$24,999 | 144 | 0.098 |
+| \$25,000 - \$34,999 | 138 | 0.093 |
+| \$35,000 - \$49,999 | 184 | 0.135 |
+| \$50,000 - \$74,999 | 247 | 0.179 |
+| \$75,000 - \$99,999 | 188 | 0.131 |
+| \$100,000 - \$149,999 | 217 | 0.149 |
+| \$150,000 - \$199,999 | 105 | 0.061 |
+| Over \$200,000 | 116 | 0.055 |
+
+## Goodness-of-Fit
+
+```{r}
+counts <- c(161, 144, 138, 184, 247, 188, 217, 105, 116) # create O_i vector
+probs <- c(0.099, 0.098, 0.093, 0.135, 0.179, 0.131, 0.149, 0.061, 0.055) # create p_i vector
+chisq.test(counts, p = probs)
+```
+
+## Goodness-of-Fit
+
+- **Hypotheses**
+
+    - $H_0:$ Distribution of income in 2017 follows the same distribution as 2000.
+    - $H_1:$ Distribution of income in 2017 does not follow the same distribution as 2000.
+
+- **Test Statistic and *p*-Value**
+
+    - $\chi^2_0 = 20.693$ 
+    - $p = 0.008$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha=0.05$
+
+- **Conclusion/Interpretation**
+
+    - Reject $H_0$. 
+    
+    - There is sufficient evidence to suggest that the distribution of income in 2017 does not follow the same distribution as in 2000.
+    
+## Goodness-of-Fit
+
+- An obstetrician wants to know whether the proportion of children born on each day of the week is the same. 
+
+- She randomly selects 500 birth records and obtains the data shown in the table below (based on data obtained from Vital Statistics of the United States, 2016). 
+
+- Is there reason to believe that the day on which a child is born does not occur with equal frequency at the $\alpha = 0.01$ level of significance?
+
+| Sun | Mon | Tues | Weds | Thurs | Fri | Sat |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| 46 | 76 | 83 | 81 | 81 | 80 | 53 |
+
+- What about expected probabilities?
+
+## Goodness-of-Fit
+
+```{r}
+counts <- c(46, 76, 83, 81, 81, 80, 53) # create O_i vector
+probs <- c(1/7, 1/7, 1/7, 1/7, 1/7, 1/7, 1/7) # create p_i vector
+chisq.test(counts, p = probs)
+```
+
+## Goodness-of-Fit
+
+- **Hypotheses**
+
+    - $H_0: \ p_M = p_T = ... = p_{Su} = \frac{1}{7}$.
+    - $H_1:$ At least one proportion is different.
+
+
+- **Test Statistic and *p*-Value**
+
+    - $\chi^2_0 = 19.568$
+    - $p = 0.003$
+    
+- **Rejection Region**
+
+  - Reject $H_0$ if $p < \alpha$; $\alpha=0.01$
+
+- **Conclusion/Interpretation**
+
+    - Reject $H_0$.
+    - There is sufficient evidence to suggest that at least one proportion is different.
+    
+## Test for Independence
+
+- Let us now discuss testing two categorical variables to determine if a relationship exists. 
+
+- Take, for example, this data:
+<center><img src = "images/L18a.png"></center>
+
+- We will use the $\chi^2$ test for independence to determine if happiness depends on marital status. 
+    
+## Test for Independence
+
+- Like in the goodness-of-fit test, we will first compute expected values.
+
+<center><img src = "images/L18b.png"></center>
+
+- We find the expected values,$$E_{ij} = \frac{R_i C_j}{n}$$ where
+    - $R_i$ is the total for row $i$,
+    - $C_j$ is the total for column $j$,
+    - $n$ is the total sample size
+
+## Test for Independence
+
+- **Hypotheses**
+
+    - $H_0$: There is not a relationship between [var 1] and [var 2].
+    - $H_1$: There is a relationship between [var 1] and [var 2].
+
+- **Test Statistic**
+
+    - $\chi_0^2 = \sum_{i=1}^k \frac{(O_i-E_i)^2}{E_i}$
+
+- **p-Value**
+
+    - $p = \text{P}[\chi^2_{(r-1)(c-1)} \ge \chi^2_0]$
+
+- **Rejection Region**
+
+    -  Reject $H_0$ if $p < \alpha$
+    
+## Test for Independence
+
+- If given the contingency table, we can enter it in a `matrix()` (see example) and use the `chisq.test()` function.
+
+```{r, echo = TRUE, eval = FALSE}
+chisq.test([matrix name])
+```
+
+- If given raw data, we can use the [`CrossTable()`](https://www.rdocumentation.org/packages/gmodels/versions/2.18.1.1/topics/CrossTable) function in the [`gmodels`](https://www.rdocumentation.org/packages/gmodels/versions/2.18.1.1) package.
+
+    - Note: this function replicates PROC FREQ from SAS :)
+
+```{r, eval = FALSE}
+CrossTable([dataset$row var], [dataset$col var], 
+           prop.chisq= FALSE,  # turn off proportion contributed to chi-square statistic
+           prop.t = FALSE, # turn off total proportions
+           chisq = TRUE) # request chi-square test
+```
+
+## Test for Independence
+
+```{r}
+observed_table <- matrix(c(600, 63, 112, 144,
+                           720, 142, 355, 459,
+                           93, 51, 119, 127), 
+                         nrow = 3, ncol = 4, byrow = T)
+# I prefer to include breaks to make it look like the table given just for checking purposes
+# make sure you edit the number of rows (nrow) and columns (ncol)!
+
+rownames(observed_table) <- c("Very Happy", "Pretty Happy", "Not Too Happy") # name rows
+colnames(observed_table) <- c("Married", "Widowed", "Divorced/Separated", "Never Married") # name cols
+
+observed_table # print table to make sure it is what we want
+
+chisq.test(observed_table) # chi-squared test for independence
+```
+
+## Test for Independence
+
+- **Hypotheses**
+
+    - $H_0:$ Happiness does not depend on marital status.
+    - $H_1:$ Happiness depends on marital status.
+
+- **Test Statistic and *p*-Value**
+
+    - $\chi^2_0 = 224.116$
+    - $p < 0.001$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha=0.05$
+
+- **Conclusion/Interpretation**
+
+    - Reject $H_0$. 
+    
+    - There is sufficient evidence to suggest that happiness depends on marital status.
+    
+## Test for Independence 
+
+- To see how the `CrossTable()` function works, let's explore the Palmer penguin dataset.
+
+```{r}
+library(gmodels)
+penguins <- palmerpenguins::penguins 
+CrossTable(penguins$species, penguins$sex, 
+           prop.chisq= FALSE,  # turn off proportion contributed to chi-square statistic
+           prop.t = FALSE, # turn off total proportions
+           chisq = TRUE) # request chi-square test
+```
+
+
+## Test for Independence
+
+- **Hypotheses**
+
+    - $H_0:$ Biological sex of penguin depends on penguin species.
+    - $H_1:$ Biological sex of penguin does not depend on penguin species.
+
+- **Test Statistic and *p*-Value**
+
+    - $\chi^2_0 = 0.049$
+    - $p = 0.976$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha=0.05$
+
+- **Conclusion/Interpretation**
+
+    - Fail to reject $H_0$. 
+    
+    - There is not sufficient evidence to suggest that the biological sex of penguins depends on species of penguin.
+
+## Two Dependent Proportions
+
+- We previously discussed comparing two proportions that are independent.
+
+- Let us now consider two dependent proportions.
+
+    - This requires matched pairs.
+
+- Example
+
+    - We want to determine whether there is a difference between two ointments meant to treat poison ivy. 
+    
+    - Suppose we apply ointment A on one arm and ointment B on the other arm of each individual and record if the poison ivy cleared up. 
+    
+    - The individuals in each group are *not independent* because each ointment is applied to the same individual.
+
+## Two Dependent Proportions 
+
+- We will apply McNemar's test for two dependent proportions. 
+
+- This requires a table as below:
+<center><img src = "images/L18d.png"  width = 500></center>
+
+- The data for the poison ivy example is as follows:
+<center><img src = "images/L18e.png"  width = 700></center>
+
+## Two Dependent Proportions
+
+- **Hypotheses**
+
+    - $H_0$: $p_1 = p_2$ 
+    - $H_1$: $p_1 \ne p_2$
+
+- **Test Statistic**
+
+    - $\chi^2_0 = \frac{(f_{12} - f_{21})^2}{f_{12} + f_{21}}$
+    
+- ***p*-Value**
+
+    - $p = P[\chi^2_{1} \ge \chi^2_0]$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$
+
+## Two Dependent Proportions
+
+- We again take the matrix approach but now apply the [`mcnemar.test()`](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/mcnemar.test) function.
+
+```{r, eval = FALSE}
+mcnemar.test(observed_table, correct = FALSE)
+```
+
+## Two Dependent Proportions
+
+- In our example data,
+
+```{r}
+observed_table <- matrix(c(293, 43,
+                           31, 103), 
+                         nrow = 2, ncol = 2, byrow = T)
+# I prefer to include breaks to make it look like the table given just for checking purposes
+
+rownames(observed_table) <- c("B Healed", "B Did Not Heal") # name rows
+colnames(observed_table) <- c("A Healed", "A Did Not Heal") # name cols
+
+observed_table # print table to make sure it is what we want
+
+mcnemar.test(observed_table, correct = FALSE)
+```
+
+## Two Dependent Proportions
+
+- **Hypotheses**
+
+    - $H_0$: $p_{\text{A}} = p_{\text{B}}$ 
+    - $H_1$: $p_{\text{A}} \ne p_{\text{B}}$
+
+- **Test Statistic**
+
+    - $\chi^2_0 = 1.9459$
+    - $p = 0.976$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$.
+
+- **Conclusion/Interpretation**
+
+    - Fail to reject $H_0$. 
+    
+    - There is not sufficient evidence to suggest that there is a difference between the two ointments.
+
+## Two Dependent Proportions
+
+- A recent General Social Survey asked the following two questions of a random sample of 1492 adult Americans under the hypothetical scenario that the government suspected that a terrorist act was about to happen: 
+
+    - Do you believe that the authorities should have the right to tap people's telephone conversations?
+
+    - Do you believe that the authorities should have the right to stop and search people on the street at random?
+
+- The results are as follows, <center><img src = "images/L18f.png"></center>
+
+- Do the proportion of people who agree with each scenario differ significantly? Use the $\alpha = 0.05$ level of significance.
+
+## Two Dependent Proportions
+
+```{r}
+observed_table <- matrix(c(494, 335,
+                           126, 537), 
+                         nrow = 2, ncol = 2, byrow = T)
+
+rownames(observed_table) <- c("Tap - Agree", "Tap - Disagree") # name rows
+colnames(observed_table) <- c("Stop - Agree", "Stop - Disagree") # name cols
+
+observed_table # print table to make sure it is what we want
+
+mcnemar.test(observed_table, correct = FALSE) # McNemar's test
+```
+
+## Two Dependent Proportions
+
+- **Hypotheses**
+
+    - $H_0$: $p_{\text{Tap}} = p_{\text{Stop}}$ 
+    - $H_1$: $p_{\text{Tap}} \ne p_{\text{Stop}}$
+
+- **Test Statistic and *p*-Value**
+
+    - $\chi^2_0 = 94.753$
+    - $p <0.001$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$.
+
+- **Conclusion/Interpretation**
+
+    - Reject $H_0$. 
+    
+    - There is  sufficient evidence to suggest that there is a difference in responses between the two questions.
+
+
+
+
+
+
+
