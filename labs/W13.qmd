@@ -1,0 +1,29 @@
+---
+title: "Lab: Week 13"
+author: "Your Name Here"
+format: 
+  html:
+    self-contained: true
+execute:
+  echo: true
+  warning: false
+  message: false
+editor: source
+---
+
+Monday's lecture: [one and two sample proportions](https://github.com/samanthaseals/STA4173/blob/master/slides/L17.qmd)
+
+Wednesday's lecture: [goodness-of-fit, test for independence, and McNemar's test](https://github.com/samanthaseals/STA4173/blob/master/slides/L18.qmd)
+
+1.  The General Social Survey asked a random sample of adult Americans two questions: (1) Would you favor or oppose a law which would require a person to obtain a police permit before he or she could buy a gun? (2) Do you favor or oppose the death penalty for persons convicted of murder? Results of the survey are in the next column. Does the sample evidence suggest the proportion of adult Americans who favor permits for guns is different from the proportion of adult Americans who favor the death penalty for murder convictions? Use the $\alpha = 0.05$ level of significance.
+
+|                       | Death Penalty - Favor | Death Penalty - Oppose |
+|-----------------------|:---------------------:|:----------------------:|
+| **Gun Laws - Favor**  |          176          |           69           |
+| **Gun Laws - Oppose** |          58           |           17           |
+
+2. An advertising agency is considering two advertisements for a major client. One of the advertisements is in black and white, and the other is in color. A market research firm randomly selects 50 male and 50 female customers of the client to evaluate the two advertisements. The firm finds that 39 of the 50 males prefer the color advertisement, whereas 46 of the 50 females preferred the color advertisement
+
+    a. Construct the 95% confidence interval on the difference in the proportions of males and females that prefer the color advertisement. 
+    
+    b. Use the appropriate hypothesis test to determine if there is a significant difference in the proportions. Test at the $\alpha=0.05$ level. 
