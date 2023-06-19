@@ -1,0 +1,508 @@
+---
+title: "ANOVA Assumptions, Kruskal-Wallis, and Posthoc Testing"
+subtitle: "STA4173 Lecture 6, Summer 2023"
+execute:
+  echo: true
+format: 
+  revealjs:
+    theme: uwf
+    self-contained: true
+    slide-number: false
+    footer: "[STA4173 - Biostatistics](https://samanthaseals.github.io/STA4173)"
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+editor: source
+---
+
+## Introduction: ANOVA Assumptions
+
+- We previously discussed testing three or more means using ANOVA.
+
+- We also discussed that ANOVA is an extension of the two-sample *t*-test.
+
+- Recall that the *t*-test has two assumptions:
+
+    - Equal variance between groups.
+    
+    - Normal distribution.
+    
+- We will extend our knowledge of checking assumptions today.    
+
+## ANOVA Assumptions: Definition
+
+- We can represent ANOVA with the following model:
+$$ y_{ij} = \mu + \tau_i + \varepsilon_{ij} $$
+
+- where:
+
+    - $y_{ij}$ is the $j^{\text{th}}$ observation in the $i^{\text{th}}$ group,
+    - $\mu$ is the overall (grand) mean,
+    - $\tau_i$ is the treatment effect for group $i$, and
+    - $\varepsilon_{ij}$ is the error term for the $j^{\text{th}}$ observation in the $i^{\text{th}}$ group.
+    
+## ANOVA Assumptions: Definition
+
+- We assume that the error term follows a normal distribution with mean 0 and a constant variance, $\sigma^2$. i.e.,
+$$\varepsilon_{ij} \overset{\text{iid}}{\sim} N(0, \sigma^2)$$
+
+- Very important note: **the assumption is on the error term** and NOT on the outcome!
+
+- We will use the residual (the difference between the observed value and the predicted value) to assess assumptions:
+$$ e_{ij} = y_{ij} - \hat{y}_{ij} $$
+
+## ANOVA Assumptions: Graphical Assessment
+    
+- **Normality**: histogram of residuals
+
+    - Should be mound-shaped and symmetric
+    - Should be centered at $\mu=0$
+    - Note: it may look "wonky" when sample sizes are small
+    
+- **Normality**: quantile-quantile plot
+
+    - Should have points close to the 45$^\circ$ line
+    - We will focus on the "center" portion of the plot
+    
+- **Variance**: scatterplot of the residuals against the predicted values
+
+    - Should be "equal spread" between the groups
+    - No "pattern"
+
+## ANOVA Assumptions: Assessing Graphically
+
+- We will construct a matrix of graphs to assess assumptions.
+
+    - If we decide that the variance is questionable, we can (and will) formally test it.
+    
+    - I always base my final decision about normality on the q-q plot.
+        
+- R syntax to put together the matrix of graphs (credit: former graduate student, Reid Ginoza)
+
+```{r, eval = FALSE}
+# define function to construct graph for assumptions
+almost_sas <- function(aov.results){
+  aov_residuals <- residuals(aov.results)
+  par(mfrow=c(2,2))
+  plot(aov.results, which=1)
+  hist(aov_residuals)
+  plot(aov.results, which=2)
+}
+
+# use the function to create the graph
+almost_sas([model results])
+```
+
+## ANOVA Assumptions: Assessing Graphically
+
+- Recall the dental data,
+
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse)
+strength <- c(15.4, 12.9, 17.2, 16.6, 19.3,
+              17.2, 14.3, 17.6, 21.6, 17.5,
+               5.5,  7.7, 12.2, 11.4, 16.4,
+              11.0, 12.4, 13.5,  8.9,  8.1)
+system <- c(rep("Cojet",5), rep("Silistor",5), rep("Cimara",5), rep("Ceramic",5))
+data <- tibble(system, strength)
+m <- aov(strength ~ system, data = data)
+summary(m)
+```
+
+## ANOVA Assumptions: Assessing Graphically
+
+- Let's assess the assumptions graphically,
+
+```{r, eval = FALSE}
+# define function to construct graph for assumptions
+almost_sas <- function(aov.results){
+  aov_residuals <- residuals(aov.results)
+  par(mfrow=c(2,2))
+  plot(aov.results, which=1)
+  hist(aov_residuals)
+  plot(aov.results, which=2)
+}
+
+# use the function to create the graph
+almost_sas(m)
+```
+
+## ANOVA Assumptions: Assessing Graphically
+
+- Let's assess the assumptions graphically,
+
+<center>
+```{r, echo = FALSE}
+# define function to construct graph for assumptions
+almost_sas <- function(aov.results){
+  aov_residuals <- residuals(aov.results)
+  par(mfrow=c(2,2))
+  plot(aov.results, which=1)
+  hist(aov_residuals)
+  plot(aov.results, which=2)
+}
+
+# use the function to create the graph
+almost_sas(m)
+```
+</center>
+
+## ANOVA Assumptions: Test for Variance
+
+- We can formally check the variance assumption with the Brown-Forsythe-Levine test.
+
+    - This test transforms the data and then performs ANOVA!
+    
+- The test statistic is calculated as follows, $$ F_0 = \frac{\sum_{i=1}^k n_i (\bar{z}_i - \bar{z})^2/(k-1)}{\sum_{i=1}^k \sum_{j=1}^{n_j}(z_{ij}-\bar{z}_i)^2/(n-k) }, $$ where
+
+    - $k$ is the number of groups,
+    - $n_i$ is the sample size of group i,
+    - $n = \sum_{i=1}^k n_i$, and
+    - $z_{ij} = |y_{ij} - \text{median}(y_i)|$
+
+## ANOVA Assumptions: Test for Variance
+
+**Brown-Forsythe-Levine Test for Homoskedasticity**
+
+- **Hypotheses**
+
+    - $H_0: \ \sigma^2_1 = ... = \sigma^2_k$
+    - $H_1:$ at least one $\sigma^2_i$ is different
+
+- **Test Statistic**
+
+    - $F_0$ (take from resulting ANOVA table)
+    
+- ***p*-Value**
+
+    - $p = P[F_0 \ge F_{\text{df}_{\text{Trt}}, \text{df}_{\text{E}}}]$
+    
+- **Rejection Region**
+
+    - Reject if $p < \alpha$.
+  
+## ANOVA Assumptions: Test for Variance
+
+- We will use the [`leveneTest()`](https://www.rdocumentation.org/packages/car/versions/3.1-0/topics/leveneTest) function from the [`car`](https://www.rdocumentation.org/packages/car/versions/3.1-0) package.
+
+```{r, echo = TRUE, eval = FALSE}
+leveneTest([model results])
+```
+
+## ANOVA Assumptions: Test for Variance
+
+- Let's formally test the variance in the dental example,
+
+```{r, message = FALSE, warning = FALSE}
+library(car)
+leveneTest(m)
+```
+## ANOVA Assumptions: Test for Variance
+
+- **Hypotheses**
+
+    - $H_0: \ \sigma^2_1 = \sigma^2_2 = \sigma^2_3 = \sigma^2_4$
+    - $H_1:$ at least one $\sigma^2_i$ is different
+
+- **Test Statistic and *p*-Value**
+
+    - $F_0 = 0.734$
+    - $p = 0.547$
+    
+- **Rejection Region**
+
+    - Reject if $p < \alpha$; $\alpha=0.05$.
+    
+- **Conclusion/Interpretation**
+
+    - Fail to reject $H_0$.
+    - There is not sufficient evidence to suggest that the variances are different.
+    - i.e., the variance assumption is not broken.
+
+## Example: Penguins
+
+- Recall the [Palmer Penguin](https://allisonhorst.github.io/palmerpenguins/) data in R.
+
+- We determined that there is a difference in bill lengths between the three species,
+```{r, echo = TRUE}
+penguins <- palmerpenguins::penguins
+m1 <- lm(bill_length_mm ~ species, data = penguins)
+anova(m1)
+```
+
+- Let's now assess the assumptions.
+
+## Example: Penguins
+
+- First, the graphical assessment.
+
+<center>
+```{r}
+almost_sas(m1)
+```
+</center>
+
+## Example: Penguins
+
+- We can also formally test the variance,
+
+```{r}
+leveneTest(m1)
+```
+
+## Example: Penguins
+
+- **Hypotheses**
+
+    - $H_0: \ \sigma^2_1 = \sigma^2_2 = \sigma^2_3$
+    - $H_1:$ at least one $\sigma^2_i$ is different
+
+- **Test Statistic and *p*-Value**
+
+    - $F_0 = 2.243$
+    - $p = 0.108$
+    
+- **Rejection Region**
+
+    - Reject if $p < \alpha$; $\alpha=0.05$.
+    
+- **Conclusion/Interpretation**
+
+    - Fail to reject $H_0$.
+    - There is not sufficient evidence to suggest that the variances are different.
+    - i.e., the variance assumption is not broken.
+    
+## Introduction: Kruskal-Wallis
+
+- Last lecture, we discussed the ANOVA assumptions.
+
+$$\varepsilon_{ij} \overset{\text{iid}}{\sim} N(0, \sigma^2)$$
+
+- We also discussed how to assess the assumptions:
+
+    - Graphically using the `almost_sas()` function.
+    
+    - Confirming the variance assumption using the BFL.
+
+- If we break an assumption, we will turn to the nonparametric alternative, the Kruskal-Wallis.
+
+## Kruskal-Wallis Test
+
+- If we break ANOVA assumptions, we should implement the nonparametric version, the Kruskal-Wallis.
+
+- The Kruskal-Wallis test determines if $k$ independent samples come from populations with the same distribution. 
+
+- Our new hypotheses are
+
+    - $H_0:$ the distributions of the populations are identical
+    - $H_1:$ the distributions of the populations are not identical
+    
+- Alternatively,
+
+    - $H_0: M_1 = ... = M_k$
+    - $H_1:$ at least one $M_i$ is different
+
+## Kruskal-Wallis Test
+
+- The test statistic is as follows: $$ H = \frac{12}{n(n+1)} \sum_{i=1}^k \frac{R_i^2}{n_i} - 3(n+1), $$ where
+    
+    - $R_i$ is the sum of the ranks for group $i$,
+    - $n_i$ is the sample size for group $i$,
+    - $n = \sum_{i=1}^k n_i$ = total sample size, and
+    - $k$ is the number of groups.
+
+- $H$ follows a $\chi^2$ distribution with $k-1$ degrees of freedom.
+
+## Kruskal-Wallis Test
+
+**Hypotheses**
+
+  - $H_0: \ M_1 =  ... = M_k$
+  - $H_1:$ at least one $M_i$ is different
+  
+**Test Statistic**
+
+  - $H_0 = \frac{12}{n(n+1)} \sum_{i=1}^k \frac{R_i^2}{n_i} - 3(n+1)$ 
+  
+***p*-Value**
+
+  - $p = P[H_0 \ge \chi^2_{k-1}]$
+
+**Rejection Region**
+
+  - Reject $H_0$ if $p < \alpha$
+  
+## Kruskal-Wallis Test
+
+- We will use the [`kruskal.test()`](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/kruskal.test) function to perform the Kruskal-Wallis test.
+
+```{r, echo = TRUE, eval = FALSE}
+kruskal.test([outcome variable] ~ [grouping variable], 
+             data = [dataset])
+```
+
+## Example: HDL
+    
+-A family doctor wants to determine if the distributions of HDL cholesterol in males for the age groups 20 to 29 years, 40 to 49 years, and 60 to 69 years old are different. 
+
+- He obtains a simple random sample of 12 individuals from each age group and determines their HDL cholesterol. 
+
+- Do the data indicate the distributions vary depending on age? Use the $\alpha = 0.05$ level of significance.
+
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse)
+HDL <- c(54, 43, 38, 30, 61, 53, 35, 34, 39, 46, 50, 35,
+         61, 41, 44, 47, 33, 29, 59, 35, 34, 74, 50, 65,
+         44, 65, 62, 53, 51, 49, 49, 42, 35, 44, 37, 38)
+age <- c(rep("20 to 29", 12), rep("40 to 49", 12), rep("60 to 69", 12))
+data <- tibble(age, HDL)
+```
+
+## Example: HDL
+
+- Let's first assess the ANOVA assumptions:
+
+<center>
+```{r, echo = FALSE}
+almost_sas <- function(aov.results){
+  aov_residuals <- residuals(aov.results)
+  par(mfrow=c(2,2))
+  plot(aov.results, which=1)
+  hist(aov_residuals)
+  plot(aov.results, which=2)
+}
+almost_sas(lm(HDL ~ age, data = data))
+```
+</center>
+
+## Example: HDL
+
+```{r}
+kruskal.test(HDL ~ age, data = data)
+```
+
+## Example: HDL 
+
+**Hypotheses**
+
+  - $H_0: \ M_1 = M_2 = M_3$
+  - $H_1:$ at least one $M_i$ is different
+  
+**Test Statistic and *p*-Value**
+
+  - $H = 1.012$ 
+  - $p = 0.602$
+
+**Rejection Region**
+
+  - Reject $H_0$ if $p < \alpha$
+  
+**Conclusion/Interpretation**
+
+  - Fail to reject $H_0$.
+  - There is not sufficient evidence to suggest that there is a difference between the three groups.
+
+\begin{frame}{Kruskal-Wallis Test}
+
+\begin{center}
+    \includegraphics[scale=0.3]{images/L81fig2.png}
+\end{center}
+    
+\end{frame}
+
+## Kruskal-Wallis: Posthoc Testing
+
+- We can also perform posthoc testing in the Kruskal-Wallis setting.\vskip1em
+
+- The set up is just like Tukey's -- we can perform all pairwise comparisons and control for the Type I error rate. \vskip1em
+
+- Instead of using $|\bar{y}_i - \bar{y}_j|$, we will use $|\bar{R}_i - \bar{R}_j|$, where $\bar{R}_i$ is the average rank of group $i$.
+
+- The comparison we are making:
+
+    - We declare $M_i \ne M_j$ if $|\bar{R}_i - \bar{R}_j| \ge KW$, where
+    $$ KW = \frac{q_{\alpha}(k, \infty)}{\sqrt{2}} \sqrt{\frac{n(n+1)}{12} \left( \frac{1}{n_i} + \frac{1}{n_j} \right)} $$ and $q_{\alpha}(k, \infty)$ is the critical value from the Studentized range distribution.
+
+## Kruskal-Wallis: Posthoc Testing
+
+- We will use the [`kruskalmc()`](https://www.rdocumentation.org/packages/pgirmess/versions/2.0.0/topics/kruskalmc) function from the [`pgirmess` package](https://www.rdocumentation.org/packages/pgirmess/versions/2.0.0) to perform the Kruskal-Wallis post-hoc test.
+
+```{r, echo = TRUE, eval = FALSE}
+kruskalmc([outcome variable] ~ [grouping variable], 
+          data = [dataset])
+```
+
+## Example: HDL
+
+- Revisiting our example,
+
+    - Note that if we were doing this "for real" we would not do the posthoc test since we did not see a difference between the three groups.
+    
+    - We are doing it here for demonstration purposes.
+
+```{r}
+library(pgirmess) 
+kruskalmc(HDL ~ age, data = data)
+```
+
+- Thus, none of the groups are different from one another.
+
+## Example: Penguins
+
+- Recall the [Palmer Penguin](https://allisonhorst.github.io/palmerpenguins/) data in R.
+
+- Let's check the differences in bill lengths using the Kruskal-Wallis.
+
+```{r, echo = TRUE}
+penguins <- palmerpenguins::penguins
+kruskal.test(bill_length_mm ~ species, data = penguins)
+```
+
+## Example: Penguins
+
+**Hypotheses**
+
+  - $H_0: \ M_1 = M_2 = M_3$
+  - $H_1:$ at least one $M_i$ is different
+  
+**Test Statistic and *p*-Value**
+
+  - $H =244.14$ 
+  - $p < 0.001$
+
+**Rejection Region**
+
+  - Reject $H_0$ if $p < \alpha$
+  
+**Conclusion/Interpretation**
+
+  - Reject $H_0$.
+  - There is sufficient evidence to suggest that there is a difference in bill length between the three species.
+  
+## Example: Penguins
+
+<center>
+```{r, echo = FALSE}
+penguins %>% ggplot(aes(y = bill_length_mm, x = species, fill = species)) +
+  geom_boxplot() +
+  theme_bw()
+```
+</center>
+  
+## Example: Penguins
+
+```{r}
+kruskalmc(bill_length_mm ~ species, data = penguins)
+```
+
+- Adelies are different from both chinstraps and gentoos.
+
+- Chinstraps and gentoos are not different.
+
+
+
+
+
+
+

@@ -1,0 +1,535 @@
+---
+title: "Multiple Regression"
+subtitle: "STA4173 Lecture 9, Summer 2023"
+execute:
+  echo: true
+  message: false
+  warning: false
+format: 
+  revealjs:
+    theme: uwf
+    self-contained: true
+    slide-number: false
+    footer: "[STA4173 - Biostatistics](https://samanthaseals.github.io/STA4173)"
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+editor: source
+---
+
+## Introduction
+
+- We have learned simple linear regression, $$y = \beta_0 + \beta_1 x + \varepsilon$$
+
+- Today, we will expand to multiple regression, which allows us to include multiple predictors, $$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + ... + \beta_k x_k + \varepsilon$$
+
+    - Simple linear regression is just a special case of multiple regression, where $k=1$.
+    
+- The good news is that all things we learned for simple linear regression hold true for multiple regression! 😎
+
+## Multiple Regression: R Syntax
+
+- We again use the `lm()` function to define the model and `summary()` to see the results.
+
+```{r, eval = FALSE}
+m <- lm([y] ~ [x1] + [x2] + ... + [xk], data = [dataset])
+summary(m)
+```
+
+- Additionally, we will find the confidence intervals for the $\beta_i$ using `confint()`.
+
+```{r, eval = FALSE}
+confint(m) # for 95% CI
+confint(m, level = [level]) # for other levels
+```
+
+## Multiple Regression: Interpretations
+
+- We interpret coefficients much the same as in simple linear regression.
+
+    - Intercept: when [*all* predictors = 0], the average [outcome] is [$\hat{\beta}_0$].
+
+    - Slope: For a 1 [units of predictor $i$] increase in [predictor $i$], we expect [outcome] to [increase or decrease] by [$|\hat{\beta}_i|$] [units of outcome], after controlling for [all other predictors in the model].
+    
+        - If $\hat{\beta}_i > 0$, there is an increase.
+        - If $\hat{\beta}_i < 0$, there is a decrease.
+
+## Multiple Regression: Example
+
+- A family doctor wishes to further examine the variables that affect their female patients' total cholesterol. 
+
+- They randomly select 14 female patients, measure their total cholesterol, and asks the patients to determine their average daily consumption of saturated fat. 
+
+- The data is as follows,
+
+```{r}
+library(tidyverse)
+age <- c(25, 25, 28, 32, 32, 32, 38, 42, 48, 51, 51, 58, 62, 65)
+chol <- c(180, 195, 186, 180, 210, 197, 239, 183, 204, 221, 243, 208, 228, 269)
+fat <- c(19, 28, 19, 16, 24, 20, 31, 20, 26, 24, 32, 21, 21, 30)
+data <- tibble(age, chol, fat)
+head(data, n = 2)
+```
+
+## Multiple Regression: Example
+
+- Model total cholesterol ($y$) as a function of age ($x_1$) and daily consumption of saturated fat ($x_2$).
+
+```{r}
+m <- lm(chol ~ age + fat, data = data)
+summary(m)
+```
+
+- The resulting model is $$\hat{\text{cholesterol}}_i = 90.842 + 1.014 \text{ age}_i + 3.244 \text{ fat}_i$$
+
+## Multiple Regression: Example
+
+- Let's now interpret the slopes from the cholesterol example. $$\hat{\text{cholesterol}}_i = 90.842 + 1.014 \text{ age}_i + 3.244 \text{ fat}_i$$
+
+    - For a 1 year increase in age, the cholesterol level is expected to increase by 1.014 mg/dL, after adjusting for the average daily consumption of saturated fat. \vskip1em
+    
+    - For a 1 gram increase in average daily consumption of saturated fat, the total cholesterol is expected to increase by 3.244 mg/dL, after adjusting for age.
+
+## Multiple Regression: Significance of $\beta_i$
+
+- **Hypotheses**
+
+    - $H_0: \ \beta_i = 0$ 
+    - $H_1: \ \beta_i \ne 0$
+
+- **Test Statistic**
+
+    - $t_0 = \frac{\hat{\beta}_i}{\text{SE of }\hat{\beta}_i}$
+
+- ***p*-Value**
+
+    - $p = 2 \times P[t_{n-k-1} \ge |t_0|]$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p<\alpha$.
+
+## Multiple Regression: Example
+
+- Which, if any, are significant predictors of cholesterol?
+
+```{r}
+summary(m)
+```
+
+## Multiple Regression: Example
+
+- **Hypotheses**
+
+    - $H_0: \ \beta_{\text{age}} = 0$ 
+    - $H_1: \ \beta_{\text{age}} \ne 0$
+
+- **Test Statistic and *p*-Value**
+
+    - $t_0 = 1.01$
+
+    - $p = 0.002$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p<\alpha$; $\alpha=0.05$
+    
+- **Conclusion/Interpretation**
+
+    - Reject $H_0$.
+    
+    - There is sufficient evidence to suggest that there is a relationship between age and cholesterol.
+
+## Multiple Regression: Example
+
+- **Hypotheses**
+
+    - $H_0: \ \beta_{\text{fat}} = 0$ 
+    - $H_1: \ \beta_{\text{fat}} \ne 0$
+
+- **Test Statistic and *p*-Value**
+
+    - $t_0 = 3.24$
+
+    - $p < 0.001$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p<\alpha$; $\alpha=0.05$
+    
+- **Conclusion/Interpretation**
+
+    - Reject $H_0$.
+    
+    - There is sufficient evidence to suggest that there is a relationship between fat and cholesterol.
+
+## Multiple Regression: Example
+
+- Let's find the 95% confidence intervals for the regression coefficients.
+
+```{r}
+confint(m)
+```
+
+- The 95% CI for $\beta_{\text{age}}$ is (0.48, 1.55).
+
+- The 95% CI for $\beta_{\text{fat}}$ is (1.78, 4.70).
+
+## Multiple Regression: Reporting Results
+
+- How do I report regression models in the real world? 
+
+    - I always give a table of $\hat{\beta}_i$, (95% CI), and $p$-values.
+    
+- In our example,
+
+| Predictor | Estimate (95% CI) | *p*-Value |
+|-|:-:|-|
+| Age | 1.01 (0.48, 1.55) | 0.002 |
+| Fat | 3.24 (1.78, 4.70) | < 0.001 |
+
+## Multiple Regression: Significant Regression Line
+
+- We can use an $F$-test to test for a significant regression line. 
+
+    - A significant regression line means that there is a non-zero slope among all slopes. 
+
+    - This makes use of an ANOVA table, however, we will not concern ourselves with the computation.
+    
+- The results can be found at the bottom of the `summary()` output.
+
+## Multiple Regression: Significant Regression Line
+
+- **Hypotheses**
+
+    - $H_0: \ \beta_1 = ... = \beta_k = 0$ 
+    - $H_1:$ at least one is different
+
+- **Test Statistic**
+
+    - $F_0$ (pulled from the `summary()` output)
+
+- ***p*-Value**
+
+    - $p = \text{P}[F_{k, n-k-1} \ge F_0]$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$.
+
+## Multiple Regression: Example
+
+- Is this a significant regression line?
+
+    - Is at least one of the $x_i$ a significant predictor?
+    
+    - Is at least one slope non-zero?
+
+```{r}
+summary(m)
+```
+
+## Multiple Regression: Example
+
+- **Hypotheses**
+
+    - $H_0: \ \beta_1 = \beta_2 = 0$ 
+    - $H_1:$ at least one is different
+
+- **Test Statistic and *p*-Value**
+
+    - $F_0 = 30.53$ 
+
+    - $p < 0.001$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha=0.05$.
+    
+- **Conclusion/Interpretation**
+
+    - Reject $H_0$.
+    - There is sufficient evidence to suggest that at least one slope is non-zero. 
+
+## Multiple Regression: Line Fit
+
+- We can assess how well the regression model fits the data using $R^2$. $$ R^2 = \frac{\text{SS}_{\text{Reg}}}{\text{SS}_{\text{Tot}}} $$
+
+- Thus, $R^2$ is the proportion of variation explained by the model (i.e., predictor set).
+
+- $R^2 \in [0, 1]$
+
+    - $R^2 \to 0$ indicates that the model fits "poorly."
+    
+    - $R^2 \to 1$ indicates that the model fits "well."
+
+    - $R^2 = 1$ indicates that all points fall on the response surface.
+
+## Multiple Regression: Line Fit
+
+- Recall that the error term in ANOVA is the "catch all" ...
+
+    - The SS<sub>Tot</sub> is constant for the outcome of interest.
+    
+    - As we add predictors to the model, we are necessarily increasing SS<sub>Reg</sub>
+    
+        - The variance is moving from SS<sub>E</sub> to SS<sub>Reg</sub>
+        
+- We do not want to arbitrarily increase $R^2$, so we will use an adjusted version:$$ R^2_{\text{adj}} = 1 - \frac{\text{MS}_{\text{E}}}{\text{SS}_{\text{Tot}}/\text{df}_{\text{Tot}}}$$
+
+## Multiple Regression: Example
+
+- The $R^2$ and $R^2_{\text{adj}}$ both come out of the `summary()` function.
+
+```{r, echo = TRUE}
+summary(m)
+```
+
+- $R^2$ is 0.847.
+
+- $R^2_{\text{adj}}$ is 0.820 -- 82.0% of the variability in cholesterol is explained by the model with age and fat.
+
+
+## Multiple Regression: Outliers
+
+- Definition: data values that are much larger or smaller than the rest of the values in the dataset.
+
+- We will look at the standardized residuals, $$ e_{i_{\text{standardized}}} = \frac{e_i}{\sqrt{\text{MSE}(1-h_i)}}, $$ where
+
+    - $e_i = y_i - \hat{y}_i$ is the residual of the $i$^th^ observation
+    - $h_i$ is the leverage of the $i$^th^ observation
+    
+- If $|e_{i_{\text{standardized}}}| > 2.5 \ \to \ $ outlier.
+
+- If $|e_{i_{\text{standardized}}}| > 3 \ \to \ $ extreme outlier.
+
+## Multiple Regression: Outliers
+
+- We will use the `rstandard()` function to find the residuals.
+
+- For ease of examining in large datasets, we will use it to create a "flag."
+
+```{r, echo = TRUE, eval = FALSE}
+[dataset] <- [dataset] %>%
+  mutate(outlier = abs(rstandard([m]))>2.5)
+```
+
+- We can count the number of outliers,
+
+```{r, echo = TRUE, eval = FALSE}
+[dataset] %>% count(outlier)
+```
+
+- We can just look at outliers from the dataset,
+
+```{r, echo = TRUE, eval = FALSE}
+[new dataset] <- [dataset] %>% 
+  filter(outlier == TRUE)
+```
+
+- We can also exclude outliers from the dataset,
+
+```{r, echo = TRUE, eval = FALSE}
+[new dataset] <- [dataset] %>% 
+  filter(outlier == FALSE)
+```
+
+## Multiple Regression: Outliers
+
+- Let's check for outliers in our example data,
+
+```{r}
+data <- data %>% mutate(outlier = abs(rstandard(m))>2.5)
+head(data)
+```
+
+## Multiple Regression: Outliers
+
+- How many data points are outliers?
+
+```{r}
+data %>% count(outlier)
+```
+
+- There are no outliers.
+
+    - (This is Happy Textbook Land!)
+
+## Multiple Regression: Multicollinearity
+
+- Collinearity/multicollinearity: a correlation between two or more predictor variables affects the estimation procedure.
+
+- We will use the variance inflation factor (VIF) to check for multicollinearity. $$ \text{VIF}_j = \frac{1}{1-R^2_j}, $$
+
+- where
+
+    - $j$ = the predictor of interest and $j \in \{1, 2, ..., k \}$,
+    - $R^2_j$ results from regressing $x_j$ on the remaining $(k-1)$ predictors.
+    
+- We say that multicollinearity is present if VIF > 10.
+
+- How do we deal with multicollinearity?
+
+    - Easy answer: remove at least one predictor from the collinear set, then reassess VIF.
+    
+    - More complicated: how do we know which predictor should be the one removed?
+    
+        - (We will likely need to consult with the research team.)
+    
+## Multiple Regression: Multicollinearity
+
+- We will use the [`vif()`](https://www.rdocumentation.org/packages/car/versions/3.1-0/topics/vif) function from the `car` package.
+
+```{r, echo = TRUE, eval = FALSE}
+vif([m])
+```
+
+- There will be a value for each predictor in the model.
+    
+## Multiple Regression: Multicollinearity
+
+- Let's check the multicollinearity for our cholesterol model,
+
+```{r}
+library(car)
+vif(m)
+```
+
+- No multicollinearity is present.
+
+## Conclusions
+
+- This is just scratching the surface for multiple regression.
+
+- Other statistics courses go deeper into regression topics.
+
+    - Categorical predictors.
+    
+    - Interaction terms.
+    
+    - Other regression diagnostics.
+    
+    - How to handle non-continuous outcomes.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

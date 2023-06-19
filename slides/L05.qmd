@@ -1,0 +1,718 @@
+---
+title: "One-Way Analysis of Variance and Posthoc Testing"
+subtitle: "STA4173 Lecture 5, Summer 2023"
+execute:
+  echo: true
+format: 
+  revealjs:
+    theme: uwf
+    self-contained: true
+    slide-number: false
+    footer: "[STA4173 - Biostatistics](https://samanthaseals.github.io/STA4173)"
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+editor: source
+---
+
+## Introduction: Analysis of Variance
+
+- We have previously discussed testing the difference between two groups.
+
+    - What about when there are three or more groups? 
+
+- We will use a method called \textbf{an}alysis \textbf{o}f \textbf{va}riance (ANOVA).
+
+    - This method partitions the variance of the outcome into variance due to the groups and variance due to "other" factors.
+
+- Fun fact: the two-sample *t*-test is a special case of ANOVA.
+
+    - If you perform ANOVA when comparing two means, you will obtain the same results as the two-sample *t*-test.
+
+## Hypotheses
+
+- Hypotheses all take the same form:
+
+    - $H_0: \ \mu_1 = \mu_2 = ... = \mu_k$
+    - $H_1:$ at least one is different
+
+- Note 1: you must fill in the "k" when writing hypotheses!
+
+    - e.g., if there are four means, your hypotheses are
+    
+        - $H_0: \ \mu_1 = \mu_2 = \mu_3 = \mu_4$
+        - $H_1:$ at least one is different
+
+- Note 2: ANOVA does not tell us which means are different, just if a general difference exists!
+
+## ANOVA Table
+
+- The computations for ANOVA are more involved than what we've seen before.  
+
+- An ANOVA table will be constructed in order to perform the hypothesis test.
+
+| **Source** | **Sum of Squares** | **df** | **Mean Squares** | ***F*** |
+|-|-|-|-|-|
+Treatment | SS<sub>Trt</sub> | df<sub>Trt</sub> | MS<sub>Trt</sub> | *F*<sub>0</sub>
+Error | SS<sub>E</sub> | df<sub>E</sub> | MS<sub>E</sub> |
+Total | SS<sub>Tot</sub> | df<sub>Tot</sub> | | |
+
+- Once this is put together, we can perform the hypothesis test.
+
+    - Our test statistic is the *F*<sub>0</sub>.
+    
+## The *F* Distribution
+
+- The *F* distribution is derived as the ratio of two variances. 
+
+    - The variances each have degrees of freedom: df<sub>numerator</sub> and df<sub>denominator</sub>
+
+- The *F* distribution's shape depends on the df,
+
+<center><img src="images/L08a.png"></center>
+
+## ANOVA Computations
+
+- Again, here's where we are headed with our computations: 
+
+| **Source** | **Sum of Squares** | **df** | **Mean Squares** | ***F*** |
+|-|-|-|-|-|
+Treatment | SS<sub>Trt</sub> | df<sub>Trt</sub> | MS<sub>Trt</sub> | *F*<sub>0</sub>
+Error | SS<sub>E</sub> | df<sub>E</sub> | MS<sub>E</sub> |
+Total | SS<sub>Tot</sub> | df<sub>Tot</sub> | | |
+
+- We are partitioning the variance of our outcome into:
+
+    - Variance due to the grouping (treatment)
+    - Variance due to "other" factors (error)
+
+        - Think of this like a "catch all" for other sources of error -- things we did not adjust for in our model.
+
+## ANOVA Computations
+
+- Before we begin our computations, it would be helpful if we know $$ \bar{x}, \ \ n_i, \ \ \bar{x}_i, \ \ s_i^2 $$ where 
+
+    - $\bar{x}$ is the overall mean,
+    - $n_i$ is the sample size for group $i$,
+    - $\bar{x}_i$ is the mean for group $i$, and
+    - $s_i^2$ is the variance for group $i$
+
+## ANOVA Computations
+
+- We begin our computations with the sums of squares: $$\begin{align*}
+    \text{SS}_{\text{Trt}} &= \sum_{i=1}^k n_i(\bar{x}_i-\bar{x})^2 \\
+    \text{SS}_{\text{E}} &= \sum_{i=1}^k (n_i-1)s_i^2 \\
+    \text{SS}_{\text{Tot}} &= \text{SS}_{\text{Trt}} + \text{SS}_{\text{E}}
+\end{align*} $$ where
+
+    -  $k$ is the number of groups
+    
+- and each sum of squares has degrees of freedom: 
+
+    - $\text{df}_{\text{Trt}} = k-1$ (number of groups -- 1)
+    - $\text{df}_{\text{E}} = n-k$ (overall sample size -- number of groups)
+    - $\text{df}_{\text{Tot}} = n-1$ (overall sample size -- 1) = $\text{df}_{\text{Trt}} + \text{df}_{\text{E}}$ 
+    
+## ANOVA Computations
+
+- Once we have the sum of squares and corresponding degrees of freedom, we have the mean squares.
+
+- Generally, mean squares are the sum of square divided by the df,
+$$ \text{MS}_X = \frac{\text{SS}_X}{\text{df}_X}$$
+
+- In the case of one-way ANOVA,$$\begin{align*}
+    \text{MS}_{\text{Trt}} &= \frac{\text{SS}_{\text{Trt}}}{\text{df}_{\text{Trt}}} \\
+    \text{MS}_{\text{E}} &= \frac{\text{SS}_{\text{E}}}{\text{df}_{\text{E}}}
+\end{align*}$$
+    - Note that there is **no** $\text{MS}_{\text{Tot}}$! 
+
+## ANOVA Computations
+
+- Finally, we have the test statistic. 
+
+- Generally, we construct an $F$ for ANOVA by dividing the MS of interest by MS$_{\text{E}}$,
+$$ F_X = \frac{\text{MS}_X}{\text{MS}_{\text{E}}} $$
+
+- In one-way ANOVA, we are only constructing the $F$ for treatment,
+$$F_0 = \frac{\text{MS}_{\text{Trt}}}{\text{MS}_{\text{E}}} $$
+
+## ANOVA Computations
+
+- We are finally done constructing our ANOVA table! As a reminder,
+
+| **Source** | **Sum of Squares** | **df** | **Mean Squares** | ***F*** |
+|-|-|-|-|-|
+Treatment | SS<sub>Trt</sub> | df<sub>Trt</sub> | MS<sub>Trt</sub> | *F*<sub>0</sub>
+Error | SS<sub>E</sub> | df<sub>E</sub> | MS<sub>E</sub> |
+Total | SS<sub>Tot</sub> | df<sub>Tot</sub> | | |    
+
+## ANOVA: R Syntax
+
+- We will use both the [`lm()`](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/lm) and [`anova()`](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/anova) functions in R.
+
+    - ANOVA is regression (and regression is ANOVA).
+    - We use `lm()` to define the model.
+    - We use `anova()` to construct the ANOVA table.
+
+```{r, echo = TRUE, eval = FALSE}
+m <- lm([continuous variable] ~ [grouping variable],
+        data = [dataset])
+anova(m)
+```
+
+- Alternatively, we can use the `aov()` and `summary()` functions.
+
+```{r, echo = TRUE, eval = FALSE}
+m <- aov([continuous variable] ~ [grouping variable],
+         data = [dataset])
+summary(m)
+```
+
+## Example - Dental
+
+- Prosthodontists specialize in the restoration of oral function, including the use of dental implants, veneers, dentures, and crowns. A researcher wanted to compare the shear bond strength of different repair kits for repairs of chipped porcelain veneer. 
+
+- He randomly divided 20 porcelain specimens into four treatment groups: group 1 used the Cojet system, group 2 used the Silistor system, group 3 used the Cimara system, and group 4 used the Ceramic Repair system. 
+    
+- At the conclusion of the study, shear bond strength (in megapascals, MPa) was measured according to ISO 10477. The data are as follows,
+
+```{r, echo = FALSE}
+library(tidyverse)
+```
+
+```{r}
+strength <- c(15.4, 12.9, 17.2, 16.6, 19.3,
+              17.2, 14.3, 17.6, 21.6, 17.5,
+               5.5,  7.7, 12.2, 11.4, 16.4,
+              11.0, 12.4, 13.5,  8.9,  8.1)
+system <- c(rep("Cojet",5), rep("Silistor",5), rep("Cimara",5), rep("Ceramic",5))
+data <- tibble(system, strength)
+```
+
+## Example - Dental
+
+```{r}
+head(data, n=3)
+```
+
+- What is the continuous variable?
+
+- What is the grouping variable?
+
+## Example - Dental
+
+```{r}
+head(data, n=3)
+```
+
+- What is the continuous variable?
+
+    -  <font color="#db0b9d">strength</font>
+
+- What is the grouping variable?
+
+    -  <font color="#db0b9d">system</font>
+
+## Example - Dental
+
+- Let's now have R put together the ANOVA table for us using `lm()` and `anova()`.
+
+```{r}
+m <- lm(strength ~ system, data = data)
+anova(m)
+```
+
+## Example - Dental
+
+- Let's look at the alternative using the `aov()` and `summary()` functions.
+
+```{r}
+m <- aov(strength ~ system, data = data)
+summary(m)
+```
+
+## Hypothesis Testing
+
+- **Hypotheses**
+
+    - $H_0: \ \mu_1 = \mu_2 = ... = \mu_k$ 
+    - $H_1:$ at least one mean is different
+
+- **Test Statistic**
+
+    - $F_0$ (pulled from the ANOVA table)
+
+- ***p*-Value**
+
+    - $p = P[F_0 \ge F_{\text{df}_{\text{Trt}}, \text{df}_{\text{E}}}]$
+    
+- **Rejection Region**
+
+    - Reject $H_0$ if $p<\alpha$.
+
+## Example - Dental
+
+- Recall the ANOVA table from the dental example:
+
+```{r}
+summary(m)
+```
+
+- Determine if there is a difference in average strength between the groups. Test at the $\alpha=0.01$ level.
+
+## Example - Dental
+
+- **Hypotheses**
+
+    - $H_0: \ \mu_1 = \mu_2 = \mu_3 = \mu_4$ 
+    - $H_1:$ at least one mean is different
+
+- **Test Statistic and *p*-Value**
+
+    - $F_0 = 7.545$
+    - $p = 0.002$
+    
+- **Rejection Region**
+
+    - Reject $H_0$ if $p<\alpha$; $\alpha = 0.01$.
+    
+- **Conclusion/Interpretation**
+
+    - Reject $H_0$ at the $\alpha=0.01$ level.
+    
+    - There is sufficient evidence to suggest that there is a difference in average strength between the four groups.
+
+## Example - Penguins
+
+- Let's consider the [Palmer Penguin](https://allisonhorst.github.io/palmerpenguins/) data in R.
+
+    - Briefly, there is data on body characteristics for three species of penguins.
+
+- Determine if there is a difference in bill lengths between the three species. Test at the $\alpha=0.05$ level.
+
+```{r, echo = TRUE}
+penguins <- palmerpenguins::penguins
+m1 <- lm(bill_length_mm ~ species, data = penguins)
+anova(m1)
+```
+## Example - Penguins
+
+- **Hypotheses**
+
+    - $H_0: \ \mu_1 = \mu_2 = \mu_3$ 
+    - $H_1:$ at least one mean is different
+
+- **Test Statistic and *p*-Value**
+
+    - $F_0 = 410.6$
+    - $p < 0.001$
+    
+- **Rejection Region**
+
+    - Reject $H_0$ if $p<\alpha$; $\alpha = 0.05$.
+    
+- **Conclusion/Interpretation**
+
+    - Reject $H_0$ at the $\alpha=0.05$ level.
+    
+    - There is sufficient evidence to suggest that there is a difference in bill length between the three species.
+    
+## Example - Penguins
+
+<center>
+```{r}
+penguins %>% ggplot(aes(y = bill_length_mm, x = species, fill = species)) +
+  geom_boxplot() +
+  theme_bw()
+```
+</center>
+
+## Introduction: Posthoc Testing
+
+- Today we have introduced ANOVA. Recall the hypotheses,
+
+    - $H_0: \mu_1 = \mu_2 = ... = \mu_k$
+    - $H_1:$ at least one $\mu_i$ is different
+    
+- The $F$ test does not tell us *which* mean is different... only that a difference exists.
+
+- In theory, we could perform repeated $t$ tests to determine pairwise differences.
+
+    - Recall that ANOVA is an extension of the $t$ test... or that the $t$ test is a special case of ANOVA.
+    
+    - However, this will increase the Type I error rate ($\alpha$).
+
+## Introduction: Posthoc Testing
+
+- Recall that the Type I error rate, $\alpha$, is the probability of *incorrectly* rejecting $H_0$.
+
+    - i.e., we are saying there is a difference between the means when there is actually *not* a difference.
+    
+- Suppose we are comparing 5 groups.
+
+    - This is 10 pairwise comparisons!! 
+        
+        - 1-2, 1-3, 1-4, 1-5, 2-3, 2-4, 2-5, 3-4, 3-5, 4-5
+        
+    - If we perform repeated $t$ tests under $\alpha=0.05$, we are inflating the Type I error to 0.40! 😵
+
+## Introduction: Posthoc Testing
+
+- When performing posthoc comparisons, we can choose one of two paths:
+
+    - Control the Type I (familywise) error rate.
+    - Do not control the Type I error rate.
+    
+- Note that controlling the Type I error rate is more conservative than when we do not control it.
+
+    - "Conservative" = more difficult to reject.
+    
+- Generally, statisticians:
+
+    - *do not* control the Type I error rate if examining the results of pilot/preliminary studies that are exploring for general relationships.
+    
+    - *do* control the Type I error rate if examining the results of confirmatory studies and are attempting to confirm relationships observed in pilot/preliminary studies.
+    
+## Introduction: Posthoc Testing
+
+- The posthoc tests we will learn:
+
+    - Tukey's test
+    
+        - Performs all pairwise tests and controls the Type I error rate
+        
+    - Fisher's least significant difference 
+    
+        - Performs all pairwise tests but does not control the Type I error rate
+        
+    - Dunnett's test
+    
+        - Compares each group to a control group and controls the Type I error rate
+        
+- **Caution**: we should *only* perform posthoc tests if we have determined that a general difference exists!
+
+    - i.e., we rejected when looking at the $F$ test in ANOVA
+    
+## Example
+
+- Recall the dental example from last lecture,
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+library(tidyverse)
+```
+
+```{r}
+strength <- c(15.4, 12.9, 17.2, 16.6, 19.3,
+              17.2, 14.3, 17.6, 21.6, 17.5,
+               5.5,  7.7, 12.2, 11.4, 16.4,
+              11.0, 12.4, 13.5,  8.9,  8.1)
+system <- c(rep("Cojet",5), rep("Silistor",5), rep("Cimara",5), rep("Ceramic",5))
+data <- tibble(system, strength)
+m <- aov(strength ~ system, data = data)
+summary(m)
+```
+
+- Are we justified in posthoc testing? (Recall: $\alpha=0.01$).
+
+## Tukey's Test
+
+- Tukey's test allows us to do all pairwise comparisons while controlling $\alpha$.
+
+- The underlying idea of the comparison:
+
+    - We declare $\mu_i \ne \mu_j$ if $|\bar{y}_i - \bar{y}_j| \ge W$, where $$ W = \frac{q_{\alpha}(k, \text{df}_{\text{E}})}{\sqrt{2}} \sqrt{\text{MSE} \left( \frac{1}{n_i} + \frac{1}{n_j} \right)} $$
+    
+        - $q_{\alpha}(k, \text{df}_{\text{E}})$ is the critical value from the Studentized range distribution.
+
+## Tukey's Test
+
+- We will use the [`TukeyHSD()`](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/TukeyHSD) function.
+
+    - Note that this requires us to have created our model using the `aov()` function.
+
+```{r, eval = FALSE}
+m <- aov([continuous variable] ~ [grouping variable], data = [dataset name])
+TukeyHSD(m)$[grouping variable]
+```
+
+## Tukey's Test
+
+- Let's apply Tukey's to the dental data.
+
+```{r}
+m <- aov(strength ~ system, data = data)
+TukeyHSD(m)$system
+```
+
+- Which are significantly different at the $\alpha=0.01$ level?
+
+## Tukey's Test
+
+- Let's apply Tukey's to the dental data.
+
+```{r}
+m <- aov(strength ~ system, data = data)
+TukeyHSD(m, conf.level = 0.99)$system
+```
+
+- Which are significantly different at the $\alpha=0.01$ level?
+
+    - <font color="#db0b9d">Silistor-Cimara</font>
+
+## Fisher's Test
+
+- Fisher's allows us to test all pairwise comparisons but \textbf{does not} control the $\alpha$.
+
+- The underlying idea of the comparison:
+
+    - We declare $\mu_i \ne \mu_j$ if $|\bar{y}_i - \bar{y}_j| \ge \text{LSD}$, where $$ \text{LSD} = t_{1-\alpha/2, \text{df}_\text{E}} \sqrt{\text{MSE} \left( \frac{1}{n_i} + \frac{1}{n_j} \right)} $$
+
+## Fisher's Test
+
+- We will use the [`LSD.test()`](https://www.rdocumentation.org/packages/agricolae/versions/1.3-5/topics/LSD.test) function from the [`agricolae`](https://www.rdocumentation.org/packages/agricolae/versions/1.3-5) package.
+
+    - Note that, like Tukey's, this requires us to have created our model using the `aov()` function.
+
+```{r, eval = FALSE}
+library(agricolae)
+results <- summary(m)
+(LSD.test([dataset]$[continuous], # continuous outcome
+          [dataset]$[grouping], # grouping variable
+          results[[1]]$Df[2], # df_E
+          results[[1]]$`Mean Sq`[2], # MSE
+          alpha = [alpha level]) # can omit if alpha = 0.05
+  )[5] # limit to only the pairwise comparison results
+```
+
+## Fisher's Test
+
+- Let's apply Fisher's to the dental data.
+
+```{r}
+library(agricolae)
+results <- summary(m)
+LSD.test(data$strength, 
+         data$system, 
+         results[[1]]$Df[2], 
+         results[[1]]$`Mean Sq`[2],
+         alpha = 0.01)[5]
+```
+
+- Which are significantly different at the $\alpha=0.01$ level?
+
+## Fisher's Test
+
+- Let's apply Fisher's to the dental data.
+
+```{r}
+library(agricolae)
+results <- summary(m)
+LSD.test(data$strength, 
+         data$system, 
+         results[[1]]$Df[2], 
+         results[[1]]$`Mean Sq`[2],
+         alpha = 0.01)[5]
+```
+
+- Which are significantly different at the $\alpha=0.01$ level?
+
+    - <font color="#db0b9d">Silistor-Ceramic</font>
+    - <font color="#db0b9d">Silistor-Cimara</font>
+    - <font color="#db0b9d">Cojet-Ceramic</font>
+    - <font color="#db0b9d">Cojet-Cimara</font>    
+
+## Dunnett's Test 
+
+- Dunnett's test allows us to do all pairwise comparisons against only the control, while controlling $\alpha$.
+
+    - This has fewer comparisons than Tukey's because we are not comparing non-control groups to one another.
+    
+    - i.e., we are sharing the $\alpha$ between fewer comparisons now, which is preferred if we are not interested in the comparisons between non-control groups.
+
+- The underlying idea of the comparison:
+
+    - We declare $\mu_i \ne \mu_j$ if $|\bar{y}_i - \bar{y}_j| \ge D$, where $$ D = d_{\alpha}(k-1, \text{df}_{\text{E}}) \sqrt{\text{MSE} \left( \frac{1}{n_i} + \frac{1}{n_c} \right)}, $$
+        
+        - $d_{\alpha}(k-1, \text{df}_{\text{E}})$ is the critical value from Dunnett's table.
+
+## Dunnett's Test
+
+- We will use the [`DunnettTest()`](https://www.rdocumentation.org/packages/DescTools/versions/0.99.32/topics/DunnettTest) function from the DescTools package to perform Dunnett's test.
+
+```{r, echo = TRUE, eval = FALSE}
+library(DescTools)
+DunnettTest(x=[dataset]$[continuous variable], 
+            g=[dataset]$[grouping variable], 
+            control = "[name of control group]")
+```
+
+- The *p*-values are adjusted, so you can directly compare them to the specified $\alpha$.
+
+## Dunnett's Test
+
+- Let's apply Dunnett's to the dental data.
+
+    - We will treat "Ceramic" as the control group.
+
+```{r, message = FALSE, mwarning = FALSE}
+library(DescTools)
+DunnettTest(x=data$strength, 
+            g=data$system, 
+            control = "Ceramic")
+```
+
+- Which are significantly different at the $\alpha=0.01$ level?
+
+## Dunnett's Test
+
+- Let's apply Dunnett's to the dental data.
+
+    - We will treat "Ceramic" as the control group.
+
+```{r, message = FALSE, mwarning = FALSE}
+library(DescTools)
+DunnettTest(x=data$strength, 
+            g=data$system, 
+            control = "Ceramic")
+```
+
+- Which are significantly different at the $\alpha=0.01$ level?
+
+    - <font color="#db0b9d">Silistor-Ceramic</font>
+
+## Example - Penguins
+
+- Recall the [Palmer Penguin](https://allisonhorst.github.io/palmerpenguins/) data in R.
+
+```{r, echo = TRUE}
+penguins <- palmerpenguins::penguins
+m1 <- aov(bill_length_mm ~ species, data = penguins)
+summary(m1)
+```
+
+## Example - Penguins
+
+<center>
+```{r, echo = FALSE}
+penguins %>% ggplot(aes(y = bill_length_mm, x = species, fill = species)) +
+  geom_boxplot() +
+  theme_bw()
+```
+</center>
+
+## Example - Penguins
+
+- Let's use Tukey's test to determine what differences exist between the species. 
+
+```{r}
+TukeyHSD(m1)$species
+```
+
+- Which species are significantly different at the $\alpha=0.05$ level?
+
+## Example - Penguins
+
+- Let's use Tukey's test to determine what differences exist between the species. 
+
+```{r}
+TukeyHSD(m1)$species
+```
+
+- Which species are significantly different at the $\alpha=0.05$ level?
+
+    - <font color="#db0b9d">Chinstrap-Adelie</font>
+    - <font color="#db0b9d">Gentoo-Adelie</font>
+    - <font color="#db0b9d">Gentoo-Chinstrap</font>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,886 @@
+---
+title: "Review: Summary Statistics and Graphs"
+subtitle: "STA4173 Lecture 1, Summer 2023"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  revealjs:
+    theme: uwf
+    self-contained: true
+    slide-number: false
+    footer: "[STA4173 - Biostatistics](https://samanthaseals.github.io/STA4173)"
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+editor: source
+---
+
+## Introduction
+
+-   In this lecture, we will review summary statistics
+
+    -   Continuous variables
+
+        -   Mean
+        -   Median
+        -   Percentiles / quartiles
+        -   Variance and standard deviation
+        -   Interquartile range
+
+    -   Categorical variables
+
+        -   Count
+        -   Percentage
+
+## Summary Statistics: Introduction
+
+-   In this course, we will review formulas, but we will use R for computational purposes
+
+    -   Remember to refer to the lecture notes for specific code needed
+
+    -   Code is also available on this course's [GitHub repository](http://github.com/samanthaseals/STA4173)
+    
+- We can use base R for some things, but other things we will use the [`tidyverse`](https://www.tidyverse.org/) and [`janitor`](https://www.rdocumentation.org/packages/janitor/versions/2.1.0) packages.
+
+- If we need to install packages, we use the `install.packages()` function,
+```{r, eval = FALSE}
+install.packages("package name")
+```
+
+- To call packages in, we use the `library()` function,
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse)
+library(janitor)
+```
+
+## Summary Statistics: Mean
+
+-   Definition: sample arithmetic mean
+
+$$ \bar{x} = \frac{\sum_{i=1}^n x_i}{n} = \frac{x_1 + x_2 + ... + x_n}{n} $$
+
+-   R syntax:
+
+```{r, eval = FALSE}
+# method 1: base R
+mean(vector) # if your variable is not part of a dataset
+mean(dataset$variable) # if your variable is part of a dataset
+
+# method 2: tidyverse
+dataset %>% summarize(mean(variable))
+```
+
+## Summary Statistics: Mean
+
+-   The following data represent the first exam score of 10 randomly selected students in STA2023. Find the average exam score.
+
+<center>82, 77, 90, 71, 62, 68, 74, 84, 94, 88</center>
+
+```{r}
+scores <- c(82, 77, 90, 71, 62, 68, 74, 84, 94, 88)
+mean(scores)
+```
+
+<br>
+
+## Summary Statistics: Mean
+
+-   The following data represent the first exam score of 10 randomly selected students in STA2023. Find the average exam score.
+
+<center>82, 77, 90, 71, <font color="#db0b9d">62</font>, 68, 74, 84, 94, 88</center>
+
+```{r}
+scores <- c(82, 77, 90, 71, 62, 68, 74, 84, 94, 88)
+mean(scores)
+```
+
+<br>
+
+-   What happens to the mean if there is an extreme observation?
+
+<center>82, 77, 90, 71, <font color="#db0b9d">26</font>, 68, 74, 84, 94, 88</center>
+
+```{r}
+scores <- c(82, 77, 90, 71, 26, 68, 74, 84, 94, 88)
+mean(scores)
+```
+
+## Summary Statistics: Variance and Standard Deviation
+
+- Definition: sample variance
+
+$$s^2 = \frac{\sum_{i=1}^n x_i^2 - \frac{(\sum_{i=1}^n x_i)^2}{n}}{n-1}$$
+
+- Definition:  sample standard deviation
+
+$$s = \sqrt{s^2}$$
+
+- R syntax:
+
+```{r, eval = FALSE}
+# method 1: base R
+var(vector) or sd(vector) # if your variable is not part of a dataset
+var(dataset$variable) or sd(dataset$variable) # if your variable is part of a dataset
+
+# method 2: tidyverse
+dataset %>% summarize(var(variable), sd(variable))
+```
+
+## Summary Statistics: Variance and Standard Deviation
+
+-   The following data represent the first exam score of 10 randomly selected students in STA2023. Find the variance and standard deviation.
+
+<center>82, 77, 90, 71, 62, 68, 74, 84, 94, 88</center>
+
+```{r}
+scores <- c(82, 77, 90, 71, 62, 68, 74, 84, 94, 88)
+var(scores)
+sd(scores)
+```
+
+## Summary Statistics: Variance and Standard Deviation
+
+-   The following data represent the first exam score of 10 randomly selected students in STA2023. Find the variance and standard deviation.
+
+<center>82, 77, 90, 71, <font color="#db0b9d">62</font>, 68, 74, 84, 94, 88</center>
+
+```{r}
+scores <- c(82, 77, 90, 71, 62, 68, 74, 84, 94, 88)
+var(scores)
+sd(scores)
+```
+
+<br>
+
+-   What happens to the variance and standard deviation if there is an extreme observation?
+
+<center>82, 77, 90, 71, <font color="#db0b9d">26</font>, 68, 74, 84, 94, 88</center>
+
+```{r}
+scores <- c(82, 77, 90, 71, 26, 68, 74, 84, 94, 88)
+var(scores)
+sd(scores)
+```
+
+
+## Summary Statistics: Median
+
+- Definition: median
+
+    - The value that lies in the middle of the data when arranged in ascending order.
+    
+        - If *n* is odd, then the median is literally the middle number.
+    
+        - If *n* is even, then the median is the average of the two middle numbers.
+    
+- R syntax:
+
+```{r, eval = FALSE}
+# method 1: base R
+median(vector) # if your variable is not part of a dataset
+median(dataset$variable) # if your variable is part of a dataset
+
+# method 2: tidyverse
+dataset %>% summarize(median(variable))
+```
+
+## Summary Statistics: Median
+
+-   The following data represent the first exam score of 10 randomly selected students in STA2023. Find the median exam score.
+
+<center>82, 77, 90, 71, 62, 68, 74, 84, 94, 88</center>
+
+```{r}
+scores <- c(82, 77, 90, 71, 62, 68, 74, 84, 94, 88)
+median(scores)
+```
+
+<br>
+
+## Summary Statistics: Median
+
+-   The following data represent the first exam score of 10 randomly selected students in STA2023. Find the median exam score.
+
+<center>82, 77, 90, 71, <font color="#db0b9d">62</font>, 68, 74, 84, 94, 88</center>
+
+```{r}
+scores <- c(82, 77, 90, 71, 62, 68, 74, 84, 94, 88)
+median(scores)
+```
+
+<br>
+
+-   What happens to the median if there is an extreme observation?
+
+<center>82, 77, 90, 71, <font color="#db0b9d">26</font>, 68, 74, 84, 94, 88</center>
+
+```{r}
+scores <- c(82, 77, 90, 71, 26, 68, 74, 84, 94, 88)
+median(scores)
+```
+
+## Summary Statistics: Percentiles
+
+- Definition: *k*<sup>th</sup> percentile, *P*<sub>k</sub>
+
+    -  *k*% of the observations in the dataset are less than or equal to that value.
+    
+<center><img src="images/L01a.png"></center>
+
+- R syntax:
+
+```{r, eval = FALSE}
+quantile(vector, percentile)  # if your variable is not part of a dataset
+quantile(dataset$variable, percentile) # if your variable is part of a dataset
+```
+
+## Summary Statistics: Percentiles
+
+-   The following data represent the first exam score of 10 randomly selected students in STA2023. 
+
+<center>82, 77, 90, 71, 62, 68, 74, 84, 94, 88</center>
+
+```{r}
+scores <- c(82, 77, 90, 71, 62, 68, 74, 84, 94, 88)
+```
+
+- What is the 45th percentile?
+
+```{r}
+quantile(scores, 0.45)
+```
+
+- What is the 90th percentile?
+
+```{r}
+quantile(scores, 0.90)
+```
+
+## Summary Statistics: Quartiles 
+
+- Definition: quartiles
+
+    - Values that divide the dataset into fourths, or four equal parts: *P*<sub>25</sub>, *P*<sub>50</sub> (median), *P*<sub>75</sub>
+    
+- Definition: five number summary
+
+    - Minimum, *P*<sub>25</sub>, *P*<sub>50</sub> (median), *P*<sub>75</sub>, maximum
+    
+<center><img src="images/L01b.png"></center>
+    
+- R Syntax:
+
+```{r, eval = FALSE}
+quantile(vector, c(0.00, 0.25, 0.50, 0.75, 1.00))  # if your variable is not part of a dataset
+quantile(dataset$variable, c(0.00, 0.25, 0.50, 0.75, 1.00)) # if your variable is part of a dataset
+```
+
+## Summary Statistics: Quartiles
+
+-   The following data represent the first exam score of 10 randomly selected students in STA2023. Find the five number summary.
+
+<center>82, 77, 90, 71, 62, 68, 74, 84, 94, 88</center>
+
+```{r}
+scores <- c(82, 77, 90, 71, 62, 68, 74, 84, 94, 88)
+quantile(scores, c(0.00, 0.25, 0.50, 0.75, 1))
+```
+
+## Summary Statistics: Quartiles
+
+-   The following data represent the first exam score of 10 randomly selected students in STA2023. Find the five number summary.
+
+<center>82, 77, 90, 71, <font color="#db0b9d">62</font>, 68, 74, 84, 94, 88</center>
+
+```{r}
+scores <- c(82, 77, 90, 71, 62, 68, 74, 84, 94, 88)
+quantile(scores, c(0.00, 0.25, 0.50, 0.75, 1))
+```
+
+<br>
+
+-   What happens to the five number summary if there is an extreme observation?
+
+<center>82, 77, 90, 71, <font color="#db0b9d">26</font>, 68, 74, 84, 94, 88</center>
+
+```{r}
+scores <- c(82, 77, 90, 71, 26, 68, 74, 84, 94, 88)
+quantile(scores, c(0.00, 0.25, 0.50, 0.75, 1))
+```
+
+## Summary Statistics: Interquartile Range
+
+- Definition: interquartile range
+
+    - A measure of the spread of the middle half of the data
+
+<center>*P*<sub>75</sub> -- *P*<sub>25</sub></center>
+    
+- R syntax:
+
+```{r, eval = FALSE}
+# method 1: base R
+IQR(vector) # if your variable is not part of a dataset
+IQR(dataset$variable) # if your variable is part of a dataset
+
+# method 2: tidyverse
+dataset %>% summarize(IQR(variable))
+```
+
+## Summary Statistics: Interquartile Range
+
+-   The following data represent the first exam score of 10 randomly selected students in STA2023. Find the IQR.
+
+<center>82, 77, 90, 71, 62, 68, 74, 84, 94, 88</center>
+
+```{r}
+scores <- c(82, 77, 90, 71, 62, 68, 74, 84, 94, 88)
+IQR(scores)
+```
+
+## Summary Statistics: Interquartile Range
+
+-   The following data represent the first exam score of 10 randomly selected students in STA2023. Find the IQR.
+
+<center>82, 77, 90, 71, <font color="#db0b9d">62</font>, 68, 74, 84, 94, 88</center>
+
+```{r}
+scores <- c(82, 77, 90, 71, 62, 68, 74, 84, 94, 88)
+IQR(scores)
+```
+
+<br>
+
+-   What happens to the five number summary if there is an extreme observation?
+
+<center>82, 77, 90, 71, <font color="#db0b9d">26</font>, 68, 74, 84, 94, 88</center>
+
+```{r}
+scores <- c(82, 77, 90, 71, 26, 68, 74, 84, 94, 88)
+IQR(scores)
+```
+
+## Summary Statistics: Frequency Tables
+
+- When we are dealing with categorical data, we summarize using frequency tables.
+
+    - We are interested in the count and percentage
+
+- e.g., from the [UWF Fact Book](https://uwf.edu/academic-affairs/departments/institutional-research/enrollment-fact-book/enrollment-overview/), in Fall 2021, there were
+
+    - 1273 (`r round(127300/(1273+1349+2431+3807),1)`%) freshmen 
+    - 1349 (`r round(134900/(1273+1349+2431+3807),1)`%) sophomores
+    - 2431 (`r round(243100/(1273+1349+2431+3807),1)`%) juniors
+    - 3807 (`r format(round(380700/(1273+1349+2431+3807)),nsmall=1)`%) seniors
+    
+- R syntax:
+```{r, eval = FALSE}
+# using the janitor package
+dataset %>% tabyl(variable)
+```
+
+## Summary Statistics: Frequency Tables
+
+- Consider the [Motor Trends car road tests data](https://www.rdocumentation.org/packages/datasets/versions/3.6.2/topics/mtcars), built into R.
+
+- The data was extracted from the 1974 Motor Trend magazine, and includes aspects of car design and performance for 32 cars (1973-74 models). 
+    
+```{r}
+data("mtcars")
+head(mtcars, n=5)
+```
+    
+## Summary Statistics: Frequency Table
+
+- Let's find the frequency tables for the number of cylinders and the type of transmission (automatic vs. manual),
+
+```{r}
+mtcars %>% tabyl(cyl)
+mtcars %>% tabyl(am)
+```
+
+## Summary Statistics: Frequency Table
+
+- Let's find the frequency tables for the number of cylinders and transmission type together.
+
+- First, with column percentages,
+
+    - e.g., what percentage of automatic transmissions have an engine with 8 cylinders?
+
+```{r}
+mtcars %>% 
+  tabyl(cyl, am) %>%
+  adorn_percentages("col") %>%
+  adorn_pct_formatting(digits = 1) %>%
+  adorn_ns()
+```
+
+
+## Summary Statistics: Frequency Table
+
+- Let's find the frequency tables for the number of cylinders and transmission type together.
+
+- Next, with row percentages,
+
+    - e.g., what percentage of engines with 8 cylinders have automatic transmissions?
+
+```{r}
+mtcars %>% 
+  tabyl(cyl, am) %>%
+  adorn_percentages("row") %>%
+  adorn_pct_formatting(digits = 1) %>%
+  adorn_ns()
+```
+
+
+
+## Data Visualization: Introduction
+
+- When presenting results to others, sometimes it is helpful to create a visualization.
+
+- Continuous data:
+
+    - Histogram (one variable)
+    - Scatterplot (two variables)
+    
+- Categorical data:
+
+    - Bar charts
+    
+- Related to analyses:
+
+    - Confidence intervals
+    - Regression lines
+    
+- We can also use color to incorporate other variables 
+
+    - e.g., scatterplot with weight on *y*-axis, age on *x*-axis, markers colored by diabetic status
+
+## Data Visualization: Introduction
+
+- We will use the [`ggplot2`](https://ggplot2.tidyverse.org/) package for most of our graphing needs.
+
+    - This package is loaded in with the `tidyverse` package.
+
+- A good reference book is the official [`ggplot2`: elegant graphics for data analysis](https://ggplot2-book.org/index.html) text.
+
+    - You can buy a hard copy, however, it is available online for free.
+
+- I will often google keywords + ggplot2 and look for examples that provide code.
+
+    - e.g., "histogram ggplot2" led me to [this website](https://statisticsglobe.com/ggplot2-histogram-in-r-geom_histogram-function)
+    
+    - e.g., "change color of dot ggplot2" led me to [this website](https://stackoverflow.com/questions/71431290/how-to-change-the-color-of-points-on-data-plot)
+
+    - Sometimes I have to look at several links before I find what I am looking for.
+
+## Data Visualization: Introduction
+
+- We start with the `ggplot()` function to specify our underlying canvas.
+
+<center>
+```{r}
+ggplot()
+```
+</center>
+
+## Data Visualization: Introduction
+
+- We will use the `tidyverse` pipe operator (`%>%`) to pipe data into the `ggplot()` function.
+
+<center>
+```{r, eval = FALSE}
+dataset %>% ggplot()
+```
+</center>
+
+- Then, we will specify the aesthetics using `aes()` inside of `ggplot()`.
+
+<center>
+```{r}
+mtcars %>% ggplot(aes(x = hp, y = mpg))
+```
+</center>
+
+## Data Visualization: Introduction
+
+- We will add elements to our graph using `geom_` functions.
+
+    - `geom_line()` creates a line
+    - `geom_point()` creates a scatterplot
+    - `geom_bar()` creates a bar chart
+    - `geom_text()` puts text on the graph
+    - You can find a list of `geom_` functions [on the `tidyverse` website](https://ggplot2.tidyverse.org/reference/)
+    
+- The order that you add them matters!
+
+    - `geom_line()` + `geom_point()` = points on top of line
+    - `geom_point()` + `geom_line()` = line on top of points
+
+## Data Visualization: Introduction
+
+- We can also customize every aspect of our graphs.
+
+    - e.g., the default background is gray, but I personally do not like it, so I typically use `theme_minimal()` or `theme_bw()` to give a white background
+    
+    - e.g., we can increase the font size to make things readable
+    
+    - e.g., we can specify colors for: markers (dots/points),  outline of a bar chart or histogram, filling of a bar chart or histogram, lines, text, etc.
+    
+- There are additional functions within other (non-`tidyverse`) packages that will help us with customization.
+    
+    - We can put graphs together using the [`ggarrange()`](https://www.rdocumentation.org/packages/ggpubr/versions/0.5.0/topics/ggarrange) function in the [`ggpubr`](https://www.rdocumentation.org/packages/ggpubr/versions/0.5.0) package
+
+    - We can use [`geom_emoji()`](https://www.rdocumentation.org/packages/ggimage/versions/0.3.0/topics/geom_emoji) from the the [`emoGG`](https://r-charts.com/miscellaneous/emogg/) to display emojis in graphs :)
+
+## Data Visualization: Introduction
+
+- I do not expect you to become an expert in data visualization
+
+- As with other R code, I will provide basic code during lecture
+
+- I do encourage curiosity and exploring further 
+
+- R is a very, very powerful tool for graphing!
+
+    - Even before I was An Official R Programmer^&copy;^, I used `ggplot2` to construct graphs.
+    
+    - Other programs are just not great. :(
+    
+- Today we will look at graphs that go along with summary statistics, but we will learn other ways to graph data as we progress through the semester.
+
+## Data Visualization: Histogram
+
+```{r, echo = FALSE}
+ex1 <- tibble(value = rbeta(10000,5,2))
+```
+<center>
+```{r}
+ex1 %>% 
+  ggplot(aes(x=value)) + 
+  geom_histogram(bins=50) +
+  labs(x = "value of variable",
+       y = "number of observations") +
+  theme_bw() 
+```
+</center>
+
+## Data Visualization: Histogram
+
+```{r, echo = FALSE}
+ex2 <- tibble(value = rbeta(10000,2,5))
+```
+
+<center>
+```{r}
+ex2 %>% 
+  ggplot(aes(x=value)) + 
+  geom_histogram(bins=50) +
+  labs(x = "value of variable",
+       y = "number of observations") +
+  theme_bw() 
+```
+</center>
+
+## Data Visualization: Histogram
+
+```{r, echo = FALSE}
+ex3 <- tibble(value = rbeta(10000,5,5))
+```
+
+<center>
+```{r}
+ex3 %>% 
+  ggplot(aes(x=value)) + 
+  geom_histogram(bins=50) +
+  labs(x = "value of variable",
+       y = "number of observations") +
+  theme_bw() 
+```
+</center>
+
+## Data Visualization: Histogram
+
+```{r, echo = FALSE}
+ex4 <- tibble(value = runif(10000, 0, 1))
+```
+
+<center>
+```{r}
+ex4 %>% 
+  ggplot(aes(x=value)) + 
+  geom_histogram(binwidth = 0.1) +
+  labs(x = "value of variable",
+       y = "number of observations") +
+  theme_bw() 
+```
+</center>
+
+
+## Data Visualization: Histogram
+
+```{r, echo = FALSE}
+ex4 <- tibble(value = runif(10000, 0, 1))
+```
+
+<center>
+```{r}
+ex4 %>% 
+  ggplot(aes(x=value)) + 
+  geom_histogram(binwidth = 0.1, color = "#003865", fill = "#8DC8E8") +
+  labs(x = "value of variable",
+       y = "number of observations") +
+  theme_bw() 
+```
+</center>
+
+## Data Visualization: Scatterplot
+
+<center>
+```{r}
+mtcars %>% 
+  ggplot(aes(y = mpg, x = hp)) + 
+  geom_point() + 
+  labs(x = "Horsepower",
+       y = "Gas Mileage") +
+  theme_bw() 
+```
+</center>
+
+## Data Visualization: Scatterplot
+
+<center>
+```{r}
+mtcars %>% 
+  ggplot(aes(y = mpg, x = hp)) + 
+  geom_point(size = 5) + 
+  labs(x = "Horsepower",
+       y = "Gas Mileage") +
+  theme_bw() 
+```
+</center>
+
+
+## Data Visualization: Scatterplot
+
+<center>
+```{r}
+mtcars %>% 
+  ggplot(aes(y = mpg, x = hp, color = am)) + 
+  geom_point(size = 5) + 
+  labs(x = "Horsepower",
+       y = "Gas Mileage") +
+  theme_bw() 
+```
+</center>
+
+## Data Visualization: Scatterplot
+
+<center>
+```{r}
+mtcars %>% 
+  ggplot(aes(y = mpg, x = hp, color = as.factor(am))) + 
+  geom_point(size = 5) + 
+  labs(x = "Horsepower",
+       y = "Gas Mileage") +
+  theme_bw() 
+```
+</center>
+
+## Data Visualization: Scatterplot
+
+<center>
+```{r}
+mtcars %>% 
+  ggplot(aes(y = mpg, x = hp, color = as.factor(am))) + 
+  geom_point(size = 5) + 
+  labs(x = "Horsepower",
+       y = "Gas Mileage",
+       color = "Transmission") +
+  scale_color_manual(labels = c("Automatic", "Manual"),
+                     values = c("#003865", "#8DC8E8")) +
+  theme_bw() 
+```
+</center>
+
+## Data Visualization: Plot of Means
+
+<center>
+```{r, eval = FALSE}
+means <- mtcars %>%
+  group_by(cyl) %>%
+  summarize(mean = mean(mpg)) %>%
+  ungroup()
+
+means %>% 
+  ggplot(aes(y = mean, x = cyl)) + 
+  geom_point(size = 5) + 
+  labs(x = "Number of Cylinders",
+       y = "Average Gas Mileage") +
+  theme_bw() 
+```
+</center>
+
+## Data Visualization: Plot of Means
+
+<center>
+```{r, echo = FALSE}
+means <- mtcars %>%
+  group_by(cyl) %>%
+  summarize(mean = mean(mpg)) %>%
+  ungroup()
+
+means %>% 
+  ggplot(aes(y = mean, x = cyl)) + 
+  geom_point(size = 5) + 
+  labs(x = "Number of Cylinders",
+       y = "Average Gas Mileage") +
+  theme_bw() 
+```
+</center>
+
+## Data Visualization: Plot of Means
+
+<center>
+```{r, eval = FALSE}
+means <- mtcars %>%
+  group_by(cyl, am) %>%
+  summarize(mean = mean(mpg)) %>%
+  ungroup()
+
+means %>% 
+  ggplot(aes(y = mean, x = cyl, color = as.factor(am))) + 
+  geom_point(size = 5) + 
+  labs(x = "Horsepower",
+       y = "Gas Mileage",
+       color = "Transmission") +
+  scale_color_manual(labels = c("Automatic", "Manual"),
+                     values = c("#003865", "#8DC8E8")) +
+  theme_bw() 
+```
+</center>
+
+## Data Visualization: Plot of Means
+
+<center>
+```{r, echo = FALSE}
+means <- mtcars %>%
+  group_by(cyl, am) %>%
+  summarize(mean = mean(mpg)) %>%
+  ungroup()
+
+means %>% 
+  ggplot(aes(y = mean, x = cyl, color = as.factor(am))) + 
+  geom_point(size = 5) + 
+  labs(x = "Horsepower",
+       y = "Gas Mileage",
+       color = "Transmission") +
+  scale_color_manual(labels = c("Automatic", "Manual"),
+                     values = c("#003865", "#8DC8E8")) +
+  theme_bw() 
+```
+</center>
+
+## Data Visualization: Plot of Means
+
+<center>
+```{r, eval = FALSE}
+means <- mtcars %>%
+  group_by(cyl, am) %>%
+  summarize(mean = mean(mpg),
+            sd = sd(mpg)) %>%
+  ungroup()
+
+means %>% 
+  ggplot(aes(y = mean, x = cyl, color = as.factor(am))) + 
+  geom_point(size = 5) + 
+  geom_errorbar(aes(ymin=mean-sd, ymax=mean+sd), width = 0.15) +
+  labs(x = "Horsepower",
+       y = "Gas Mileage",
+       color = "Transmission") +
+  scale_color_manual(labels = c("Automatic", "Manual"),
+                     values = c("#003865", "#8DC8E8")) +
+  theme_bw() 
+```
+</center>
+
+## Data Visualization: Plot of Means
+
+<center>
+```{r, echo = FALSE}
+means <- mtcars %>%
+  group_by(cyl, am) %>%
+  summarize(mean = mean(mpg),
+            sd = sd(mpg)) %>%
+  ungroup()
+
+means %>% 
+  ggplot(aes(y = mean, x = cyl, color = as.factor(am))) + 
+  geom_point(size = 5) + 
+  geom_errorbar(aes(ymin=mean-sd, ymax=mean+sd), width = 0.15) +
+  labs(x = "Horsepower",
+       y = "Gas Mileage",
+       color = "Transmission") +
+  scale_color_manual(labels = c("Automatic", "Manual"),
+                     values = c("#003865", "#8DC8E8")) +
+  theme_bw() 
+```
+</center>
+
+## Data Visualization: Bar Chart
+
+<center>
+```{r}
+mtcars %>% ggplot(aes(x=as.factor(cyl))) +
+  geom_bar() +
+  labs(x = "Number of Cylinders",
+       y = "Number of Cars") +
+  theme_bw()
+```
+</center>
+
+## Data Visualization: Bar Chart
+
+<center>
+```{r}
+mtcars %>% ggplot(aes(x=as.factor(cyl), fill=as.factor(am))) +
+  geom_bar(position = 'dodge') +
+  labs(x = "Number of Cylinders",
+       y = "Number of Cars",
+       fill = "Transmission") +
+  scale_fill_manual(labels = c("Automatic", "Manual"),
+                     values = c("#003865", "#8DC8E8")) +
+  theme_bw()
+```
+</center>
+
+## Wrap Up
+
+- Today we have reviewed how to describe data.
+
+    - Summary statistics
+    - Basic data visualization
+
+- There is not a one-size-fits-all graph!
+
+    - Always keep in mind what is the story we are trying to tell and what aids in our explanation.
+
+- In lab, we will learn how to create a table of descriptives.
+
+- Next class, we will review statistical inference.
+
+    - Confidence intervals
+    - Hypothsis testing
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,913 @@
+---
+title: "Assessing Assumptions on *t*-Tests, Mann-Whitney *U*, Wilcoxon Rank Sum"
+subtitle: "STA4173 Lecture 4, Summer 2023"
+execute:
+  echo: true
+format: 
+  revealjs:
+    theme: uwf
+    self-contained: true
+    slide-number: false
+    footer: "[STA4173 - Biostatistics](https://samanthaseals.github.io/STA4173)"
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+editor: source
+---
+
+## Introduction: Assumptions
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+library(tidyverse)
+```
+
+- We have now learned one- and two-sample *t*-tests.
+
+- Recall, when we have two samples, they can be independent samples or dependent samples.
+
+    - Independent samples: two-sample *t*-test
+    
+    - Dependent samples: paired *t*-test (one-sample *t*-test on difference)
+    
+- Today we will discuss how to assess the assumptions on *t*-tests.
+
+## Normality Assumption: Set Up
+
+- All *t*-tests assume approximate normality of the data.
+
+    - In the case of one-sample *t*-tests, the measure of interest must somewhat follow a normal distribution.
+
+    - In the case of two-sample *t*-tests, the measure of interest *in each group* must somewhat follow a normal distribution.
+    
+- Note that a paired *t*-test is technically a one-sample *t*-test, so we will examine normality of the difference. 
+
+## Normality Assumption: Set Up
+
+- There are formal tests for normality ([see article here](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3693611/)), however, we will not use them.
+
+    - Tests for normality are not well-endorsed by statisticians.
+    
+- Instead, we will assess normality using a quantile-quantile (q-q) plot.
+
+    - This is a scatterplot that will form a 45&deg; line if the assumed distribution is correct.
+    
+    - [Here is more information about q-q plots](https://data.library.virginia.edu/understanding-q-q-plots/).
+
+- We will create q-q plots for:
+
+    - The measurements in the case of the one-sample *t*-test.
+
+    - The measurements from each group in the case of the two-sample *t*-test.
+    
+    - The difference between the groups in the case of the paired *t*-test.
+    
+## Normality Assumption: R Syntax
+
+- We can construct q-q plots using `ggplot2` in `tidyverse`.
+
+```{r, eval = FALSE}
+dataset %>% # pipe in data
+  ggplot(aes(sample = [variable])) + # call ggplot(), specify the variable to be examined
+  stat_qq(size=3) + # request q-q scatterplot
+  stat_qq_line() + # request q-q 45* line
+  theme_bw() + # change background :)
+  labs(x = "Theoretical"
+       y = "Sample") # change axis labels
+  theme(text = element_text(size=14)) # change font size
+```
+
+## Normality Assumption: Exploring Q-Q Plots
+
+- Let's simulate data from a normal distribution and look at a q-q plot.
+
+```{r, eval = FALSE}
+outcome <- rnorm(10) # simulate from N(0, 1)
+sim_normal <- tibble(outcome)
+
+sim_normal %>% # pipe in data
+  ggplot(aes(sample = outcome)) + # call ggplot(), specify the variable to be examined
+  stat_qq(size=1.5) + # request q-q scatterplot
+  stat_qq_line() + # request q-q 45* line
+  theme_bw() + # change background :)
+  labs(x = "Theoretical",
+       y = "Sample") + # change axis labels
+  theme(text = element_text(size=14)) # change font size
+```
+
+## Normality Assumption: Exploring Q-Q Plots
+
+<center>
+```{r, echo = FALSE}
+outcome <- rnorm(10) # simulate from N(0, 1)
+sim_normal <- tibble(outcome)
+
+sim_normal %>% # pipe in data
+  ggplot(aes(sample = outcome)) + # call ggplot(), specify the variable to be examined
+  stat_qq(size=1.5) + # request q-q scatterplot
+  stat_qq_line() + # request q-q 45* line
+  theme_bw() + # change background :)
+  labs(x = "Theoretical",
+       y = "Sample",
+       title = "n = 10") + # change axis labels
+  theme(text = element_text(size=14)) # change font size
+```
+</center>
+
+## Normality Assumption: Exploring Q-Q Plots
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+outcome <- rnorm(10) # simulate from N(0, 1)
+sim_normal <- tibble(outcome)
+
+a <- sim_normal %>% # pipe in data
+  ggplot(aes(sample = outcome)) + # call ggplot(), specify the variable to be examined
+  stat_qq(size=1.5) + # request q-q scatterplot
+  stat_qq_line() + # request q-q 45* line
+  theme_bw() + # change background :)
+  labs(x = "Theoretical",
+       y = "Sample",
+       title = "n = 10") + # change axis labels
+  xlim(-3.5, 3.5) +
+  ylim(-3.5, 3.5) +
+  theme(text = element_text(size=14)) # change font size
+
+outcome <- rnorm(50) # simulate from N(0, 1)
+sim_normal <- tibble(outcome)
+
+b <- sim_normal %>% # pipe in data
+  ggplot(aes(sample = outcome)) + # call ggplot(), specify the variable to be examined
+  stat_qq(size=1.5) + # request q-q scatterplot
+  stat_qq_line() + # request q-q 45* line
+  theme_bw() + # change background :)
+  labs(x = "Theoretical",
+       y = "Sample",
+       title = "n = 50") + # change axis labels
+  xlim(-3.5, 3.5) +
+  ylim(-3.5, 3.5) +
+  theme(text = element_text(size=14)) # change font size
+
+outcome <- rnorm(100) # simulate from N(0, 1)
+sim_normal <- tibble(outcome)
+
+c <- sim_normal %>% # pipe in data
+  ggplot(aes(sample = outcome)) + # call ggplot(), specify the variable to be examined
+  stat_qq(size=1.5) + # request q-q scatterplot
+  stat_qq_line() + # request q-q 45* line
+  theme_bw() + # change background :)
+  labs(x = "Theoretical",
+       y = "Sample",
+       title = "n = 100") + # change axis labels
+  xlim(-3.5, 3.5) +
+  ylim(-3.5, 3.5) +
+  theme(text = element_text(size=14)) # change font size
+
+outcome <- rnorm(1000) # simulate from N(0, 1)
+sim_normal <- tibble(outcome)
+
+d <- sim_normal %>% # pipe in data
+  ggplot(aes(sample = outcome)) + # call ggplot(), specify the variable to be examined
+  stat_qq(size=1.5) + # request q-q scatterplot
+  stat_qq_line() + # request q-q 45* line
+  theme_bw() + # change background :)
+  labs(x = "Theoretical",
+       y = "Sample",
+       title = "n = 1000") + # change axis labels
+  xlim(-3.5, 3.5) +
+  ylim(-3.5, 3.5) +
+  theme(text = element_text(size=14)) # change font size
+
+library(ggpubr)
+ggarrange(a, b, c, d, ncol = 2, nrow = 2)
+```
+
+## Normality Assumption: Exploring Q-Q Plots
+
+- What about an exponential distribution?
+
+<center>
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+outcome <- rexp(10) 
+sim_normal <- tibble(outcome)
+
+a <- sim_normal %>% # pipe in data
+  ggplot(aes(sample = outcome)) + # call ggplot(), specify the variable to be examined
+  stat_qq(size=1.5) + # request q-q scatterplot
+  stat_qq_line() + # request q-q 45* line
+  theme_bw() + # change background :)
+  labs(x = "Theoretical",
+       y = "Sample",
+       title = "n = 10") + # change axis labels
+  xlim(-3.5, 3.5) +
+  ylim(-1, 3.5) +
+  theme(text = element_text(size=14)) # change font size
+
+outcome <- rexp(50) # simulate from N(0, 1)
+sim_normal <- tibble(outcome)
+
+b <- sim_normal %>% # pipe in data
+  ggplot(aes(sample = outcome)) + # call ggplot(), specify the variable to be examined
+  stat_qq(size=1.5) + # request q-q scatterplot
+  stat_qq_line() + # request q-q 45* line
+  theme_bw() + # change background :)
+  labs(x = "Theoretical",
+       y = "Sample",
+       title = "n = 50") + # change axis labels
+  xlim(-3.5, 3.5) +
+  ylim(-1, 3.5) +
+  theme(text = element_text(size=14)) # change font size
+
+outcome <- rexp(100) # simulate from N(0, 1)
+sim_normal <- tibble(outcome)
+
+c <- sim_normal %>% # pipe in data
+  ggplot(aes(sample = outcome)) + # call ggplot(), specify the variable to be examined
+  stat_qq(size=1.5) + # request q-q scatterplot
+  stat_qq_line() + # request q-q 45* line
+  theme_bw() + # change background :)
+  labs(x = "Theoretical",
+       y = "Sample",
+       title = "n = 100") + # change axis labels
+  xlim(-3.5, 3.5) +
+  ylim(-1, 3.5) +
+  theme(text = element_text(size=14)) # change font size
+
+outcome <- rexp(1000) # simulate from N(0, 1)
+sim_normal <- tibble(outcome)
+
+d <- sim_normal %>% # pipe in data
+  ggplot(aes(sample = outcome)) + # call ggplot(), specify the variable to be examined
+  stat_qq(size=1.5) + # request q-q scatterplot
+  stat_qq_line() + # request q-q 45* line
+  theme_bw() + # change background :)
+  labs(x = "Theoretical",
+       y = "Sample",
+       title = "n = 1000") + # change axis labels
+  xlim(-3.5, 3.5) +
+  ylim(-1, 3.5) +
+  theme(text = element_text(size=14)) # change font size
+
+library(ggpubr)
+ggarrange(a, b, c, d, ncol = 2, nrow = 2)
+```
+</center>
+
+## Normality Assumption: Space Rat Example
+
+- Recall the space/earth rat example for the two-sample *t*-test.
+
+    - We need to make a separate q-q plot for each group.
+
+```{r}
+space_rbc <- c(8.59, 6.87, 7.00, 8.64, 7.89, 8.80, 7.43, 9.79, 9.30, 7.21, 6.85, 8.03, 6.39, 7.54)
+space <- tibble(space_rbc)
+
+space_qq <- space %>%
+  ggplot(aes(sample = space_rbc)) +
+  stat_qq(size=1.5) +
+  stat_qq_line() +
+  labs(x = "Theoretical",
+       y = "Sample",
+       title = "Space Rats") +
+  ylim(5, 11) +
+  theme_bw() +
+  theme(text = element_text(size=14))
+```
+
+## Normality Assumption: Space Rat Example
+
+- Recall the space/earth rat example for the two-sample *t*-test.
+
+    - We need to make a separate q-q plot for each group.
+
+```{r}
+earth_rbc <- c(8.65, 7.62, 7.33, 6.99, 7.44, 8.58, 8.40, 8.55, 9.88, 9.66, 8.70, 9.94, 7.14, 9.14)
+earth <- tibble(earth_rbc)
+  
+earth_qq <- earth %>%
+  ggplot(aes(sample = earth_rbc)) +
+  stat_qq(size=1.5) +
+  stat_qq_line() +
+  labs(x = "Theoretical",
+       y = "Sample",
+       title = "Earth Rats") +
+  ylim(5, 11) +
+  theme_bw() +
+  theme(text = element_text(size=14))
+```
+
+## Normality Assumption: Space Rat Example
+
+- Putting the graphs together,
+
+<center>
+```{r}
+library(ggpubr)
+ggarrange(space_qq, earth_qq, ncol = 2) # put graphs together
+```
+</center>
+
+- What do we think? Do we meet the normality assumption?
+
+## Normality Assumption: Repair Estimates
+
+- Recall the repair estimate example for the dependent *t*-test.
+
+```{r, eval = FALSE}
+g1 <- c(17.6, 20.2, 19.5, 11.3, 13.0, 16.3, 15.3, 16.2, 12.2, 14.8, 21.3, 22.1, 16.9, 17.6, 18.4)
+g2 <- c(17.3, 19.1, 18.4, 11.5, 12.7, 15.8, 14.9, 15.3, 12.0, 14.2, 21.0, 21.0, 16.1, 16.7, 17.5)
+garage <- tibble(g1, g2) %>% # create dataset with both garages
+  mutate(d = g1-g2) # create variable of differences
+
+garage %>%
+  ggplot(aes(sample = d)) +
+  stat_qq(size=1.5) +
+  stat_qq_line() +
+  labs(x = "Theoretical",
+       y = "Sample") +
+  #ylim(5, 11) +
+  theme_bw() +
+  theme(text = element_text(size=14))
+```
+
+## Normality Assumption: Repair Estimates
+
+- Recall the repair estimate example for the dependent *t*-test.
+
+<center>
+```{r, echo = FALSE}
+g1 <- c(17.6, 20.2, 19.5, 11.3, 13.0, 16.3, 15.3, 16.2, 12.2, 14.8, 21.3, 22.1, 16.9, 17.6, 18.4)
+g2 <- c(17.3, 19.1, 18.4, 11.5, 12.7, 15.8, 14.9, 15.3, 12.0, 14.2, 21.0, 21.0, 16.1, 16.7, 17.5)
+garage <- tibble(g1, g2) %>% # create dataset with both garages
+  mutate(d = g1-g2) # create variable of differences
+
+garage %>%
+  ggplot(aes(sample = d)) +
+  stat_qq(size=1.5) +
+  stat_qq_line() +
+  labs(x = "Theoretical",
+       y = "Sample") +
+  #ylim(5, 11) +
+  theme_bw() +
+  theme(text = element_text(size=14))
+```
+</center>
+
+- What do we think? Do we meet the normality assumption?
+
+## Variance Assumption: Set Up
+
+- When doing the two-sample *t*-test, there is an assumption of equal variance.
+
+- We will formally test using the folded *F* test,
+
+<center><img src="images/L05a.png" width=700></center>
+
+## Variance Assumption: R Syntax
+
+- We will use the [`var.test()` function](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/var.test). 
+
+    - The syntax is very similar to how we called the `t.test()` function.
+
+```{r, eval = FALSE}
+var.test([continuous] ~ [grouping], 
+         data = [dataset])
+```
+
+## Variance Assumption: Space Rat Example
+
+- Let's assess the variance assumption on the space/earth rat example.
+
+```{r}
+rbc <- c(8.59, 8.64, 7.43, 7.21, 6.39, 6.87, 7.89,
+         9.79, 6.85, 7.54, 7.00, 8.80, 9.30, 8.03,
+         8.65, 6.99, 8.40, 9.66, 7.14, 7.62, 7.44,
+         8.55, 8.70, 9.14, 7.33, 8.58, 9.88, 9.94) # enter blood cell mass
+rat <- c(rep("Space",14), rep("Earth",14)) # enter identifier 
+data <- tibble(rat, rbc) # create dataset
+
+var.test(rbc ~ rat, data = data)
+```
+
+## Variance Assumption: Space Rat Example
+
+- **Hypotheses**
+
+    -   $H_0: \ \sigma^2_{\text{E}} = \sigma^2_{\text{S}}$
+    -   $H_1: \ \sigma^2_{\text{E}} \ne \sigma^2_{\text{S}}$
+
+-   **Test Statistic and *p*-Value**
+
+    -   $F_0 = 0.977$
+    -   $p = 0.967$
+
+- **Conclusion/Interpretation**
+
+    -   Fail to reject $H_0$. 
+    
+    - There is not sufficient evidence to suggest that the variances are different between earth and space rats.
+
+## What Next?
+
+- What happens if we break an assumption?
+
+- If we break the normality assumption $\to$ use a nonparametric method.
+
+    - We will cover nonparametric versions of *t*-tests next week :)
+    
+- If we break the variance assumption of the two-sample *t*-test $\to$ use Satterthwaite's approximation.
+
+    - This estimates the df of the *t* distribution. $$\text{df}=\frac{ \left( \frac{s^2_1}{n_1} + \frac{s_2^2}{n_2} \right)^2 }{ \frac{(s_1^2/n_1)^2}{n_1-1} + \frac{(s_2^2/n_2)^2}{n_2-1}}$$
+    
+    - The good news: R assumes unequal variances in `t.test()` :) 
+    
+- **Important note!!** 
+
+    - *I do not expect you to agree with my assessment of q-q plots!* 
+    - What I do expect is that you know what to do after making your assessment.
+
+## Introduction: Wilcoxon Rank Sum / Mann-Whitney *U*
+
+- We just discussed assumptions on *t*-tests
+
+    - Dependent / paired *t*-test: normality
+    
+    - Independent two-sample *t*-test: normality and variance
+    
+- If we break the variance assumption with the two-sample *t*-test, there is an alternative version of the *t*-test.
+
+- If we break the normailty assumption, we must look to nonparametric methods.
+
+## Introduction: Wilcoxon Rank Sum / Mann-Whitney *U*
+
+- The *t*-tests we have already learned are considered *parametric* methods.
+
+    - There is a distributional assumption on the test.
+    
+- *Nonparametric* methods do not have distributional assumptions.
+
+    - We typically transform the data to their ranks and then perform calculations.
+
+- Why don't we always use nonparametric methods?
+
+    - They are often less efficient: a larger sample size is required to achieve the same probability of a Type I error.
+    
+    - They discard useful information :(
+    
+## Ranking Data
+
+- In the nonparametric tests we will be learning, the data will be ranked.
+
+- Let us first consider a simple example, $$x: \ 1, 7, 10, 2, 6, 8$$
+
+- Our first step is to reorder the data:$$x: \ 1, 2, 6, 7, 8, 10$$
+
+- Then, we replace with the ranks:$$R: \ 1, 2, 3, 4, 5, 6$$
+
+## Ranking Data
+
+- What if all data values are not unique?
+
+    - We will assign the average ranks.
+
+- For example, $$x: \ 9, 8, 8, 0, 3, 4, 4, 8$$
+
+- Let's reorder:$$x: \ 0, 3, 4, 4, 8, 8, 8, 9$$
+
+- Rank ignoring ties:$$R: \ 1, 2, 3, 4, 5, 6, 7, 8$$
+
+- Now, the final rank:$$R: \ 1, 2, 3.5, 3.5, 6, 6, 6, 8$$
+
+## Wilcoxon Rank Sum / Mann-Whitney *U*
+
+**Wilcoxon Rank Sum / Mann-Whitney *U***
+
+<center><img src="images/L06a.png"></center>
+
+- where *S* is the sum of the ranks from sample 1
+
+## Wilcoxon Rank Sum / Mann-Whitney *U*
+
+-   We will use the [`wilcox.test()`](https://www.rdocumentation.org/packages/stats/versions/3.6.1/topics/wilcox.test) function to perform the test,
+
+```{r, echo = TRUE, eval = FALSE}
+wilcox.test([continuous variable] ~ [grouping variable],
+            data = [dataset],
+            alternative = "[alternative]",
+            mu = [hypothesized value],
+            exact = FALSE)
+```
+
+- Like before, R will use the group that is "first" in the grouping variable.
+
+    - "First" is in terms of numeric or alphabetical.
+
+## Wilcoxon Rank Sum / Mann-Whitney *U*
+
+- When exposed to an infection, a person typically develops antibodies. The extent to which the antibodies respond can be measured by looking at a person’s titer, which is a measure of the number of antibodies present. The higher the titer is, the more antibodies that are present. 
+
+- The following data represent the titers of 11 ill people and 11 healthy people exposed to the tularemia virus in Vermont. 
+
+- Is the level of titer in the ill group greater than the level of titer in the healthy group? Use the $\alpha = 0.1$ level of significance.
+
+```{r}
+ill <- c(640, 160, 1280, 320, 80, 640, 640, 160, 1280, 640, 160)
+healthy <- c(10, 320, 160, 160, 320, 320, 10, 320, 320, 80, 640)
+```
+
+## Wilcoxon Rank Sum / Mann-Whitney *U*
+
+- Is this independent or dependent data?
+
+- From the problem statement: *The following data represent the titers of 11 ill people and 11 healthy people exposed to the tularemia virus in Vermont.*
+
+## Wilcoxon Rank Sum / Mann-Whitney *U*
+
+- Is this independent or dependent data?
+
+- From the problem statement: *The following data represent the titers of 11 ill people and 11 healthy people exposed to the tularemia virus in Vermont.*
+
+    - <font color="#db0b9d">There were 22 people in the study - those that are ill are not in the healthy group.</font>
+
+## Wilcoxon Rank Sum / Mann-Whitney *U*
+
+- Let's first look at the q-q plot,
+
+<center>
+```{r, echo = FALSE}
+library(tidyverse)
+library(ggpubr)
+
+i <- tibble(ill)
+h <- tibble(healthy)
+
+# create QQ plots
+p1 <- ggplot(data=i, aes(sample=ill)) +
+  stat_qq(size=3) + 
+  stat_qq_line() + 
+  xlab("Theoretical") +
+  ylab("Sample") +
+  ggtitle("Ill")+
+  theme_minimal()
+
+p2 <- ggplot(data=h, aes(sample=healthy)) +
+  stat_qq(size=3) + 
+  stat_qq_line() + 
+  xlab("Theoretical") +
+  ylab("Sample") +
+  ggtitle("Healthy")+
+  theme_minimal()
+
+# put QQ plots together
+ggarrange(p1, p2, ncol=2, nrow=1)
+```
+</center>
+
+## Wilcoxon Rank Sum / Mann-Whitney *U*
+
+- Is the level of titer in the ill group greater than the level of titer in the healthy group?
+
+```{r}
+outcome <- c(640, 160, 1280, 320, 80, 640, 640, 160, 1280, 640, 160,
+             10, 320, 160, 160, 320, 320, 10, 320, 320, 80, 640)
+group <- c(rep("ill",11), rep("healthy",11))
+data <- tibble(outcome, group)
+
+wilcox.test(outcome ~ group, 
+            data = data,
+            exact = FALSE, 
+            alternative="less")
+```
+
+## Wilcoxon Rank Sum / Mann-Whitney *U*
+
+- **Hypotheses**
+
+    - $H_0: \ M_{\text{ill}} \le M_{\text{healthy}}$ 
+    - $H_1: \ M_{\text{ill}} > M_{\text{healthy}}$
+    
+- **Test Statistic and *p*-Value**
+
+    - $W = 35$
+    - $p = 0.047$
+    
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.10$.
+    
+- **Conclusion/Interpretation**
+
+    - Reject $H_0$.
+    
+    - There is sufficient evidence to suggest that the level of titer in the ill group is greater than the level of titer in the healthy group.
+
+## Example
+
+- Recall the [tapeworm in sheep example](https://samanthaseals.github.io/STA4173/slides/L03.html#/example) from the [two-sample *t*-test lecture](https://samanthaseals.github.io/STA4173/slides/L03.html).
+
+    - A random sample of 24 worm-infested lambs of approximately the same age and health was randomly divided into two groups. 
+    
+    - Twelve of the lambs were injected with medication and the remaining 12 were left untreated. 
+
+```{r}
+worms <- c(18, 43, 28, 50, 16, 32, 13, 35, 38, 33,  6,  7,
+           40, 54, 26, 63, 21, 37, 39, 23, 48, 58, 28, 39)
+trt <- c(rep("Treated", 12), rep("Not", 12))
+data <- tibble(worms, trt)
+```
+
+## Example
+
+- Let's first look at the q-q plot,
+
+```{r, echo = FALSE}
+worms_trt <- data %>% filter(trt == "Treated") # only treated sheep
+worms_not <- data %>% filter(trt == "Not") # only treated sheep
+
+# create QQ plots
+p1 <- ggplot(data=worms_trt, aes(sample=worms)) +
+  stat_qq(size=3) + 
+  stat_qq_line() + 
+  xlab("Theoretical") +
+  ylab("Sample") +
+  ggtitle("Treated")+
+  theme_minimal()
+
+p2 <- ggplot(data=worms_not, aes(sample=worms)) +
+  stat_qq(size=3) + 
+  stat_qq_line() + 
+  xlab("Theoretical") +
+  ylab("Sample") +
+  ggtitle("Untreated")+
+  theme_minimal()
+
+# put QQ plots together
+ggarrange(p1, p2, ncol=2, nrow=1)
+```
+
+## Example
+
+- Since we are applying a nonparametric test, we will describe the data using median and IQR.
+
+```{r}
+data %>% 
+  group_by(trt) %>%
+  summarize(median(worms), IQR(worms))
+```
+
+- There is a median of 30 worms in the treated lambs (IQR = 20.5) and a median of 39 worms in the untreated lambs (IQR = 22.0).
+
+## Example
+
+- Is there significant evidence that the untreated lambs have a mean tapeworm count that is more than five units greater than the mean count for the treated lambs? Use $\alpha = 0.10$.
+
+```{r}
+wilcox.test(worms ~ trt, 
+            data = data,
+            exact = FALSE, 
+            alternative="greater",
+            mu = 5)
+```
+
+## Example
+
+- **Hypotheses**
+
+    - $H_0: \ M_{\text{untreated}} - M_{\text{treated}} \le 5$ 
+    - $H_1: \ M_{\text{untreated}} - M_{\text{treated}} > 5$
+    
+- **Test Statistic and *p*-Value**
+
+    - $W = 94.5$
+    - $p = 0.102$
+    
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.10$.
+    
+- **Conclusion/Interpretation**
+
+    - Fail to reject $H_0$.
+    
+    - There is not sufficient evidence to suggest that untreated lambs have a mean tapeworm count that is more than five units greater than the mean count for the treated lambs.
+
+## Introduction: Wilcoxon Signed Rank
+
+- Today we have discussed that we turn to nonparametric tests when we do not meet distributional assumptions for *t*-tests.
+
+- If we do not meet the normality assumption for the paired *t*-test,
+
+- Now we will learn the Wilcoxon signed rank, the nonparametric alternative to the dependent *t*-test.
+
+- Like in the dependent *t*-test, we will analyze the *difference* between two values.
+
+- Like in the Wilcoxon rank sum, we will be analyzing ranks.
+
+## Wilcoxon Signed Rank
+
+- Before ranking, we will find the difference between the paired observations and eliminate any 0 differences.
+
+    - Note 1: elimniating 0 differences is the big difference between the other tests! 
+    
+    - Note 2: because we are eliminating 0 differences, this means that our sample size will update to the number of pairs with a non-0 difference.
+    
+- When ranking, we the differences are ranked based on the absolute value of the difference.
+
+- We also keep the sign of the difference.
+
+    - We will have positive ranks and negative ranks.
+
+| *X* | *Y* | *D* | \|*D*\| | Rank |
+|-----|-----|-----|---------|------|
+| 5   | 8   | -3  | 3       | $-$ 1.5 |
+| 8   | 5   | 3   | 3       | $+$ 1.5  |
+| 4   | 4   | 0   | 0       | ---------   |
+
+## Wilcoxon Signed Rank
+
+**Wilcoxon Signed Rank**
+
+<center><img src="images/L07a.png"></center>
+
+- where
+
+    - $T_+$ is the sum of the positive ranks,
+    - $T_-$ is the sum of the negative ranks
+
+## Wilcoxon Signed Rank
+
+-   We will again use the [`wilcox.test()`](https://www.rdocumentation.org/packages/stats/versions/3.6.1/topics/wilcox.test) function to perform the test,
+
+```{r, eval = FALSE}
+wilcox.test([variable 1], [variable 2],
+       data = [dataset],
+       alternative = "[alternative]",
+       mu = [hypothesized value],
+       paired = TRUE,
+       exact = FALSE)
+```
+
+## Wilcoxon Signed Rank
+
+- One important variable to consider in trading stock is the daily volume. Volume is measured in number of shares traded in the stock. Stocks with lower volume tend to have more variability in the stock price. 
+
+- A stock analyst believes the median number of shares traded in Walgreens Boots Alliance (WBA) stock is greater than that in McDonald’s (MCD). 
+
+- Because national news can play a role in volume of stock traded, the analyst records the volume (in millions of shares) for each of the two stocks on the same day for 14 randomly selected trading days. Test the analyst’s belief at the $\alpha=0.05$ level of significance.
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+library(tidyverse)
+```
+
+```{r}
+WBA <- c(8.9, 6.3, 6.2, 7.2, 2.8, 3.3, 23.6, 6.0, 15.6, 5.2, 6.3, 10.1, 4.0, 8.4)
+MCD <- c(8.5, 7.6, 8.3, 10.4, 2.5, 2.6, 3.5, 4.7, 9.0, 6.0, 5.6, 5.0, 4.4, 5.6)
+data <- tibble(WBA, MCD) %>%
+  mutate(d = WBA - MCD)
+```
+
+## Wilcoxon Signed Rank
+
+- Let's first look at the q-q plot
+
+```{r, echo = FALSE}
+data %>% ggplot(aes(sample=d)) +
+  stat_qq(size=3) + 
+  stat_qq_line() + 
+  xlab("Theoretical") +
+  ylab("Sample") +
+  ggtitle("WBA - MCD")+
+  theme_minimal()
+```
+
+## Wilcoxon Signed Rank
+
+- Let's also look at summary statistics,
+
+```{r}
+data %>% summarize(median(WBA), median(MCD), median(d))
+```
+
+- The median for the WBA stock is 6.3 while the median for MCD stock is 5.6.
+
+- The median for the difference between WBA and MCD is 0.55.
+
+## Wilcoxon Signed Rank
+
+- Let's now perform the hypothesis test,
+
+    - From the problem statement: *A stock analyst believes the median number of shares traded in Walgreens Boots Alliance (WBA) stock is greater than that in McDonald’s (MCD).*
+
+```{r, eval = FALSE}
+wilcox.test(WBA, MCD,
+       data = data,
+       alternative = "greater",
+       paired = TRUE, 
+       exact = FALSE)
+```
+
+## Wilcoxon Signed Rank
+
+- **Hypotheses**
+
+    - $H_0: \ M_{\text{WBA}} \le M_{\text{MCD}}$ OR $M_d \le 0$, where $d = \text{WBA} - \text{MCD}$
+    - $H_1: \ M_{\text{WBA}} > M_{\text{MCD}}$ OR $M_d > 0$
+    
+- **Test Statistic and *p*-Value**
+
+    - $T = 69$
+    - $p = 0.158$
+    
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$.
+    
+- **Conclusion/Interpretation**
+
+    - Fail to reject $H_0$.
+    
+    - There is not sufficient evidence to suggest that the median stock shares traded is greater for WBA than for MCD.
+    
+## Example
+
+- Recall the insurance data we examined with the paired *t*-test.
+
+    - *Insurance adjusters are concerned about the high estimates they are receiving for auto repairs from garage I compared to garage II.*
+
+```{r}
+g1 <- c(17.6, 20.2, 19.5, 11.3, 13.0, 16.3, 15.3, 16.2, 12.2, 14.8, 21.3, 22.1, 16.9, 17.6, 18.4)
+g2 <- c(17.3, 19.1, 18.4, 11.5, 12.7, 15.8, 14.9, 15.3, 12.0, 14.2, 21.0, 21.0, 16.1, 16.7, 17.5)
+garage <- tibble(g1, g2) %>% mutate(d = g1-g2)
+```
+
+- Looking at summaries,
+
+```{r}
+garage %>% summarize(median(g1), median(g2), median(d))
+```
+
+## Example
+
+```{r, eval = FALSE}
+wilcox.test(g1, g2,
+       data = garage,
+       alternative = "greater",
+       paired = TRUE, 
+       exact = FALSE)
+```
+
+## Example
+
+- **Hypotheses**
+
+    - $H_0: \ M_{\text{I}} \le M_{\text{II}}$ OR $M_d \le 0$, where $d = \text{I} - \text{II}$
+    - $H_1: \ M_{\text{I}} > M_{\text{II}}$ OR $M_d > 0$
+    
+- **Test Statistic and *p*-Value**
+
+    - $T = 118.5$
+    - $p < 0.001$
+    
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$.
+    
+- **Conclusion/Interpretation**
+
+    - Reject $H_0$.
+    
+    - There is  sufficient evidence to suggest that the median repair estimate from garage I is higher than that of garage II.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

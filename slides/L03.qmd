@@ -1,0 +1,749 @@
+---
+title: "Independent and Dependent Two-Sample *t*-Tests"
+subtitle: "STA4173 Lecture 3, Summer 2023"
+execute:
+  echo: true
+  warning: false
+  message: false  
+format: 
+  revealjs:
+    theme: uwf
+    self-contained: true
+    slide-number: false
+    footer: "[STA4173 - Biostatistics](https://samanthaseals.github.io/STA4173)"
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+editor: source
+---
+
+## Independent vs. Dependent Data
+
+- **Independent**: An individual selected for one sample does not dictate which individual is to be in a second sample.
+
+    - e.g., there are two sections of STA4173; sampling from each would be independent samples
+    
+        - there is not a way for us to link the individuals in the samples
+
+- **Dependent**: An individual selected to be in one sample is used to determine the individual in the second sample.
+
+    - e.g., sampling from one section of STA4173 and examining project grades over time would be dependent samples
+    
+        - we can link on student ID
+
+## Independent vs. Dependent Data
+
+- Among competing acne medications, does one perform better than the other? 
+
+- To answer this question, researchers applied Medication A to one part of the subject's face and Medication B to a different part of the subject’s face to determine the proportion of subjects whose acne cleared up for each medication. 
+
+- The part of the face that received Medication A was randomly determined. 
+
+- Is this independent or dependent data?
+
+## Independent vs. Dependent Data
+
+- Among competing acne medications, does one perform better than the other? 
+
+- To answer this question, researchers applied Medication A to one part of the subject's face and Medication B to a different part of the subject’s face to determine the proportion of subjects whose acne cleared up for each medication. 
+
+- The part of the face that received Medication A was randomly determined. 
+
+- Is this independent or dependent data?
+
+- <font color="#db0b9d">This is dependent data -- the data can be linked by person.</font>
+
+## Independent vs. Dependent Data
+
+- Do individuals who make fast-food purchases with a credit card tend to spend more than those who pay with cash? 
+
+- To answer this question, a marketing manager randomly selects 30 credit-card receipts and 30 cash receipts to determine if the credit-card receipts have a significantly higher dollar amount, on average. 
+
+- Is this independent or dependent data?
+
+## Independent vs. Dependent Data
+
+- Do individuals who make fast-food purchases with a credit card tend to spend more than those who pay with cash? 
+
+- To answer this question, a marketing manager randomly selects 30 credit-card receipts and 30 cash receipts to determine if the credit-card receipts have a significantly higher dollar amount, on average. 
+
+- Is this independent or dependent data?
+
+- <font color="#db0b9d">This is independent data -- the data cannot be linked.</font>
+
+## Independent vs. Dependent Data
+
+- Are products purchased on Amazon less expensive than those purchased online at Walmart? 
+
+- To answer this question, researchers randomly identified 20 products sold at both stores and determined the selling price at Amazon and the online Walmart store to determine if there was a significant difference in the price of the goods. 
+
+- Is this independent or dependent data?
+
+## Independent vs. Dependent Data
+
+- Are products purchased on Amazon less expensive than those purchased online at Walmart? 
+
+- To answer this question, researchers randomly identified 20 products sold at both stores and determined the selling price at Amazon and the online Walmart store to determine if there was a significant difference in the price of the goods. 
+
+- Is this independent or dependent data?
+
+- <font color="#db0b9d">This is dependent data -- the data can be linked by item.</font>
+
+## Estimating $\mu_1-\mu_2$
+
+- We are now interested in comparing two **independent** groups.
+
+- We assume that the two groups come from different populations where
+    
+    - $\mu_i$ is the mean for group $i$,
+    
+    - $\sigma^2_i$ is the standard deviation for group $i$, and
+    
+    - $N_i$ is the population size of group $i$. 
+    
+- After drawing samples, we have the following,
+
+    - $\bar{x}_i$ estimates $\mu_i$,
+    
+    - $s^2_i$ estimates $\sigma^2_i$, and
+    
+    - $n_i$ is the sample size for group $i$.
+        
+- Because we are interested in comparing groups, we are interested in $\mu_1-\mu_2$.
+
+    - We estimate this with $\bar{x}_1-\bar{x}_2$.
+    
+## Confidence Interval for $\mu_1-\mu_2$
+
+- **$\mathbf{(1-\boldsymbol\alpha)100\%}$ CI for the difference between two population means, $\mathbf{\boldsymbol\mu_1-\boldsymbol\mu_2}$**:
+
+$$
+(\bar{x}_1 - \bar{x}_2) \pm t_{\alpha/2} \sqrt{\frac{s_1^2 }{n_1} + \frac{s_2^2}{n_2}}
+$$
+
+- where $t_{\alpha/2}$ has $\text{min}(n_1-1, n_2-1)$ degrees of freedom. 
+
+- To construct this interval, we require either:
+
+    - the two populations to be normally distributed or
+    - the sample sizes are sufficiently large ($n_1 \ge 30$ and $n_2 \ge 30$)
+    
+## Confidence Interval for $\mu_1-\mu_2$
+
+-   We will use the [`t.test()`](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/t.test) function to find the CI,
+
+```{r, echo = TRUE, eval = FALSE}
+t.test([continuous variable] ~ [grouping variable],
+       data = [dataset],
+       conf.level = [confidence level])
+```
+    
+## Confidence Interval for $\mu_1-\mu_2$
+
+- In the Spacelab Life Sciences 2 payload, 14 male rats were sent to space. 
+
+- Upon their return, the red blood cell mass (in milliliters) of the rats was determined. 
+
+- A control group of 14 male rats was held under the same conditions (except for space flight) as the space rats, and their red blood cell mass was also determined when the space rats returned. 
+
+- The project resulted in the following data: 
+
+<center>**Space**<br>
+8.59, 8.64, 7.43, 7.21, 6.39, 6.87, 7.89, 9.79, 6.85, 7.54, 7.00, 8.80, 9.30, 8.03</center>
+
+<center>**Earth**<br>
+8.65, 6.99, 8.40, 9.66, 7.14, 7.62, 7.44, 8.55, 8.70, 9.14, 7.33, 8.58, 9.88, 9.94</center>
+
+- Construct the 99% confidence interval for the average difference in red blood cell mass.
+
+## Confidence Interval for $\mu_1-\mu_2$
+
+```{r}
+library(tidyverse)
+rbc <- c(8.59, 8.64, 7.43, 7.21, 6.39, 6.87, 7.89,
+         9.79, 6.85, 7.54, 7.00, 8.80, 9.30, 8.03,
+         8.65, 6.99, 8.40, 9.66, 7.14, 7.62, 7.44,
+         8.55, 8.70, 9.14, 7.33, 8.58, 9.88, 9.94) # enter blood cell mass
+rat <- c(rep("Space",14), rep("Earth",14)) # enter identifier 
+data <- tibble(rat, rbc) # create dataset
+t.test(rbc ~ rat, data = data, conf.level = 0.99)
+```
+
+- The 99% CI for $\mu_\text{Earth}-\mu_\text{Space}$ is $(-0.51, 1.61)$.
+
+## Confidence Interval for $\mu_1-\mu_2$
+
+- If the 99% CI for $\mu_\text{Earth}-\mu_\text{Space}$ is $(-0.51, 1.61)$,
+
+    - Is there a difference in red blood cell mass between the space and earth rats?
+    
+    - Is the difference smaller than 2 ml?
+    
+## Confidence Interval for $\mu_1-\mu_2$
+
+- If the 99% CI for $\mu_\text{Earth}-\mu_\text{Space}$ is $(-0.51, 1.61)$,
+
+    - Is there a difference in red blood cell mass between the space and earth rats?
+    
+        - <font color="#db0b9d">No, 0 is contained in the interval.</font>
+    
+    - Is the difference smaller than 2 ml?
+    
+        - <font color="#db0b9d">Yes, the interval is entirely below 2 and above -2.</font>
+
+## Two-Sample *t*-Test
+
+- **Hypothesis Test for Two Independent Means**:
+
+<center><img src="images/L03a.png"></center>
+
+## Two-Sample *t*-Test
+
+-   We again use the [`t.test()`](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/t.test) function to perform the test,
+
+```{r, echo = TRUE, eval = FALSE}
+t.test([continuous variable] ~ [grouping variable],
+       data = [dataset],
+       mu = [hypothesized difference],
+       alternative = [alternative])
+```
+
+- Important!!
+
+    - We are estimating $\mu_1 - \mu_2$, but R is going to subtract in alphabetical or numeric order of the grouping variable.
+    
+        - e.g., if we have "Earth" and "Space", it will estimate $\mu_{\text{Earth}} - \mu_{\text{Space}}$.
+        
+        - e.g., if we have "110" and "5", it will estimate $\mu_{5} - \mu_{110}$.
+        
+        - In the case of two-tailed tets, this does not matter... but beware when doing a one-tailed test!
+
+## Two-Sample *t*-Test
+
+-   We again use the [`t.test()`](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/t.test) function to perform the test,
+
+```{r, echo = TRUE, eval = FALSE}
+t.test([continuous variable] ~ [grouping variable],
+       data = [dataset],
+       mu = [hypothesized difference],
+       alternative = [alternative])
+```
+
+- Recall the rat data,
+
+```{r}
+head(data, n=3)
+```
+
+- What is the continuous variable?
+
+- What is the grouping variable?
+
+## Two-Sample *t*-Test
+
+-   We again use the [`t.test()`](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/t.test) function to perform the test,
+
+```{r, echo = TRUE, eval = FALSE}
+t.test([continuous variable] ~ [grouping variable],
+       data = [dataset],
+       mu = [hypothesized difference],
+       alternative = [alternative])
+```
+
+- Recall the rat data,
+
+```{r}
+head(data, n=3)
+```
+
+- What is the continuous variable? <font color="#db0b9d">*rbc*</font>
+
+- What is the grouping variable? <font color="#db0b9d">*rat*</font>
+
+## Two-Sample *t*-Test
+
+- Let's now determine if there's a difference in red blood cell mass between the earth and space rats.  Test at the $\alpha=0.01$ level.
+    
+```{r}
+t.test(rbc ~ rat,
+       data = data,
+       mu = 0,
+       alternative = "two")
+```
+
+## Two-Sample *t*-Test
+
+- **Hypotheses**
+
+    - $H_0: \ \mu_{\text{Earth}} = \mu_{\text{Space}}$ 
+    - $H_1: \ \mu_{\text{Earth}} \ne \mu_{\text{Space}}$
+    
+- **Test Statistic and *p*-Value**
+
+    - $t_0 = 1.437$
+    - $p = 0.163$
+    
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.01$.
+    
+- **Conclusion/Interpretation**
+
+    - Fail to reject $H_0$.
+    
+    - There is not sufficient evidence to suggest that there is a difference in the red blood cell mass between earth and space rats.
+    
+
+## Example
+
+- An experiment was conducted to evaluate the effectiveness of a treatment for tapeworm in the stomachs of sheep. A random sample of 24 worm-infested lambs of approximately the same age and health was randomly divided into two groups. Twelve of the lambs were injected with the drug and the remaining 12 were left untreated. After a 6-month period, the lambs were slaughtered, and the worm counts recorded as listed below.
+
+<center>**Drug-Treated Sheep**<br>
+18, 43, 28, 50, 16, 32, 13, 35, 38, 33, 6, 7
+</center>
+
+<center>**Untreated Sheep**<br>
+40, 54, 26, 63, 21, 37, 39, 23, 48, 58, 28, 39
+</center>
+
+- Is there significant evidence that the untreated lambs have a mean tapeworm count that is more than five units greater than the mean count for the treated lambs? Use $\alpha=0.10$.
+
+## Example
+
+- Let's first create the data.
+
+```{r}
+worms <- c(18, 43, 28, 50, 16, 32, 13, 35, 38, 33,  6,  7,
+           40, 54, 26, 63, 21, 37, 39, 23, 48, 58, 28, 39)
+trt <- c(rep("Treated", 12), rep("Not", 12))
+data <- tibble(worms, trt)
+head(data)
+```
+
+## Example
+
+- Let's now summarize the data.
+
+```{r}
+t.test(data$worms, conf.level = 0.9)
+```
+
+- Overall $\bar{y}=33.125$ with a 90% CI for $\mu$ of $(27.76, 38.49)$.
+
+## Example
+
+- Further summarizing at the group level, for treated
+
+```{r}
+worms_trt <- data %>% filter(trt == "Treated") # only treated sheep
+t.test(worms_trt$worms)[5] # mean only
+t.test(worms_trt$worms, conf.level = 0.9)[4] # CI only
+```
+
+- $\bar{y}_{\text{T}} = 26.58$, 90% CI for $\mu_{\text{T}}$ $(19.14, 34.03)$
+
+## Example
+
+- Further summarizing at the group level, for untreated
+
+```{r}
+worms_untrt <- data %>% filter(trt == "Not") # only untreated sheep
+t.test(worms_untrt$worms)[5] # mean only
+t.test(worms_untrt$worms, conf.level = 0.9)[4] # CI only
+```
+
+- $\bar{y}_{\text{U}} = 39.67$, 90% CI for $\mu_{\text{U}}$ $(32.48, 46.86)$
+
+## Example
+
+- Putting our descriptives together:
+
+    - Overall $\bar{y}=33.125$, 90% CI for $\mu$ $(26.66, 39.60)$.
+    - $\bar{y}_{\text{T}} = 26.58$, 90% CI for $\mu_{\text{T}}$ $(19.14, 34.03)$
+    - $\bar{y}_{\text{U}} = 39.67$, 90% CI for $\mu_{\text{U}}$ $(32.48, 46.86)$
+
+- What do we hypothesize will happen when we look at inference on $\mu_{\text{T}} - \mu_{\text{U}}$?
+
+## Example
+
+- Let's first look at the 90% CI for $\mu_{\text{T}} - \mu_{\text{U}}$,
+
+```{r}
+t.test(worms ~ trt,
+       data = data,
+       conf.level = 0.90)
+```
+
+- 90% CI for $\mu_{\text{U}} - \mu_{\text{T}}$ is $(3.19, 22.98)$.
+
+- Is there significant evidence that the untreated lambs have a mean tapeworm count that is more than five units greater than the mean count for the treated lambs?
+
+## Example
+
+- Let's first look at the 90% CI for $\mu_{\text{U}} - \mu_{\text{T}}$,
+
+```{r}
+t.test(worms ~ trt,
+       data = data,
+       conf.level = 0.90)
+```
+
+- 90% CI for $\mu_{\text{U}} - \mu_{\text{T}}$ is $(3.19, 22.98)$.
+
+- Is there significant evidence that the untreated lambs have a mean tapeworm count that is more than five units greater than the mean count for the treated lambs?
+
+    - <font color="#db0b9d">No, the CI contains 5......</font>
+    - <font color="#db0b9d">.... but this is a two-sided CI and we are performing a one-tailed test</font>
+
+## Example
+
+- Let's now look at the formal hypothesis test.
+
+    - Is there significant evidence that the untreated lambs have a mean tapeworm count that is <mark>more than five units greater</mark> than the mean count for the treated lambs?
+
+        - This translates to $\mu_{\text{U}} - \mu_{\text{T}} > 5$ for the alternative.
+
+```{r}
+t.test(worms ~ trt,
+       data = data,
+       conf.level = 0.9,
+       mu = 5,
+       alternative = "greater")
+```
+
+## Example
+
+- **Hypotheses**
+
+    - $H_0: \ \mu_{\text{Untreated}} - \mu_{\text{Treated}} \le 5$ 
+    - $H_1: \ \mu_{\text{Untreated}} - \mu_{\text{Treated}} > 5$
+    
+- **Test Statistic and *p*-Value**
+
+    - $t_0 = 21.97$
+    - $p = 0.087$
+    
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.10$.
+    
+- **Conclusion/Interpretation**
+
+    - Reject $H_0$.
+    
+    - There is sufficient evidence to suggest that untreated lambs have a mean tapeworm count that is more than five units greater than the mean count for the treated lambs.
+
+## Example
+
+- Let's compare the two CIs for $\mu_{\text{U}} - \mu_{\text{T}}$,
+
+    - Two-sided 90% CI for $\mu_{\text{U}} - \mu_{\text{T}}$ is $(3.19, 22.98)$.
+    - One-sided 90% CI for $\mu_{\text{U}} - \mu_{\text{T}}$ is $(5.47, \infty)$.
+    
+- Note that when we are "close to the boundary" for one-tailed hypothesis testing, our two-sided CIs may not match the hypothesis test results.
+
+    - We can tell that we are "close to the boundary" because $p = 0.087$ and the lower limit of the one-sided CI is $5.47$.
+  
+
+## Independent vs. Dependent Data
+
+-   **Independent**: An individual selected for one sample does not dictate which individual is to be in a second sample.
+
+    -   e.g., there are two sections of STA4173; sampling from each would be independent samples
+
+        -   there is not a way for us to link the individuals in the samples
+
+-   **Dependent**: An individual selected to be in one sample is used to determine the individual in the second sample.
+
+    -   e.g., sampling from one section of STA4173 and examining project grades over time would be dependent samples
+
+        -   we can link on student ID
+
+## Estimating $\mu_1-\mu_2$
+
+-   We are now interested in comparing two **dependent** groups.
+
+-   We assume that the two groups come from the same population and are going to examine the difference,
+
+$$
+d = y_{i, 1} - y_{i, 2}
+$$
+
+-   After drawing samples, we have the following,
+
+    -   $\bar{d}$ estimates $\mu_d$,
+
+    -   $s^2_d$ estimates $\sigma^2_d$, and
+
+    -   $n$ is the sample size.
+
+## Confidence Interval for $\mu_d$
+
+-   $\mathbf{(1-\boldsymbol\alpha)100\%}$ CI for the difference between two population means, $\mathbf{\boldsymbol\mu_d}$:
+
+$$ \bar{d} \pm t_{\alpha/2} \frac{s_d}{\sqrt{n}} $$
+
+-   where $t_{\alpha/2}$ has $n-1$ degrees of freedom.
+
+-   To construct this interval, we require either:
+
+    -   the differences to be normally distributed or
+    -   the sample size is sufficiently large ($n \ge 30$)
+
+## Confidence Interval for $\mu_d$
+
+-   We will use the [`t.test()`](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/t.test) function to find the CI,
+
+```{r, echo = TRUE, eval = FALSE}
+t.test([dataset]$[var1], [dataset]$[var2], 
+       paired = TRUE, 
+       conf.level = [confidence level])
+```
+
+## Confidence Interval for $\mu_d$
+
+-   Insurance adjusters are concerned about the high estimates they are receiving for auto repairs from garage I compared to garage II.
+
+-   15 cars were taken to both garages for separate estimates of repair costs.
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+library(tidyverse)
+```
+
+```{r}
+g1 <- c(17.6, 20.2, 19.5, 11.3, 13.0, 
+        16.3, 15.3, 16.2, 12.2, 14.8, 
+        21.3, 22.1, 16.9, 17.6, 18.4)
+g2 <- c(17.3, 19.1, 18.4, 11.5, 12.7, 
+        15.8, 14.9, 15.3, 12.0, 14.2, 
+        21.0, 21.0, 16.1, 16.7, 17.5)
+garage <- tibble(g1, g2)
+```
+
+-   Construct the 95% confidence interval for the average difference between the two garages.
+
+## Confidence Interval for $\mu_d$
+
+```{r}
+t.test(garage$g1, garage$g2, 
+       paired = TRUE, 
+       conf.level = 0.95)
+```
+
+-   The 95% CI for $\mu_d$, where $d = x_{\text{I}} - x_{\text{II}}$ is $(0.39, 0.83)$.
+
+## Confidence Interval for $\mu_d$
+
+-   From the problem statement:
+
+    -   *Insurance adjusters are concerned about the high estimates they are receiving for auto repairs from garage I compared to garage II.*
+
+-   Our CI is (0.39, 0.83) -- can we say that estimates from garage I are higher than those from garage II?
+
+## Confidence Interval for $\mu_d$
+
+-   From the problem statement:
+
+    -   *Insurance adjusters are concerned about the high estimates they are receiving for auto repairs from garage I compared to garage II.*
+
+-   Our CI is (0.39, 0.83) -- can we say that estimates from garage I are higher than those from garage II?
+
+    -   <font color="#db0b9d">Yes; the CI is entirely above 0 and the subtraction order was garage I - garage II.</font>
+
+## Paired *t*-Test
+
+-   **Hypothesis Test for Two Dependent Means**:
+
+<center><img src="images/L04a.png"/></center>
+
+## Paired *t*-Test
+
+-   We again use the [`t.test()`](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/t.test) function to perform the test,
+
+```{r, echo = TRUE, eval = FALSE}
+t.test([dataset]$[var1], [dataset]$[var2], 
+       paired = TRUE, 
+       mu = [hypothesized difference],
+       alternative = "[alternative]")
+```
+
+-   Important!!
+
+    -   R is going to subtract in the order that we plugged var1 and var2 into the `t.test()`.
+
+## Paired *t*-Test
+
+-   Let's now formally determine if garage I's estimates are higher than garage II's. Test at the $\alpha=0.05$ level.
+
+```{r}
+t.test(garage$g1, garage$g2,
+       paired = TRUE,
+       mu = 0,
+       alternative = "greater")
+```
+
+## Paired *t*-Test
+
+-   **Hypotheses**
+
+    -   $H_0: \ \mu_{\text{I}} \le \mu_{\text{II}}$ OR $\mu_{d} \le 0$, where $\mu_d = \mu_{\text{I}} - \mu_{\text{II}}$
+    -   $H_1: \ \mu_{\text{I}} > \mu_{\text{II}}$ OR $\mu_{d} > 0$
+
+-   **Test Statistic and *p*-Value**
+
+    -   $t_0 = 6.023$
+    -   $p < 0.001$
+
+-   **Rejection Region**
+
+    -   Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$.
+
+-   **Conclusion/Interpretation**
+
+    -   Reject $H_0$.
+
+    -   There is sufficient evidence to suggest the estimates at garage I are higher than that of garage II.
+
+## Example
+
+-   Professor Neill measured the time (in seconds) required to catch a falling meter stick for 12 randomly selected students' dominant and nondominant hands.
+
+-   A coin flip is used to determine whether reaction time is measured using the dominant or nondominant hand first.
+
+```{r}
+dom <- c(0.177, 0.210, 0.186, 0.189, 0.198, 0.194, 
+         0.160, 0.163, 0.166, 0.152, 0.190, 0.172)
+non <- c(0.179, 0.202, 0.208, 0.184, 0.215, 0.193, 
+         0.194, 0.160, 0.209, 0.164, 0.210, 0.197)
+students <- tibble(dom, non)
+```
+
+-   Professor Neill wants to know if the reaction time in an individual's dominant hand is equal to the reaction time in their nondominant hand.
+
+    -   First, find the 99% CI for the difference in reaction times.
+
+    -   Then, formally test to determine if there is a difference; test at the $\alpha=0.01$ level.
+
+## Example
+
+-   Let's first describe the data.
+
+-   Our first step will be to find the difference so that we can look at $\bar{d}$ and $s_d$.
+
+    -   *Is the reaction time in an individual's dominant hand equal to the reaction time in their nondominant hand?*
+
+```{r}
+students <- students %>% 
+  mutate(d = dom - non) # create the difference
+
+head(students, n = 3) # view the dataset on the slide
+```
+
+## Example
+
+- We would like to know what the distribution looks like, so let's create a box plot,
+
+<center>
+```{r}
+students %>% ggplot(aes()) +
+  geom_boxplot(aes(y = dom, x = "Dominant")) +
+  geom_boxplot(aes(y = non, x = "Non-Dominant")) +
+  labs(x = "",
+       y = "Reaction Time") +
+  theme_bw() 
+```
+</center>
+
+## Example
+
+- We would like to know what the distribution looks like, so let's create a box plot,
+
+<center>
+```{r}
+students %>% ggplot(aes(y = d)) +
+  geom_boxplot() +
+  labs(x = "",
+       y = "Difference \n(Dominant - Non-dominant)") +
+  theme_bw() +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank())
+```
+</center>
+
+## Example
+
+-   To describe, we will look at means and standard deviations:
+
+```{r}
+students %>% summarize(mean(dom), sd(dom), # summary of dominant hand
+                       mean(non), sd(non), # summary of non-dominant hand
+                       mean(d), sd(d)) # summary of difference
+```
+
+|                                      | Mean (Std. Dev) |
+|--------------------------------------|:---------------:|
+| Dominant Hand                        |  0.180 (0.018)  |
+| Non-dominant Hand                    |  0.193 (0.018)  |
+| Difference (Dominant - Non-dominant) | -0.013 (0.016)  |
+
+## Example
+
+- Let's now find the 99% CI for the difference in reaction time ($\mu_d$).
+
+```{r}
+t.test(students$dom, students$non, 
+       paired = TRUE, 
+       conf.level = 0.99)
+```
+
+- The 99% CI for $\mu_d$, where $d = x_{\text{dominant}} - x_{\text{non-dominant}}$ is $(-0.028, 0.002)$.
+
+## Example
+
+- The 99% CI for $\mu_d$, where $d = x_{\text{dominant}} - x_{\text{non-dominant}}$ is $(-0.028, 0.002)$.
+
+    - Can we say that there is a difference in the reaction times?
+    
+## Example
+
+- The 99% CI for $\mu_d$, where $d = x_{\text{dominant}} - x_{\text{non-dominant}}$ is $(-0.028, 0.002)$.
+
+    - Can we say that there is a difference in the reaction times?
+    
+        - <font color="#db0b9d">No, 0 is included in the interval</font>
+        
+## Example
+
+-   Let's now formally determine there is a difference between the reaction of dominant and non-dominant hands.
+
+```{r}
+t.test(students$dom, students$non, 
+       paired = TRUE, 
+       mu = 0,
+       alternative = "two")
+```
+
+## Example
+
+-   **Hypotheses**
+
+    -   $H_0: \ \mu_{\text{dominant}} = \mu_{\text{non-dominant}}$ OR $\mu_{d} = 0$, where $\mu_d = \mu_{\text{dominant}} - \mu_{\text{non-dominant}}$
+    -   $H_1: \ \mu_{\text{dominant}} \ne \mu_{\text{non-dominant}}$ OR $\mu_{d} \ne 0$
+
+-   **Test Statistic and *p*-Value**
+
+    -   $t_0 = -2.2776$
+    -   $p = 0.018$
+
+-   **Rejection Region**
+
+    -   Reject $H_0$ if $p < \alpha$; $\alpha = 0.01$.
+
+-   **Conclusion/Interpretation**
+
+    -   Fail to reject $H_0$.
+
+    -   There is not sufficient evidence to suggest that there is a difference in reaction times between dominant and non-dominant hands.
+    
+    

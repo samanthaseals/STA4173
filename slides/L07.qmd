@@ -1,0 +1,587 @@
+---
+title: "Two-Way ANOVA"
+subtitle: "STA4173 Lecture 7, Summer 2023"
+execute:
+  echo: true
+format: 
+  revealjs:
+    theme: uwf
+    self-contained: true
+    slide-number: false
+    footer: "[STA4173 - Biostatistics](https://samanthaseals.github.io/STA4173)"
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+editor: source
+---
+
+## Introduction: Two-Way ANOVA
+
+- Recall that ANOVA allows us to compare the means of three or more groups.
+
+- In one-way ANOVA, we are only considering one factor (grouping variable). 
+
+- Now, we will discuss two-way ANOVA, which allows us to consider a second factor (grouping variable). 
+
+- We now partition the SS$_{\text{Trt}}$ into the different factors under consideration.
+    
+- Recall that $\text{SS}_{\text{E}}$ is the "catch all" for unexplained variance. -- when we add factors to our model, we are moving part of the $\text{SS}_{\text{E}}$ into the $\text{SS}_{\text{Trt}}$
+    
+## Introduction: Two-Way ANOVA
+
+- Let's discuss some of the language used in two-way ANOVA. 
+
+- Factor A has $a$ levels.
+    
+    - Smoking status: non-smoker and smoker
+
+- Factor B has $b$ levels.
+
+    - Hypertension: normotensive and hypertensive
+
+- There are $ab$ treatment groups.
+
+    - Non-smoker, normotensive
+    - Non-smoker, hypertensive
+    - Smoker, normotensive
+    - Smoker, hypertensive
+
+## Introduction: Two-Way ANOVA
+
+- Now that we are including two factors, we must consider the interaction between the two. 
+
+    - *Interaction*: The relationship between [outcome] and [factor 1] depends on the level of [factor 2].
+
+- In our example, suppose we are looking at weight as the outcome. If an interaction is detected,
+
+    - the relationship between weight and hypertension status depends on smoking status, OR
+    - the relationship between weight and smoking status depends on hypertension status. 
+
+## Introduction: Two-Way ANOVA
+
+- The ANOVA table that we are working to construct: 
+
+| **Source** | **Sum of Squares** | **df** | **Mean Square** | ***F*** |
+|-|-|-|-|-|
+A | SS<sub>A</sub> | df<sub>A</sub> | MS<sub>A</sub> | *F*<sub>A</sub>
+B | SS<sub>B</sub> | df<sub>B</sub> | MS<sub>B</sub> | *F*<sub>B</sub>
+AB | SS<sub>AB</sub> | df<sub>AB</sub> | MS<sub>AB</sub> | *F*<sub>AB</sub>
+Error | SS<sub>E</sub> | df<sub>E</sub> | MS<sub>E</sub> |
+Total | SS<sub>Tot</sub> | df<sub>Tot</sub> | | |   
+
+## Computation
+
+- Let there be $a$ levels of factor A and $b$ levels of factor B. 
+
+    - $y_{ijk}$ is the observation on the $k^{th}$ experimental unit receiving the $i^{th}$ level of factor A and the $j^{th}$ level of factor B 
+    - $y_{i.}$ is the sum for all observations at the $i^{th}$ level of factor A,
+    - $y_{.j}$ is the sum for all observations at the $j^{th}$ level of factor B,
+    - $y_{ij}$ is the sum for observations at the $i^{th}$ level of factor A and the $j^{th}$ level of factor B,
+    - $y_{..}$ is the sum of all observations, 
+    - $(y^2)_{..}$ is the sum of the squared observations, 
+    - $n$ is the number in each group (of $a \times b$ treatments)
+
+## Computation
+
+- To find the SS and df:
+$$
+\begin{align*}
+\text{SS}_{\text{A}} &= \frac{\sum_i y_{i.}^2}{bn}  - \frac{(y_{..})^2}{abn} & \text{df}_{\text{A}} &= a-1 \\
+\text{SS}_{\text{B}} &= \frac{\sum_j y_{.j}^2}{an} - \frac{(y_{..})^2}{abn} & \text{df}_{\text{B}} &= b-1 \\
+\text{SS}_{\text{AB}}&= \frac{\sum_{ij} y_{ij}^2}{n} - \frac{(y_{..})^2}{abn} - \text{SS}_{\text{A}} - \text{SS}_{\text{B}} & \text{df}_{\text{AB}} &= (a-1)(b-1) \\
+\text{SS}_{\text{E}} &= \text{SS}_{\text{Tot}} - \text{SS}_{\text{A}} - \text{SS}_{\text{B}} - \text{SS}_{\text{AB}} & \text{df}_{\text{E}} &= ab(n-1)  \\
+\text{SS}_{\text{Tot}} &= (y^2)_{..} - \frac{(y_{..})^2}{abn} & \text{df}_{\text{Tot}} &= abn-1
+\end{align*}  
+$$  
+
+- To find the MS and F:
+$$\text{MS}_{\text{X}} = \frac{\text{SS}_{\text{X}}}{\text{df}_{\text{X}}} \ \ \ \ \ \ \ \  \text{F}_{\text{X}} = \frac{\text{MS}_{\text{X}}}{\text{MS}_{\text{E}}}$$
+
+## R Syntax
+
+- We will again use `lm()` and `anova()` OR `aov()` and `summary()` to analyze the data.
+
+- As we are specifying our model, we will:
+    - include additional terms with +
+    - include interaction terms with :
+    
+```{r, echo = TRUE, eval = FALSE}
+m <- lm([outcome] ~ [factor A] + [factor B] + [factor A]:[factor B],
+        data = [dataset])
+anova(m)
+```
+
+OR
+
+```{r, echo = TRUE, eval = FALSE}
+m <- aov([outcome] ~ [factor A] + [factor B] + [factor A]:[factor B],
+         data = [dataset])
+summary(m)
+```
+
+## Example
+
+- Suppose we want to examine the effect of diet and age of mothers on the average birth weight (in ounces). Consider the following data,
+
+<center><img src="images/L12a.png"></center>
+
+- What is the outcome? 
+- What are the two factors? 
+- What is the interaction term?
+
+## Example
+
+- Suppose we want to examine the effect of diet and age of mothers on the average birth weight (in ounces). Consider the following data,
+
+<center><img src="images/L12a.png"></center>
+
+- What is the outcome? <font color="#db0b9d">birth weight</font>
+- What are the two factors? <font color="#db0b9d">diet and age</font>
+- What is the interaction term? <font color="#db0b9d">diet $\times$ age</font>
+
+## Example
+
+```{r, message = FALSE, warning = FALSE}
+library(tidyverse)
+
+birthweight <- c(157.78, 136.79, 138.84, # age 20-29, diet 1
+                 139.72, 125.47, 117.14, # age 20-29, diet 2
+                 129.35, 110.73, 118.38, # age 20-29, diet 3
+                 137.07, 146.28, 130.27, # age 30-39, diet 1
+                 117.46, 128.54, 99.16, # age 30-39, diet 2
+                 97.43, 125.26, 115.42) # age 30-39, diet 3
+diet <- as.factor(c(1, 1, 1, 
+                    2, 2, 2, 
+                    3, 3, 3, 
+                    1, 1, 1, 
+                    2, 2, 2, 
+                    3, 3, 3))
+age <- as.factor(c(20, 20, 20, 
+                   20, 20, 20, 
+                   20, 20, 20, 
+                   30, 30, 30, 
+                   30, 30, 30, 
+                   30, 30, 30))
+data <- tibble(birthweight, diet, age)
+```
+
+## Example
+
+- Let's find the ANOVA table,
+
+```{r}
+m <- aov(birthweight ~ diet + age + diet:age, data = data)
+summary(m)
+```
+
+## Testing Interactions
+
+- **Hypotheses**
+
+    - $H_0:$ there is not an interaction between [factor A] and [factor B]
+    - $H_1:$ there is an interaction between [factor A] and [factor B]
+
+- **Test Statistic**
+
+    - $F_{\text{AB}}$ (pull from ANOVA table)
+
+- ***p*-Value**
+
+    - $p = P[F_{\text{df}_{\text{AB}}, \text{df}_{\text{E}}} \ge F_{\text{AB}}]$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p<\alpha$.
+    
+## Example
+
+- Let's now test the interaction between age and diet. Test at the $\alpha=0.05$ level.
+
+- Here's the information we need:
+
+```{r}
+summary(m)
+```
+
+## Example
+
+- **Hypotheses**
+
+    - $H_0:$ there is not an interaction between age and diet
+    - $H_1:$ there is an interaction between age and diet
+
+- **Test Statistic**
+
+    - $F_{\text{AB}} = 0.117$
+    - $p = 0.891$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p<\alpha$; $\alpha=0.05$.
+    
+- **Conclusion/Interpretation**
+
+    - Fail to reject $H_0$. 
+    - There is not sufficient evidence to suggest that the relationship between average birth weight and age depends on the mother's diet. 
+
+## Testing Interactions
+
+- What happens after testing for an interaction? 
+
+    - If significant (reject $H_0$), we can:
+    
+        - Construct a profile plot to visualize what's going on and help explain the effect. 
+        - Examine posthoc testing to further examine the interaction.
+    
+    - If not significant (FTR $H_0$), we should remove the interaction term so that we can test and interpret the main effects.
+
+- Remember that we cannot look at main effects (A and B alone) when the interaction is included in the model!
+
+## Removing Interactions
+
+- If the interaction term is not significant, it should be removed from the ANOVA table so that we can test and interpret the main effects. 
+
+- How to remove an interaction:
+
+    1. Rewrite ANOVA table without interaction; do not change SS, df, and MS for the main effects and total.
+    2. Update the error term: add the SS$_{\text{AB}}$ to SS$_{\text{E}}$ and df$_{\text{AB}}$ to df$_{\text{E}}$.
+    3. Recalculate MS$_{\text{E}}$.
+    4. Recalculate $F$ statistics for the main effects and perform appropriate hypothesis tests.
+    
+- In R, we just literally remove the interaction term.
+
+```{r, echo = TRUE, eval = FALSE}
+m <- aov([outcome] ~ [factor A] + [factor B],
+         data = [dataset])
+summary(m)
+```
+
+## Example
+
+- Let's now remove the interaction between diet and maternal age.
+
+```{r}
+#m <- aov(birthweight ~ diet + age + diet:age, data = data)
+m <- aov(birthweight ~ diet + age, data = data)
+summary(m)
+```
+
+## Testing Main Effects
+
+- Now that we have removed the interaction term, we can test for main effects. 
+
+- **Hypotheses**
+
+    - $H_0:$ there is not a main effect of [factor X]
+    - $H_1:$ there not a main effect of [factor X]
+
+- **Test Statistic**
+
+    - $F_{\text{X}}$ (pull from ANOVA table)
+
+- ***p*-Value**
+
+    - $p = P[F_{\text{df}_{\text{X}}, \text{df}_{\text{E}}} \ge F_{\text{X}}]$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p<\alpha$.
+
+
+## Testing Main Effects
+
+- A note on hypotheses -- we are writing them in sentence form here, however, we can write them mathematically.
+
+- For Factor A with $a$ levels,
+
+    - $H_0: \mu_1 = \mu_2 = ... = \mu_a$ 
+    - $H_1:$ at least one is different
+
+- For Factor B with $b$ levels,
+
+    - $H_0: \mu_1 = \mu_2 = ... = \mu_b$ 
+    - $H_1:$ at least one is different
+
+## Example
+
+- We now want to determine if there are main effects of age and diet. Test at the $\alpha=0.05$ level.
+
+- The ANOVA table without the interaction term:
+
+```{r}
+summary(m)
+```
+
+## Example
+
+- **Hypotheses**
+
+    - $H_0:$ there is not a main effect of diet ($\mu_1 = \mu_2 = \mu_3$)
+    - $H_1:$ there not a main effect of diet (at least one $\mu_i$ is different)
+
+- **Test Statistic and *p*-Value**
+
+    - $F_{\text{diet}} = 8.646$ 
+    - $p = 0.004$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p<\alpha$; $\alpha=0.05$.
+
+- **Conclusion/Interpretation**
+    
+    - Reject $H_0$.
+    
+    - There is sufficient evidence to suggest that at least one diet reults in a different birth weight.
+    
+## Example
+
+- **Hypotheses**
+
+    - $H_0:$ there is not a main effect of age ($\mu_1 = \mu_2$)
+    - $H_1:$ there not a main effect of age ($\mu_1 \ne \mu_2$)
+
+- **Test Statistic and *p*-Value**
+
+    - $F_{\text{diet}} = 2.728$ 
+    - $p = 0.121$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p<\alpha$; $\alpha=0.05$.
+
+- **Conclusion/Interpretation**
+    
+    - Fail to reject $H_0$.
+    
+    - There is not sufficient evidence to suggest that there is a difference in birth weights across the age groups.
+
+## Introduction: Beyond the *F* Test 
+
+- In this lecture, we are discussing two-way ANOVA.
+
+- So far, we have learned how to:
+
+    - Create an ANOVA model with an interaction term
+    - Test the interaction term
+    - Create an ANOVA model without an interaction term
+    - Test the main effects
+    
+- Now we will learn how to best communicate results, whether it's the resulting interaction term or main effects.
+
+## Profile Plots
+
+- If we detect an interaction term, we must give meaning to it.
+
+- An easy way to do this is to plot the treatment group means to visualize the interaction. This is called a profile plot.
+
+    - *y*-axis: always the average outcome
+    
+    - *x*-axis: either factor A or B
+    
+        - if only one factor is ordinal, use it for the *x*-axis
+        
+        - if there are two ordinal or two nominal factors, select the factor with the largest number of levels for the *x*-axis
+        
+    - lines on the plot: the factor that was not selected for the *x*-axis
+    
+- Note that this is just a graph of the means -- it's valid to construct a profile plot even if the interaction is not sigificant.
+
+## Example
+
+- Let's first find the treatment means for the birth weight data,
+
+```{r, echo = TRUE, warning = FALSE, message = FALSE}
+means <- data %>%
+  group_by(diet, age) %>%
+  summarize(mean = mean(birthweight)) %>%
+  ungroup()
+head(means)
+```
+
+## Example
+
+- The average birth weight will go on our *y*-axis.
+
+- Because only maternal age is ordinal, it will go on our *x*-axis.
+
+- Thus, the lines will represent the diet
+
+    - This means I want to restructure the dataset with the means to have a column for each of the diets
+
+```{r, echo = TRUE}
+A <- means %>% filter(diet == 1) %>% rename(d1 = mean) %>% select(-diet)
+B <- means %>% filter(diet == 2) %>% rename(d2 = mean) %>% select(-diet)
+C <- means %>% filter(diet == 3) %>% rename(d3 = mean) %>% select(-diet)
+graph <- full_join(A, B, by = "age")
+graph <- full_join(graph, C, by = "age")
+head(graph)
+```
+
+## Example
+
+- Building profile plots using `ggplot()` is a process.
+
+    - First, include a `geom_line()` for each level of the factor creating the lines.
+    
+```{r, echo = TRUE, eval = FALSE}
+graph %>% 
+  ggplot(aes(x = age, group = 1)) +
+  geom_line(aes(y = d1), color = "pink") + # diet 1
+  geom_line(aes(y = d2), color = "purple") + # diet 2
+  geom_line(aes(y = d3), color = "blue") + # diet 3
+  theme_bw()
+```
+
+## Example
+
+<center>
+```{r, eval = TRUE, echo = FALSE}
+graph %>% 
+  ggplot(aes(x = age, group = 1)) +
+  geom_line(aes(y = d1), color = "pink") + # diet 1
+  geom_line(aes(y = d2), color = "purple") + # diet 2
+  geom_line(aes(y = d3), color = "blue") + # diet 3
+  theme_bw()
+```
+</center>
+
+## Example
+
+- Building profile plots using `ggplot()` is a process.
+
+    - Then, add `geom_text()` to label each line (use the line colors to make sure everything is labeled properly).
+ 
+```{r, echo = TRUE, eval = FALSE}
+graph %>% 
+  ggplot(aes(x = age, group = 1)) +
+  geom_line(aes(y = d1), color = "pink") + # diet 1
+  geom_line(aes(y = d2), color = "purple") + # diet 2
+  geom_line(aes(y = d3), color = "blue") + # diet 3 
+  geom_text(aes(x = "30" , y = 137, label = "Diet 1"), color = "pink")  + # diet 1
+  geom_text(aes(x = "30" , y = 115, label = "Diet 2"), color = "purple")  + # diet 2
+  geom_text(aes(x = "30" , y = 110, label = "Diet 3"), color = "blue")  + # diet 3
+  theme_bw()
+```
+
+## Example
+
+<center>
+```{r, eval= TRUE, echo = FALSE}
+graph %>% 
+  ggplot(aes(x = age, group = 1)) +
+  geom_line(aes(y = d1), color = "pink") + # diet 1
+  geom_line(aes(y = d2), color = "purple") + # diet 2
+  geom_line(aes(y = d3), color = "blue") + # diet 3+ 
+  geom_text(aes(x = "30" , y = 137, label = "Diet 1"), color = "pink")  + # diet 1
+  geom_text(aes(x = "30" , y = 115, label = "Diet 2"), color = "purple")  + # diet 2
+  geom_text(aes(x = "30" , y = 110, label = "Diet 3"), color = "blue")  + # diet 3
+  theme_bw()
+```
+</center>
+
+## Example
+
+- Building profile plots using `ggplot()` is a process.
+
+    - Then, clean up time:
+    
+        - Fix axis titles
+        - Change line colors to black*
+    
+```{r, echo = TRUE, eval = FALSE}
+graph %>% 
+  ggplot(aes(x = age, group = 1)) +
+  geom_line(aes(y = d1), color = "black") + # diet 1
+  geom_line(aes(y = d2), color = "black") + # diet 2
+  geom_line(aes(y = d3), color = "black") + # diet 3+ 
+  geom_text(aes(x = "30" , y = 137, label = "Diet 1"), color = "black")  + # diet 1
+  geom_text(aes(x = "30" , y = 115, label = "Diet 2"), color = "black")  + # diet 2
+  geom_text(aes(x = "30" , y = 110, label = "Diet 3"), color = "black")  + # diet 3
+  labs(x = "Maternal Age",
+       y = "Average Birth Weight") +
+  theme_bw()
+```
+
+## Example
+
+<center>
+```{r, eval = TRUE, echo = FALSE}
+graph %>% 
+  ggplot(aes(x = age, group = 1)) +
+  geom_line(aes(y = d1), color = "black") + # diet 1
+  geom_line(aes(y = d2), color = "black") + # diet 2
+  geom_line(aes(y = d3), color = "black") + # diet 3+ 
+  geom_text(aes(x = "30" , y = 137, label = "Diet 1"), color = "black")  + # diet 1
+  geom_text(aes(x = "30" , y = 115, label = "Diet 2"), color = "black")  + # diet 2
+  geom_text(aes(x = "30" , y = 110, label = "Diet 3"), color = "black")  + # diet 3
+  labs(x = "Maternal Age",
+       y = "Average Birth Weight") +
+  theme_bw()
+```
+</center>
+
+## Posthoc Tests
+
+- We can also apply posthoc testing to two-way ANOVA.
+
+    - If the interaction is significant, we can compare all treatment groups.
+    
+    - If the interaction is not significant, we can look at the main effects.
+    
+- For simplicity, we will only look at Tukey's and Fisher's.
+
+- What is the difference between Tukey's and Fisher's?
+    
+## Posthoc Tests
+
+- We can also apply posthoc testing to two-way ANOVA.
+
+    - If the interaction is significant, we can compare all treatment groups.
+    
+    - If the interaction is not significant, we can look at the main effects.
+    
+- For simplicity, we will only look at Tukey's and Fisher's.
+
+- What is the difference between Tukey's and Fisher's?
+
+    - <font color="#db0b9d">Both perform all pairwise comaprisons.</font>
+    
+    - <font color="#db0b9d">Tukey's adjusts $\alpha$ while Fisher's does not.</font>
+    
+## Example
+
+- Let's apply Tukey's to the model with the interaction term.
+
+    - **Important!!** Remember that we are only doing this for illustration purposes - we should not perform posthoc testing on something non-significant.
+    
+```{r}
+m <- aov(birthweight ~ diet + age + diet:age, data = data)
+TukeyHSD(m)$"diet:age"
+```
+
+## Example
+
+- Let's apply Tukey's to the model without the interaction term.
+    
+```{r}
+m <- aov(birthweight ~ diet + age, data = data)
+TukeyHSD(m)$diet
+```
+
+- Which diets are significantly different? Use $\alpha=0.05$.
+
+## Example
+
+- Let's apply Tukey's to the model without the interaction term.
+    
+```{r}
+m <- aov(birthweight ~ diet + age, data = data)
+TukeyHSD(m)$diet
+```
+
+- Which diets are significantly different? Use $\alpha=0.05$.
+
+    - <font color="#db0b9d">Diet 1 and Diet 2 ($p = 0.019$).</font>
+    - <font color="#db0b9d">Diet 1 and Diet 3 ($p = 0.004$).</font>

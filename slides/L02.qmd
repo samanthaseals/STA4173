@@ -1,0 +1,634 @@
+---
+title: "Review: Inferential Statistics"
+subtitle: "STA4173 Lecture 2, Summer 2023"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  revealjs:
+    theme: uwf
+    self-contained: true
+    slide-number: false
+    footer: "[STA4173 - Biostatistics](https://samanthaseals.github.io/STA4173)"
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+editor: source
+---
+
+## Introduction
+
+- In the last lecture, we focused on *describing* data.
+    
+    - Continuous data: mean with standard deviation, median with interquartile range
+    - Categorical data: count with percentage
+
+- Today, we will focus on drawing *conclusions* about populations using data.
+
+    - Confidence intervals
+    - Hypothesis testing
+    
+## Confidence Intervals: Introduction
+
+- **Point estimate**: The single value of a statistic that estimates the value of a parameter.
+
+    - Previously, we discussed $\bar{x}$ as an point estimator of $\mu$ and $s$ as an point estimator of $\sigma$. 
+
+- It is necessary to know how good our estimation is, or to quantify our uncertainty. 
+
+- **Confidence interval (CI)**: A range of plausible values for the parameter based on values observed in the sample. 
+
+- **Level of confidence**: Denoted by $(1-\alpha)100\%$, the expected proportion of intervals that will contain the parameter if a large number of different samples is obtained. 
+
+    - e.g., 95\% CI:
+
+        - $\alpha=0.05$
+    
+        - If we draw 100 samples, we expect 95 of the CIs to contain the true value of the parameter.
+        
+    - e.g., 90\% CI:
+
+        - $\alpha=0.10$
+    
+        - If we draw 100 samples, we expect 90 of the CIs to contain the true value of the parameter.
+
+## Confidence Intervals: Introduction
+
+<center><img src="images/L02a.png"></center>
+
+## Confidence Intervals
+
+- The general set up for CIs we will learn:
+
+<center> point estimate $\pm$ margin of error</center>
+
+- The point estimate corresponds to the parameter we are estimating.
+
+    - If we are estimating $\mu$, $\bar{x}$ is the point estimate.
+    
+    - If we are estimating $p$, $\hat{p}$ is the point estimate.
+
+- The margin of error is critical value $\times$ standard error.
+
+    - The critical value will come from either the $z$ or $t$ distribution and depends on the level of confidence.
+
+    - The standard error corresponds to the point estimate.
+
+## Confidence Intervals: Definitions
+
+- Because CIs are a range of values, we will use interval notation,
+
+<center>(lower bound, upper bound)</center>
+
+- where
+
+    - lower bound = point estimate -- margin of error 
+    
+    - upper bound = point estimate + margin of error
+
+- Make sure to state your confidence intervals in numeric order.
+
+    - i.e., the lower bound must be the smaller number and the upper bound must be the larger number.
+
+## Confidence Intervals: Definitions
+
+- **$(1-\alpha)100\%$ CI for a population mean, $\mu$:**
+
+$$
+\bar{x} \pm t_{\alpha/2, n-1} \frac{s}{\sqrt{n}}
+$$
+
+- The critical value is $t_{\alpha/2,n-1}$.
+
+- Recall the computation of $\bar{x}$,
+
+$$
+\bar{x} = \frac{\sum_{i=1}^n x_i}{n}
+$$
+
+- and the computation of $s$,
+
+$$
+s = \sqrt{\frac{\sum_{i=1}^n x_i^2 - \frac{(\sum_{i=1}^n x_i)^2}{n}}{n-1}}
+$$
+
+## Confidence Intervals: R Syntax
+
+- We can use the [`t.test()` function](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/t.test) to find confidence intervals for $\mu$.
+
+```{r, eval = FALSE}
+t.test(dataset$variable, conf.level = 1-alpha)
+```
+
+- e.g., for a 90% CI,
+
+```{r, eval = FALSE}
+t.test(dataset$variable, conf.level = 0.90)
+```
+
+## Confidence Intervals: Example
+
+- Recall the [Motor Trends car road tests data](https://www.rdocumentation.org/packages/datasets/versions/3.6.2/topics/mtcars), built into R.
+
+- The data was extracted from the 1974 Motor Trend magazine, and includes aspects of car design and performance for 32 cars (1973-74 models). 
+    
+```{r}
+data("mtcars")
+head(mtcars, n=5)
+```
+
+## Confidence Intervals: Example
+
+- Let's find the 95% CI for $\mu$, the average gas mileage (*mpg*).
+
+```{r}
+t.test(mtcars$mpg, conf.level = 0.95)
+```
+
+- $\bar{y} = 20.09$
+
+- The 95% CI for $\mu$ is $(17.92, 22.26)$.
+
+## Confidence Intervals: Example
+
+- If the 95% CI for $\mu$ is $(17.92, 22.26)$,
+
+    - Is the average gas mileage less than 25 mpg?
+    
+    - Is the average gas mileage greater than 20 mpg?
+    
+## Confidence Intervals: Example
+
+- If the 95% CI for $\mu$ is $(17.92, 22.26)$,
+
+    - Is the average gas mileage less than 25 mpg?
+    
+        - <font color="#db0b9d">Yes; the entire interval is below 25.</font>
+    
+    - Is the average gas mileage greater than 20 mpg?
+    
+        - <font color="#db0b9d">No; 20 is contained in the interval.</font>
+
+## Hypothesis Testing: Introduction
+
+- A friend of yours wants to play a simple coin-flipping game. 
+
+    - If the coin comes up heads, you win; if it comes up tails, your friend wins. 
+    
+    - Suppose the outcome of five plays of the game is T, T, T, T, T. 
+    
+    - Is your friend cheating?
+    
+## Hypothesis Testing: Introduction
+
+- A friend of yours wants to play a simple coin-flipping game. 
+
+    - If the coin comes up heads, you win; if it comes up tails, your friend wins. 
+    
+    - Suppose the outcome of five plays of the game is T, T, T, T, T. 
+    
+    - Is your friend cheating?
+
+        - <font color="#db0b9d">We know the probability of flipping a tail is 0.5.</font> 
+        
+        - <font color="#db0b9d">We can compute the probability of flipping five tails in a row.
+$$
+\begin{align*}
+     P[\text{T, T, T, T, T}] &=  0.5 \times 0.5 \times 0.5 \times 0.5 \times 0.5 \\
+     &= 0.03125
+\end{align*}
+$$ </font>
+
+- **Is this probability low enough to believe your friend is cheating?**
+
+## Hypothesis Testing: Definitions
+
+- **Hypothesis testing**: A procedure, based on sample evidence and probability, used to test statements regarding a characteristic of one or more populations.
+
+- **Steps in hypothesis testing**
+
+    1. Make a statement regarding the nature of the population.
+    
+    2. Collect evidence (sample data) to test the statement. 
+    
+    3. Analyze the data to assess the plausibility of the statement.
+
+- Note: if we have population parameters available, we do not need to perform a hypothesis test.
+
+## Hypothesis Testing: Hypotheses
+
+- **Hypothesis**: A statement regarding a characteristic of one or more populations.
+
+    - In hypothesis testing, we have two hypotheses: the null and the alternative. 
+
+- **Null hypothesis, $H_0$**: A statement to be tested. 
+
+    - This is a statement of no change, no effect, or no difference. 
+    
+    - It is assumed true until evidence indicates otherwise.
+
+- **Alternative hypothesis, $H_1$**: A statement that we are trying to find evidence to support.
+
+## Hypothesis Testing: Hypotheses
+
+- **One sample tests**:
+
+    - Two-tailed test
+    
+        - $H_0:$ parameter = some value
+        - $H_1:$ parameter $\ne$ some value
+
+    - Left-tailed test
+
+        - $H_0:$ parameter = some value
+        - $H_1:$ parameter $<$ some value
+
+    - Right-tailed test
+    
+        - $H_0:$ parameter = some value
+        - $H_1:$ parameter $>$ some value 
+
+## Hypothesis Testing: Example
+
+- The Blue Book price of a used three-year-old Chevy Corvette Z06 is $59,083. 
+
+- Jamie wonders if the mean price of a used three-year-old Chevy Corvette Z06 in their area is different from $59,083. 
+
+- What are the null and alternative hypotheses? 
+
+- Is this a two-tailed, left-tailed, or right-tailed test?
+
+## Hypothesis Testing: Example
+
+- The Blue Book price of a used three-year-old Chevy Corvette Z06 is $59,083. 
+
+- Jamie wonders if the mean price of a used three-year-old Chevy Corvette Z06 in their area is different from $59,083. 
+
+- What are the null and alternative hypotheses? 
+
+    - <font color="#db0b9d">$H_0: \ \mu = 59,083$</font>
+    - <font color="#db0b9d">$H_1: \ \mu \ne 59,083$</font>
+
+- Is this a two-tailed, left-tailed, or right-tailed test?
+
+    - <font color="#db0b9d">This is a two-tailed test.</font>
+
+## Hypothesis Testing: Hypotheses
+
+- **Two sample tests**
+
+    - Two-tailed test
+
+        - $H_0:$ parameter$_1$ -- parameter$_2$ = 0
+        - $H_1:$ parameter$_1$ -- parameter$_2$ $\ne$ 0
+        
+    - Left-tailed test
+
+        - $H_0:$ parameter$_1$ -- parameter$_2$ = 0
+        - $H_1:$ parameter$_1$ -- parameter$_2$ $<$ 0
+    
+    - Right-tailed test
+
+        - $H_0:$ parameter$_1$ -- parameter$_2$ = 0
+        - $H_1:$ parameter$_1$ -- parameter$_2$ $>$ 0
+    
+
+## Hypothesis Testing: Example
+
+- Dr. Seals will be buying a car this summer and is doing research to determine what to buy. 
+
+- She knows that she wants a small car such as a Honda Civic and is willing to purchase in Birmingham, AL if the prices are cheaper.
+
+- What are the null and alternative hypotheses?
+
+- Is this a two-tailed, left-tailed, or right-tailed test?
+
+## Hypothesis Testing: Example
+
+- Dr. Seals will be buying a car this summer and is doing research to determine what to buy. 
+
+- She knows that she wants a small car such as a Honda Civic and is willing to purchase in Birmingham, AL if the prices are cheaper.
+
+- What are the null and alternative hypotheses? 
+
+    - <font color="#db0b9d">$H_0: \ \mu_{\text{P}} \le \mu_{\text{B}}$</font>
+    - <font color="#db0b9d">$H_1: \ \mu_{\text{P}} > \mu_{\text{B}}$</font>
+
+- Is this a two-tailed, left-tailed, or right-tailed test?
+
+    - <font color="#db0b9d">This is a right-tailed test.</font>
+
+## Hypothesis Testing: Errors
+
+- We use data to draw conclusions about hypotheses.
+
+    - We will either *reject* or *fail to reject* the null ($H_0$).
+    
+- If we draw the wrong conclusion, we make an error.
+
+- These can be classified as Type I ($\alpha$) or Type II ($\beta$) errors.
+
+    - $\alpha$ and $\beta$ are probabilities (i.e., are between 0 and 1).
+
+<center><img src="images/L02b.png"></center>
+
+## Hypothesis Testing: Example
+
+- The Medco pharmaceutical company has just developed a new antibiotic. 
+
+- A researcher for the Food and Drug Administration wishes to know if the percentage of children taking the new antibiotic who experience a headache as a side effect is more than 2\%. 
+
+- The researcher conducts a hypothesis test with 
+
+    - $H_0: \ p \le 0.02$ 
+    - $H_1: \ p > 0.02$
+  
+- What does it mean to make a Type I error?
+
+## Hypothesis Testing: Example
+
+- The Medco pharmaceutical company has just developed a new antibiotic. 
+
+- A researcher for the Food and Drug Administration wishes to know if the percentage of children taking the new antibiotic who experience a headache as a side effect is more than 2\%. 
+
+- The researcher conducts a hypothesis test with 
+
+    - $H_0: \ p \le 0.02$ 
+    - $H_1: \ p > 0.02$
+  
+- What does it mean to make a Type I error?
+
+    - <font color="#db0b9d">A Type I error means that we reject the null when we should not.</font>
+    
+    - <font color="#db0b9d">Here, that means that the researcher believes $p > 0.02$ when that is not true.</font>
+
+## Hypothesis Testing: Example
+
+- The Medco pharmaceutical company has just developed a new antibiotic. 
+
+- A researcher for the Food and Drug Administration wishes to know if the percentage of children taking the new antibiotic who experience a headache as a side effect is more than 2\%. 
+
+- The researcher conducts a hypothesis test with 
+
+    - $H_0: \ p \le 0.02$ 
+    - $H_1: \ p > 0.02$
+  
+- What does it mean to make a Type II error?
+
+## Hypothesis Testing: Example
+
+- The Medco pharmaceutical company has just developed a new antibiotic. 
+
+- A researcher for the Food and Drug Administration wishes to know if the percentage of children taking the new antibiotic who experience a headache as a side effect is more than 2\%. 
+
+- The researcher conducts a hypothesis test with 
+
+    - $H_0: \ p \le 0.02$ 
+    - $H_1: \ p > 0.02$
+  
+- What does it mean to make a Type II error?
+
+    - <font color="#db0b9d">A Type II error means that we failed to reject the null when we should not.</font>
+    
+    - <font color="#db0b9d">Here, that means that the researcher believes $p \le 0.02$ when it is actually larger than 0.02.</font>
+
+## Hypothesis Testing: Errors
+
+
+- As stated earlier, Type I ($\alpha$) and Type II ($\beta$) errors are probabilities.
+
+    - $\alpha = \text{P}[\text{reject } H_0 \text{ when } H_0 \text{ is true}]$
+
+    - $\beta = \text{P}[\text{fail to reject } H_0 \text{ when } H_1 \text{ is true}]$
+    
+- We also call $\alpha$ the level of significance. 
+
+- We should choose $\alpha$ based on the level of error we are willing to withstand in the experiment.
+
+    - The $\alpha$ that is commonly used is $\alpha=0.05$.
+  
+    - Sometimes, smaller $\alpha$ is used. e.g., clinical trial $\to$  $\alpha=0.01$.
+
+- For a fixed sample size ($n$), $\alpha$ and $\beta$ are inversely related.
+
+## Hypothesis Testing: Test Statistics
+
+- After stating our hypotheses, we will construct a test statistic. 
+
+- The choice of test statistic depends on:
+
+    1.  The hypotheses being tested.
+    2. Assumptions made about the data.
+
+- The value of the test statistic depends on the sample data. 
+
+    -  If we were to draw a different sample, we would find a different value for the test statistic.
+
+- We will use the test statistic on our way to drawing conclusions about the hypotheses.
+
+## Hypothesis Testing: *p*-Values
+
+- After constructing test statistics, we will find the corresponding *p*-value.
+
+- ***p*-value**: the probability of observing what we've observed or something more extreme, assuming the null hypothesis is true.
+
+- Finding a *p*-value depends on the distribution being used. 
+
+- We will compare the *p*-value to $\alpha$ in order to draw conclusions.
+
+    - Reject $H_0$ if $p < \alpha$.
+
+## Hypothesis Testing: *p*-Values
+
+- To find *p*-values for right-tailed tests:
+$$ p = \text{P}[\text{distribution} \ge \text{calculated test statistic}] $$
+
+- To find *p*-values for left-tailed tests:
+$$ p = \text{P}[\text{distribution} \ge \text{calculated test statistic}] $$
+
+- To find *p*-values for two-tailed tests:
+$$ p = 2 \times \text{P}[\text{distribution} \ge \text{\textit{positive} calculated test statistic}] $$
+    - e.g., if we are testing $H_1: \mu \ne 5$ and the test statistic is $t_0 = -2.51$ with 13 df,
+$$ p = 2 \times \text{P}[t_{13} \ge 2.51] $$
+    
+## Hypothesis Testing: Conclusions and Interpretations
+
+- Once we've found the *p*-value, we can draw a conclusion. 
+
+    - If $p < \alpha$, we **reject** $H_0$.
+
+        -  There is sufficient evidence to suggest that $H_1$ is true.
+
+
+    - If $p \ge \alpha$, we **fail to reject** $H_0$.
+
+        - There is not sufficient evidence to suggest that $H_1$ is true.
+
+
+- Take aways:
+
+    - **We never "accept" the null.**
+
+    - We always interpret in terms of $H_1$.
+    
+## Hypothesis Testing: Example
+
+- The Medco pharmaceutical company has just developed a new antibiotic. 
+
+- Two percent of children taking competing antibiotics experience a headache as a side effect. 
+
+- A researcher for the Food and Drug Administration believes that the proportion of children taking the new antibiotic who experience a headache as a side effect is more than 0.02. 
+
+- When testing $H_0$: $p \le$  0.02 vs. $H_1$: $p > 0.02$, it was determined that the $p$-value was 0.017. 
+
+- Draw the appropriate conclusion at the $\alpha=0.05$ level.
+
+## Hypothesis Testing: Example
+
+- The Medco pharmaceutical company has just developed a new antibiotic. 
+
+- Two percent of children taking competing antibiotics experience a headache as a side effect. 
+
+- A researcher for the Food and Drug Administration believes that the proportion of children taking the new antibiotic who experience a headache as a side effect is more than 0.02. 
+
+- When testing $H_0$: $p \le$  0.02 vs. $H_1$: $p > 0.02$, it was determined that the $p$-value was 0.017. 
+
+- Draw the appropriate conclusion at the $\alpha=0.05$ level.
+
+    - <font color="#db0b9d">Because $p=0.017$ is less than $\alpha=0.05$, we reject $H_0$.</font>
+    
+    -  <font color="#db0b9d">There is sufficient evidence to suggest that more than 20\% of children taking the new antibiotic are experiencing headaches as a side effect.</font>
+
+## Hypothesis Testing: One Mean
+
+**Hypothesis Test for One Mean, $\mu$**
+
+<center><img src="images/L02c.png"></center>
+
+## Hypothesis Testing: One Mean
+
+<center><img src="images/L02d.png"></center>
+
+## Hypothesis Testing: R Syntax
+
+- We can use the [`t.test()` function](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/t.test) to obtain the information for a hypothesis test for one $\mu$.
+
+```{r, eval = FALSE}
+t.test(dataset$variable,
+       alternative = [alternative],
+       mu = [hypothesized value])
+```
+
+- e.g.,
+
+```{r, eval = FALSE}
+t.test(dataset$variable,
+       alternative = "two.sided",
+       mu = 5)
+```
+
+- e.g.,
+
+```{r, eval = FALSE}
+t.test(dataset$variable,
+       alternative = "less",
+       mu = -5)
+```
+
+## Hypothesis Testing: Example
+
+- Recall the confidence interval, where we determined that the average gas mileage was less than 25.
+
+- Let's formally test that with the one-sample *t*-test.
+
+    - Test at the $\alpha=0.05$ level.
+
+```{r}
+t.test(mtcars$mpg,
+       alternative = "less",
+       mu = 25)
+```
+
+## Hypothesis Testing: Example
+
+- **Hypotheses**
+
+    - $H_0: \ \mu \ge 25$
+    - $H_1: \ \mu < 25$
+    
+- **Test Statistic and *p*-Value**
+
+    - $t_0 = -4.61$
+    - $p < 0.001$
+    
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$.
+    
+- **Conclusion/Interpretation**
+
+    - Reject $H_0$.
+    
+    - There is sufficient evidence to suggest that the average gas milage is less than 25 mpg.
+    
+## Hypothesis Testing: Example
+
+- Recall the confidence interval, where we determined that the average gas mileage was not greater than 20.
+
+- Let's formally test that with the one-sample *t*-test.
+
+    - Test at the $\alpha=0.05$ level.
+
+```{r}
+t.test(mtcars$mpg,
+       alternative = "greater",
+       mu = 20)
+```
+
+## Hypothesis Testing: Example
+
+- **Hypotheses**
+
+    - $H_0: \ \mu \ge 20$
+    - $H_1: \ \mu < 20$
+    
+- **Test Statistic and *p*-Value**
+
+    - $t_0 = 0.085$
+    - $p = 0.466$
+    
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$.
+    
+- **Conclusion/Interpretation**
+
+    - Fail to reject $H_0$.
+    
+    - There is not sufficient evidence to suggest that the average gas milage is greater than 20 mpg.
+    
+
+## Hypothesis Testing: Practical vs. Statistical Significance
+
+- Hypothesis testing depends on sample size.
+
+- As the sample size increases, our *p*-values decrease necessarily. 
+
+- As *p*-values decrease, we are more likely to reject the null hypothesis. 
+
+- We must ask ourselves if the value we are testing against makes practical sense. 
+
+    - A new weight loss medication where the average amount of weight loss was 1 lb over 6 months.
+    
+    - A new weight loss medication where the average amount of weight lost was 15 lb over 6 months.
+    
+    - A new teaching method that raised final exam scores by 2 points.
+    
+    - A new teaching method that raised final exam scores by 15 points.
+
+
+
+
+

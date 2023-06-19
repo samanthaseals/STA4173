@@ -1,0 +1,464 @@
+---
+title: "Correlation and Simple Linear Regression"
+subtitle: "STA4173 Lecture 8, Summer 2023"
+execute:
+  echo: true
+  message: false
+  warning: false
+format: 
+  revealjs:
+    theme: uwf
+    self-contained: true
+    slide-number: false
+    footer: "[STA4173 - Biostatistics](https://samanthaseals.github.io/STA4173)"
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+editor: source
+---
+
+## Introduction: Correlation
+
+- Before today, we discussed methods for comparing continuous outcomes across two or more groups.
+
+- We now will begin exploring the relationships between two continuous variables. 
+
+- Today we will focus on data visualization and correlation.
+
+- In the next lecture, we will quantify the relationship using linear regression.
+
+## Scatterplot
+
+- **Scatterplot or scatter diagram**:
+
+    - A graph that shows the relationship between two quantitative variables measured on the same subject.
+    
+- Each individual in the dataset is represented by a point on the scatterplot. 
+
+- The explanatory variable is on the $x$-axis and the response variable is on the $y$-axis.
+
+- It is super important for us to plot the data! 
+
+    - Plotting the data is a first step in identifying issues or potential relationships.
+    
+## Scatterplots
+
+- **Positive relationship**:
+
+    - As $x$ (explanatory variable) increases, $y$ (response variable) also increases.
+
+- **Negative relationship**:
+
+    - As $x$ (explanatory variable) increases, $y$ (response variable) decreases.
+
+<center>
+<img src="images/L14a.png" width = 950> <br>
+<img src="images/L14b.png" width = 575>
+</center>
+    
+## Example
+
+- A golf pro wants to investigate the relation between the club-head speed of a golf club (measured in miles per hour) and the distance (in yards) that the ball will travel. 
+
+- The pro uses a single model of club and ball, one golfer, and a clear, 70-degree day with no wind. 
+
+- The pro records the club-head speed, measures the distance the ball travels, and collected the data below.
+
+```{r}
+library(tidyverse)
+speed <- c(100, 102, 103, 101, 105, 100, 99, 105)
+distance <- c(257, 264, 274, 266, 277, 263, 258, 275)
+golf <- tibble(speed, distance)
+head(golf, n=3)
+```
+
+## Example
+
+- Like we have done before, we will graph using the `ggplot2` package.
+
+<center>
+```{r}
+golf %>% ggplot(aes(x = speed, y = distance)) + 
+  geom_point() # plot points
+```
+</center>
+
+## Example
+
+- Like we have done before, we will graph using the `ggplot2` package.
+
+<center>
+```{r}
+golf %>% ggplot(aes(x = speed, y = distance)) + 
+  geom_point(size = 3) + # plot points; make dots bigger
+  labs(x = "Club Head Speed (mph)",
+       y = "Distance (yards)") + # define labels 
+  theme_bw() # change background color
+```
+</center>
+
+## Correlation
+
+- Creating the scatterplot allows us to visualize a potential relationship.
+
+    - e.g., we know from the scatterplot for the golf data, as speed increases, distance increases.
+    
+- Now, let's talk about how to quantify that relationship.
+
+    - Today, we will talk about correlation.
+    
+    - Next lecture, we will talk about regression.
+
+## Correlation
+
+- **Correlation**: A measure of the strength and direction of the linear relationship between two quantitative variables. 
+
+    - $\rho$ represents the population correlation coefficient.
+    
+    - $r$ represents the sample correlation coefficient. 
+
+- Correlation is bounded to $[-1, 1]$.
+
+    - $r=-1$ represents perfect negative correlation.
+    
+    - $r=1$ represents perfect positive correlation.
+    
+    - $r=0$ represents no correlation.
+
+## Correlation
+
+- Pearson's correlation coefficient: $$r = \frac{\sum_{i=1}^n \left( \frac{x_i - \bar{x}}{s_x} \right)\left( \frac{y_i - \bar{y}}{s_y} \right)}{n-1}$$ where
+
+    - $x_i$ is the *i*^th^ observation of $x$
+    - $\bar{x}$ is the sample mean of $x$
+    - $s_x$ is the sample standard deviation of $x$
+    - $y_i$ is the *i*^th^ observation of $y$
+    - $\bar{y}$ is the sample mean of $y$
+    - $s_y$ is the sample standard deviation of $y$
+    - $n$ is the sample size
+
+## Correlation
+
+- In R, we will use the [`cor()` function](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/cor) to find the correlation.
+
+    - We can plug in the two specific variables we are interested in.
+    
+    - We can also plug in the dataset we are working with and all pairwise correlations will be reporeted. 
+    
+        - (This will be useful later!)
+
+```{r, eval = FALSE}
+cor(x, y) # request correlation between two values 
+cor(data) # request correlation from a tibble (dataset)
+```
+
+## Example
+
+- Let's find the correlation of the golf data.
+
+- First, let's plug in the specific variables we are interested in.
+
+```{r}
+cor(golf$distance, golf$speed)
+```
+
+- Looking at the correlation coefficient for distance and speed, $r = 0.94$.
+
+    - This is a strong positive correlation.
+
+## Example
+
+- Now, let's plug the whole dataset in.
+
+```{r}
+cor(golf)
+```
+
+- Notes:
+
+    - The correlation between a variable and itself is 1.
+    
+        - We can see this above: $r_{\text{speed, speed}} = 1$ and $r_{\text{distance, distance}} = 1$.
+    
+    - The correlation between $x$ and $y$ is the same as the correlation between $y$ and $x$.
+    
+        - We can see this above: $r_{\text{speed, distance}} = r_{\text{distance, speed}}$ 
+        
+## Correlation
+
+- An assumption for Pearson's correlation is that both $x$ and $y$ are normally distributed. 
+- What do we do when we do not meet the normality assumption?
+
+- **Spearman's Correlation**: A measure of the strength and direction of the monotone relationship between two variables. 
+
+    - Spearman's correlation only assumes that the data is ordinal. 
+
+    - It does not work for nominal data!
+
+- Spearman's correlation is interpreted the same as Pearson's correlation.
+
+- To find Spearman's correlation, the following algorithm is followed:
+
+    1. Rank the $x$ and $y$ values. 
+    
+        - ($x$, $y$) $\to$ ($R_x$, $R_y$)
+    
+    2. Find Pearson's correlation for the ranked data. 
+    
+## Correlation
+
+- We will again use the `cor()` function, but now we will specify Spearman.
+
+```{r, eval = FALSE}
+cor(x, y, method = "spearman") # request correlation between two values 
+cor(data, method = "spearmaan") # request correlation from a tibble (dataset)
+```
+
+## Example
+
+- Let's find the Spearman correlation of the golf data.
+
+```{r}
+cor(golf$distance, golf$speed, method = "spearman")
+```
+
+- Spearman's correlation is $r_{\text{S}} = 0.93$.
+
+    - This is still a strong, positive correlation.
+
+- Compare this to Pearson's correlation, $r = 0.94$.
+
+    - In this dataset, Spearman's correlation is not vastly different.
+
+    - While we see that Spearman's correlation is smaller than Pearson's correlation, this is not always the case.
+
+## Conclusions
+
+- Correlation allows us to quantify the relationship between two variables without units.
+
+    - It does not matter if $x$ and $y$ have the same units! Correlation is unitless.
+    
+- The closer to $-1$ or $1$, the stronger the relationship.
+
+    - As correlation approaches $-1$ or $1$, $x$ is better at predicting $y$.
+    
+- For fun: play [Guess the Correlation](http://www.guessthecorrelation.com).
+
+## Introduction: Simple Linear Regression
+
+- We have discussed quantifying the relationship between two continuous variables.
+
+- Recall that the correlation describes the strength and the direction of the relationship.
+
+    - Pearson's correlation: describes the linear relationship; assumes normality of both variables.
+    
+    - Spearman's correlation: describes the monotone relationship; assumes both variables are at least ordinal.
+    
+- Further, recall that correlation is *unitless* and bounded to $[-1, 1]$.
+    
+- Today, we will discuss a different way of representing/quantifying the relationship.
+
+    - We will now construct a line of best fit, called the ordinary least squares (OLS) regression line. 
+
+- Using simple linear regression, we will model $y$ (the outcome) as a function of $x$ (the predictor).
+
+    - This is called simple linear regression becaause there is only one predictor.
+    
+    - Next week, we will venture into multiple regression, which has mulitple predictors.
+
+## Simple Linear Regression
+
+- **Population regression line**: $$ y = \beta_0 + \beta_1 x + \varepsilon $$
+
+- **Sample regression line**: $$\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x + e$$
+
+- In the regression models,
+
+    - $\beta_0$ (estimated by $\hat{\beta}_0$) is the $y$-intercept.
+    
+        - This is the average of $y$ when everything in the model is 0.
+    
+    - $\beta_1$ (estimated by $\hat{\beta}_1$) is the slope describing the relationship between $x$ and $y$.
+    
+        - For a 1 unit increase in $x$, we expect $y$ to increase (if $\beta_1 > 1$) or decrease (if $\beta_1 < 1$) by $|\beta_1|$.
+    
+    - $\varepsilon$ (estimated by $e$) is the error term; remember, from ANOVA (😱): $$\varepsilon \overset{\text{iid}}{\sim} N(0, \sigma^2)$$
+
+## Simple Linear Regression
+
+- The underlying formulas are as follows,
+
+- **Slope $\hat{\beta}_1$** $$ \hat{\beta}_1 = \frac{\sum_{i=1}^n x_i y_i - \frac{\sum_{i=1}^n x_i \sum_{i=1}^n y_i}{n}}{\sum_{i=1}^n x_i^2 - \frac{\left(\sum_{i=1}^n x_i\right)^2}{n}} = r \frac{s_y}{s_x} $$
+
+- **Intercept $\hat{\beta}_0$** $$ \hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x}$$ where
+
+  - $\bar{x}$ is the mean of $x$,
+  - $\bar{y}$ is the mean of $y$,
+  - $s_x$ is the standard deviation of $x$, and
+  - $s_y$ is the standard deviation of $y$
+
+## Simple Linear Regression
+
+- We already know the syntax for modeling!
+
+    - ANOVA = regression 😎
+    
+- We will use the `lm()` function to define the model and `summary()` to see the results.
+
+```{r, eval = FALSE}
+m <- lm([y] ~ [x], data = [dataset])
+summary(m)
+```
+
+## Example
+
+- Recall the golf data,
+
+    - A golf pro wants to investigate the relation between the club-head speed of a golf club (measured in miles per hour) and the distance (in yards) that the ball will travel. 
+    
+    - The pro uses a single model of club and ball, one golfer, and a clear, 70-degree day with no wind. 
+    
+    - The pro records the club-head speed, measures the distance the ball travels, and collected the data below.
+
+```{r}
+library(tidyverse)
+speed <- c(100, 102, 103, 101, 105, 100, 99, 105)
+distance <- c(257, 264, 274, 266, 277, 263, 258, 275)
+golf <- tibble(speed, distance)
+head(golf, n=3)
+```
+
+## Example
+
+- Let's now construct the simple linear regression model.
+
+```{r}
+m <- lm(distance ~ speed, data = golf)
+summary(m)
+```
+
+- This results in the model, $$\hat{\text{distance}} = -55.80 + 3.17 \text{ speed}$$
+
+## Interpretations
+
+- Earlier, we gave the brief interpretations of the coefficients. Formally,
+
+- **Interpretation of the slope, $\hat{\beta}_1$**
+
+    - For a [$k$] [units of $x$] increase in [$x$], we expect [$y$] to [increase or decrease] by [$k \times |\hat{\beta}_1|$] [units of $y$].
+
+- **Interpretation of the $y$-intercept, $\hat{\beta}_0$**
+
+    - When [$x$] is 0, we expect the mean of [$y$] to be [$\hat{\beta}_0$].
+
+    - Caveat:
+
+        - It does not always make sense for $x=0$. In this situation, we do not interpret the $y$-intercept.
+        
+        - Some applications (e.g., psychology) will center the $x$ variable around its mean. Then, when $x=0$, we are interpreting in terms of the "average value of $x$."
+
+## Example
+
+- Recall the regression line from the golf pro example, $$\hat{\text{distance}} = -55.80 + 3.17 \text{ speed}$$
+
+    - For a 1 mph increase in club-head speed, we expect the distance the golf ball travels to increase by 3.17 yards.
+
+    - For a 5 mph increase in club-head speed, we expect the distance the golf ball travels to increase by 15.83 yards.
+
+    - When the club-head speed is 0 mph, the average distance the golf ball travels is -55.797 yards.
+
+## Hypothesis Testing for $\beta_1$
+
+- After constructing the regression line, we are interested in determining if $x$ is a significant predictor of $y$. 
+
+- There are some pieces we need to compute before we can jump into hypothesis testing. 
+
+- First, the residual: $$e_i = y_i - \hat{y}_i$$
+
+- Then, we find the standard error of the estimate, $s_e$, $$s_e = \sqrt{\frac{\sum_{i=1}^n e_i^2}{n-2}}$$
+
+- Finally, we can find the standard error of $\hat{\beta}_1$, $s_{\hat{\beta}_1}$,
+$$s_{\hat{\beta}_1} = \frac{s_e}{\sqrt{\sum_{i=1}^n (x_i - \bar{x})^2}} = \frac{s_e}{s_x \sqrt{n-1}}$$
+
+## Hypothesis Testing for $\beta_1$
+
+- **Hypotheses**
+
+    - $H_0: \ \beta_1 = 0$ 
+    - $H_1: \ \beta_1 \ne 0$
+
+- **Test Statistic**
+
+    - $t_0 = \frac{\hat{\beta}_1}{s_{\hat{\beta}_1}} = \frac{\hat{\beta}_1}{\text{SE of }\hat{\beta}_1}$
+
+- ***p*-Value**
+
+    - $p = 2 \times P[t_{n-2} \ge |t_0|]$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p<\alpha$.
+    
+## Example
+
+- From the golf example,
+
+```{r}
+summary(m)
+```
+
+- $t_0$ for speed is 6.67
+
+    - Slope for speed is 3.1661 and the SE of the slope for speed is 0.4747
+
+    - We can see that 3.1661/0.4747 = 6.67
+
+- The corresponding $p$-value is $p = 0.00055$, which we will represent as $p < 0.001$.
+
+## Example
+
+- **Hypotheses**
+
+    - $H_0: \ \beta_{\text{speed}} = 0$ 
+    - $H_1: \ \beta_{\text{speed}} \ne 0$
+
+- **Test Statistic**
+
+    - $t_0 = 6.67$
+
+- ***p*-Value**
+
+    - $p < 0.001$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p<\alpha$; $\alpha=0.05$
+    
+## Confidence Interval for $\beta_1$
+
+- Recall that a point estimate by itself does not tell us how good our estimation is.
+
+- Thus, we are also interested in finding the confidence interval for $\beta_1$.
+
+- $(1-\alpha)100\%$ CI for $\beta_1$: $$ \hat{\beta}_1 \pm t_{\alpha/2,n-2} s_{\hat{\beta}_1}$$ where the SE of the slope, $s_{\hat{\beta}_1}$, is as defined earlier.
+
+- The R syntax also reuses the model results in the `confint()` function.
+
+```{r, eval = FALSE}
+confint(m) # for 95% CI
+confint(m, level = [level]) # for other levels
+```
+
+## Example
+
+- Let's find the confidence intervals for the golf data,
+
+```{r}
+confint(m) # 95% CI
+confint(m, level = 0.90) # 90% CI
+```
+
+- The 95% CI for $\beta_{\text{speed}}$ is $(2.00, 4.33)$.
+- The 90% CI for $\beta_{\text{speed}}$ is $(2.24, 4.09)$.
+
