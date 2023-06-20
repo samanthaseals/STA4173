@@ -1,0 +1,80 @@
+---
+title: "Lab: June 22"
+author: "Your Name Here"
+format: 
+  html:
+    self-contained: true
+execute:
+  echo: true
+editor: source
+---
+
+College mathematics instructors suggest that students spend 2 hours outside class studying for every hour in class. So, for a 4-credit-hour math class, students should spend at least 8 hours (480 minutes) studying each week. The given data, from Michael Sullivan's College Algebra class, represent the time spent on task recorded in MyLabMath (in minutes) for randomly selected students during the third week of the semester. The data is as follows:
+
+<p><center>504 267 180 322 538 342 428 481 413 302 703</center></p>
+
+**1. (From last lab!) Create the vector of numbers.**
+
+```{r}
+
+```
+
+**2. (From last lab!) Find the mean study time.**
+
+```{r}
+
+```
+
+**3. Construct the 99% confidence interval for the population mean study time. Remember to state the resulting confidence interval.**
+
+```{r}
+
+```
+
+The 99% CI for $\mu$ is (lower bound, upper bound).
+
+**4. Use the appropriate hypothesis test to determine if the population mean study time is less than 480 minutes. Test at the $\alpha=0.01$ level. Remember to typeset your results.**
+
+```{r}
+
+```
+
+- **Hypotheses**
+
+    - $H_0: \ \mu \text{ fill in the rest}$
+    - $H_1: \ \mu \text{ fill in the rest}$
+    
+- **Test Statistic and *p*-Value**
+
+    - $t_0 = \text{insert here}$
+    - $p = \text{insert here}$
+    
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha = \text{insert here}$.
+    
+- **Conclusion/Interpretation**
+
+    - [Fail to reject or Reject] $H_0$.
+    
+    - There [is or is not] sufficient evidence to suggest [alternative hypothesis in words].
+
+**5. (Challenge!) Graph the confidence interval.**
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+

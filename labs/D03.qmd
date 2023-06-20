@@ -1,0 +1,78 @@
+---
+title: "Lab: June 27"
+author: "Your Name Here"
+format: 
+  html:
+    self-contained: true
+execute:
+  echo: true
+  warning: false
+  message: false
+editor: source
+---
+
+Call in necessary libraries:
+
+```{r}
+library(tidyverse)
+```
+
+Ramp metering is a traffic engineering idea that requires cars entering a freeway to stop for a certain period of time before joining the traffic flow. The theory is that ramp metering controls the number of cars on the freeway and the number of cars accessing the freeway, resulting in a freer flow of cars, which ultimately results in faster travel times. To test whether ramp metering is effective in reducing travel times, engineers in Minneapolis, Minnesota, conducted an experiment in which a section of freeway had ramp meters installed on the on-ramps. The response variable for the study was speed of the vehicles. A random sample of 15 cars on the highway for a Monday at 6 p.m. with the ramp meters on and a second random sample of 15 cars on a different Monday at 6 p.m. with the meters off resulted in the following speeds (in miles per hour).
+
+```{r}
+speed <- c(48, 48, 56, 38, 31, 35, 43, 46, 50, 35, 55, 40, 42, 26, 47,
+           34, 26, 42, 34, 37, 41, 47, 38, 17, 29, 23, 40, 37, 52, 41)
+meter <- c(rep("on", 15), rep("off", 15))
+data <- tibble(meter, speed)
+head(data)
+```
+
+**1. Explain why this is *independent* data.**
+
+**2. Describe the data using the overall mean and the group means. Remember to state each of the means (i.e., do not use R output as your only answer!).**
+
+```{r}
+
+```
+
+**3. Find the 90% CI for the difference in speeds when the ramp meters are on vs. off. Remember to state the resulting CI.**
+
+```{r}
+
+```
+
+**4. Use the appropriate $t$-test to determine if the ramp meters are effective in maintaining a higher speed on the freeway. Test at the $\alpha=0.10$ level. Remember to typeset the results.**
+
+```{r}
+
+```
+
+It is a commonly held belief that SUVs are safer than cars. If an SUV and car are in a collision, does the SUV sustain less damage (as suggested by the cost of repair)? The Insurance Institute for Highway Safety crashed SUVs into cars, with the SUV moving 10 miles per hour and the front of the SUV crashing into the rear of the car.
+
+```{r}
+suv <- c(1721, 1434, 1850, 2329, 1415, 1470, 2884)
+car <- c(1274, 2327, 3223, 2058, 3095, 3386, 4560)
+data <- tibble(suv, car)
+head(data)
+```
+
+**5. Explain why this is *dependent* data.**
+
+**6. Describe the data using the overall mean and the group means. Remember to state each of the means (i.e., do not use R output as your only answer!).**
+
+```{r}
+
+```
+
+**7. Find the 95% confidence interval for the average difference in repair costs. Remember to state the resulting CI.**
+
+```{r}
+
+```
+
+**8. Use the appropriate $t$-test to determine if the repair costs for SUVs is lower than that of cars. Test at the $\alpha=0.05$ level. Remember to typeset the results.**
+
+```{r}
+
+```
+
