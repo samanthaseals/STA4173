@@ -1,0 +1,52 @@
+---
+title: "Lab: Day 1"
+author: "Your Name Here"
+format: 
+  html:
+    self-contained: true
+execute:
+  echo: true
+editor: source
+---
+
+College mathematics instructors suggest that students spend 2 hours outside class studying for every hour in class. So, for a 4-credit-hour math class, students should spend at least 8 hours (480 minutes) studying each week. The given data, from Michael Sullivan's College Algebra class, represent the time spent on task recorded in MyLabMath (in minutes) for randomly selected students during the third week of the semester. The data is as follows:
+
+<p><center>504 267 180 322 538 342 428 481 413 302 703</center></p>
+
+**1. Create the vector of numbers.**
+
+```{r}
+
+```
+
+**2. Find the mean study time.**
+
+```{r}
+
+```
+
+**3. Find the standard deviation of study time.**
+
+```{r}
+
+```
+
+**4. Construct a relevant data visualization.**
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
