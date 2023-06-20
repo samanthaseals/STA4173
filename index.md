@@ -1,6 +1,6 @@
 ---
 title: STA4173 - Biostatistics
-subtitle: Spring 2023 - Dr. Seals
+subtitle: Summer 2023 - Dr. Seals
 layout: page
 #callouts: home_callouts
 show_sidebar: false
@@ -8,54 +8,22 @@ show_sidebar: false
 
 ## Tentative Schedule
 
-| Week | Day | Date  | Topic(s) | Class Materials | 
-|:-:|:-:|:-:|---|:-:|:-:|:-:|:-:|
-| 1    | M   | 01/09 | Review of summary statistics | [html](https://samanthaseals.github.io/STA4173/slides/L01.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L01.qmd) |
-|      | W   | 01/11 | Review of statistical inference | [html](https://samanthaseals.github.io/STA4173/slides/L02.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L02.qmd)  |
-|      | F   | 01/13 | Introduction to R / R lab | [html](https://samanthaseals.github.io/STA4173/labs/W01.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/W01.qmd) |
-| 2    | M   | 01/16 | MLK Holiday - no class | |
-|      | W   | 01/18 | Independent two-sample *t*-test | [html](https://samanthaseals.github.io/STA4173/slides/L03.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L03.qmd) |
-|      | F   | 01/20 | R lab | [html](https://samanthaseals.github.io/STA4173/labs/W02.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/W02.qmd) |
-| 3    | M   | 01/23 | Dependent *t*-test | [html](https://samanthaseals.github.io/STA4173/slides/L04.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L04.qmd)  |
-|      | W   | 01/25 | Assumptions on *t*-tests | [html](https://samanthaseals.github.io/STA4173/slides/L05.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L05.qmd) |
-|      | F   | 01/27 | R lab | [html](https://samanthaseals.github.io/STA4173/labs/W03.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/W03.qmd)  |
-| 4    | M   | 01/30 | Independent medians | [html](https://samanthaseals.github.io/STA4173/slides/L06.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L06.qmd) |
-|      | W   | 02/01 | Dependent medians | [html](https://samanthaseals.github.io/STA4173/slides/L07.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L07.qmd) |
-|      | F   | 02/03 | R lab | [html](https://samanthaseals.github.io/STA4173/labs/W04.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/W04.qmd)  |
-| 5    | M   | 02/06 | Project 1 | |
-|      | W   | 02/08 | Project 1 | |
-|      | F   | 02/10 | Project 1 | |
-| 6    | M   | 02/13 | One-way ANOVA | [html](https://samanthaseals.github.io/STA4173/slides/L08.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L08.qmd)  |
-|      | W   | 02/15 | Posthoc testing | [html](https://samanthaseals.github.io/STA4173/slides/L09.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L09.qmd)  |
-|      | F   | 02/17 | R lab | [html](https://samanthaseals.github.io/STA4173/labs/W06.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/W06.qmd) |
-| 7    | M   | 02/20 | ANOVA assumptions | [html](https://samanthaseals.github.io/STA4173/slides/L10.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L10.qmd)  |
-|      | W   | 02/22 | Kruskal-Wallis | [html](https://samanthaseals.github.io/STA4173/slides/L11.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L11.qmd) |
-|      | F   | 02/24 | R lab | [html](https://samanthaseals.github.io/STA4173/labs/W07.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/W07.qmd) |
-| 8    | M   | 02/27 | Two-way ANOVA | [html](https://samanthaseals.github.io/STA4173/slides/L12.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L12.qmd) |
-|      | W   | 03/01 | Profile plots and posthoc testing | [html](https://samanthaseals.github.io/STA4173/slides/L13.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L13.qmd) |
-|      | F   | 03/03 | R lab | [html](https://samanthaseals.github.io/STA4173/labs/W08.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/W08.qmd) |
-| 9    | M   | 03/06 | Project 2 | |
-|      | W   | 03/08 | Project 2 | |
-|      | F   | 03/10 | Project 2 | |
-| SB   | M   | 03/13 | Spring Break - no class | |
-|      | W   | 03/15 | Spring Break - no class | | 
-|      | F   | 03/17 | Spring Break - no class | |
-| 10   | M   | 03/20 | Scatterplots and correlation | [html](https://samanthaseals.github.io/STA4173/slides/L14.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L14.qmd)  |
-|      | W   | 03/22 | Simple linear regression | [html](https://samanthaseals.github.io/STA4173/slides/L15.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L15.qmd)  |
-|      | F   | 03/24 | R lab | [html](https://samanthaseals.github.io/STA4173/labs/W10.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/W10.qmd) |
-| 11   | M   | 03/27 | Multiple regression | |
-|      | W   | 03/29 | Multiple regression | [html](https://samanthaseals.github.io/STA4173/slides/L16.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L16.qmd) |
-|      | F   | 03/31 | R lab | [html](https://samanthaseals.github.io/STA4173/labs/W11.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/W11.qmd) |
-| 12   | M   | 04/03 | Project 3 | |
-|      | W   | 04/05 | Project 3 | |
-|      | F   | 04/07 | Project 3 | |
-| 13   | M   | 04/10 | Categorical analysis | [html](https://samanthaseals.github.io/STA4173/slides/L17.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L17.qmd) |
-|      | W   | 04/12 | Categorical analysis | [html](https://samanthaseals.github.io/STA4173/slides/L18.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L18.qmd) |
-|      | F   | 04/14 | R lab | [html](https://samanthaseals.github.io/STA4173/labs/W13.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/W13.qmd) |
-| 14   | M   | 04/17 | Project 4 | |
-|      | W   | 04/19 | Project 4 | |
-|      | F   | 04/21 | Project 4 | |
-| 15   | M   | 04/24 | Catch up and review for final | |
-|      | W   | 04/26 | Catch up and review for final | |
-|      | F   | 04/28 | Catch up and review for final | |
-| 16   | M   | 05/01 | Final Exam, 11:00 am - 1:30 pm
+| Week | Day | Date  | Topic(s) | Class Materials | Lab |
+|:-:|:-:|:-:|---------|:-:|:-:|
+| 1    | T   | 06/20 | Review of summary statistics | [html](https://samanthaseals.github.io/STA4173/slides/L01.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L01.qmd) | [html](https://samanthaseals.github.io/STA4173/labs/D01.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/D01.qmd) |
+|      | R   | 06/22 | Review of statistical inference | [html](https://samanthaseals.github.io/STA4173/slides/L02.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L02.qmd)  | [html](https://samanthaseals.github.io/STA4173/labs/D02.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/D02.qmd)
+| 2    | T   | 06/27 | Independent and dependent two-sample *t*-tests | [html](https://samanthaseals.github.io/STA4173/slides/L03.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L03.qmd) | [html](https://samanthaseals.github.io/STA4173/labs/D03.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/D03.qmd) |
+|      | R   | 06/29 | *t*-test assumptions, Wilcoxons |  [html](https://samanthaseals.github.io/STA4173/slides/L04.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L04.qmd)  | [html](https://samanthaseals.github.io/STA4173/labs/D04.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/D04.qmd) |
+| 3    | T   | 07/04 | Holiday, **no class** | | |
+|      | R   | 07/06 | Project 1 | | | 
+| 4    | T   | 07/11 | One-way ANOVA, posthoc testing  | [html](https://samanthaseals.github.io/STA4173/slides/L05.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L05.qmd) | [html](https://samanthaseals.github.io/STA4173/labs/D05.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/D05.qmd) |
+|      | R   | 07/13 | ANOVA assumptions, Kruskal-Wallis | [html](https://samanthaseals.github.io/STA4173/slides/L06.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L06.qmd) | [html](https://samanthaseals.github.io/STA4173/labs/D06.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/D06.qmd) |
+| 5    | T   | 07/18 | Two-way ANOVA | [html](https://samanthaseals.github.io/STA4173/slides/L07.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L07.qmd) | [html](https://samanthaseals.github.io/STA4173/labs/D07.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/D07.qmd) |
+|      | R   | 07/20 | Project 2 | |
+| 6    | T   | 07/25 | Simple linear regression, correlation | [html](https://samanthaseals.github.io/STA4173/slides/L08.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L08.qmd)  | [html](https://samanthaseals.github.io/STA4173/labs/D08.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/D08.qmd) |
+|      | R   | 07/27 | Multiple regression | [html](https://samanthaseals.github.io/STA4173/slides/L09.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L09.qmd)  | [html](https://samanthaseals.github.io/STA4173/labs/D09.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/D09.qmd) |
+| 7    | T   | 08/01 | Project 3 | | |
+|      | R   | 08/03 | Categorical analysis | [html](https://samanthaseals.github.io/STA4173/slides/L10.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L10.qmd) | [html](https://samanthaseals.github.io/STA4173/labs/D10.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/D10.qmd) |
+| 8    | T   | 08/08 | Project 4 | | |
+|      | R   | 08/10 | Conceptual Final Exam | | |
+
