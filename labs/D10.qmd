@@ -1,0 +1,70 @@
+---
+title: "Lab: August 3"
+author: "Your Name Here"
+format: 
+  html:
+    self-contained: true
+execute:
+  echo: true
+  warning: false
+  message: false
+editor: source
+---
+
+The following data are from the starting positions of the winning horses in 150 races. The starting position listed as 1 is the position of the horse in the starting gate closest to the inside rail of the track, and position 8 is farthest from the rail. Racing officials contend that starting position has *no effect* on the chance of winning the race.
+
+| Position | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 
+|----------|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| Number of winners | 32 | 19 | 19 | 25 | 18 | 11 | 15 | 11 |
+
+**1. Use the appropriate hypothesis test to determine if the starting position affects the chance of winning the race. Test at the $\alpha=0.10$ level. Remember to typeset the results.**
+
+```{r}
+
+```
+
+The General Social Survey asked a random sample of adult Americans two questions: (1) Would you favor or oppose a law which would require a person to obtain a police permit before he or she could buy a gun? (2) Do you favor or oppose the death penalty for persons convicted of murder? Results of the survey are in the next column. 
+
+|                       | Death Penalty - Favor | Death Penalty - Oppose |
+|-----------------------|:---------------------:|:----------------------:|
+| **Gun Laws - Favor**  |          176          |           69           |
+| **Gun Laws - Oppose** |          58           |           17           |
+
+**2. Does the sample evidence suggest the proportion of adult Americans who favor permits for guns is different from the proportion of adult Americans who favor the death penalty for murder convictions? Use the $\alpha = 0.05$ level of significance. Remember to typeset the results.**
+
+```{r}
+
+```
+
+An advertising agency is considering two advertisements for a major client. One of the advertisements is in black and white, and the other is in color. A market research firm randomly selects 50 male and 50 female customers of the client to evaluate the two advertisements. The firm finds that 39 of the 50 males prefer the color advertisement, whereas 46 of the 50 females preferred the color advertisement
+
+**3. Construct the 95% confidence interval on the difference in the proportions of males and females that prefer the color advertisement. Remember to state the resulting CI.**
+
+```{r}
+
+```
+    
+**4. Use the appropriate hypothesis test to determine if there is a significant difference in the proportions. Test at the $\alpha=0.05$ level. Remember to typeset the results.**
+
+```{r}
+
+```
+
+The fire department in a large city is examining its promotion policy to assess if there is the potential for an age discrimination lawsuit. A random sample of 250 promotion decisions over the past 5 years yields the following information.
+
+| Promotion | Aged < 30 | Aged 30-39 | Aged 40-49 | Aged > 50 |
+|----|:-:|:-:|:-:|:-:|
+| Promoted | 9 | 29 | 34 | 12 |
+| Not Promoted | 41 | 39 | 46 | 40 |
+
+**5. Use the appropriate hypothesis test to determine if the promotion decision is related to the age of the fireman. Test at the $\alpha=0.10$ level. Remember to typeset the results.**
+
+```{r}
+
+```
+
+
+
+
+
+

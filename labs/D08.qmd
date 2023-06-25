@@ -1,0 +1,63 @@
+---
+title: "Lab: July 25"
+author: "Your Name Here"
+format: 
+  html:
+    self-contained: true
+execute:
+  echo: true
+  warning: false
+  message: false
+editor: source
+---
+
+The American black bear (*Ursus americanus*) is one of eight bear species in the world. It is the smallest North American bear and the most common bear species on the planet. In 1969, Dr. Michael R. Pelton of the University of Tennessee initiated a long-term study of the population in the Great Smoky Mountains National Park. One aspect of the study was to develop a model that could be used to predict a bear’s weight (since it is not practical to weigh bears in the field). One variable thought to be related to weight is the length of the bear. The following data represent the lengths and weights of 12 American black bears.
+
+```{r}
+library(tidyverse)
+length <- c(139, 138, 139, 120.5, 149, 141, 141, 150, 166, 151.5, 129.5, 150)
+weight <- c(110, 60, 90, 60, 85, 100, 95, 85, 155, 140, 105, 110)
+bears <- tibble(length, weight)
+```
+
+**1. Create a scatterplot of the data with total length of the bear on the $x$ axis and weight of the bear on the $y$ axis.**
+
+```{r}
+
+```
+
+**2. Find Pearson's correlation coefficient between total length and weight.**
+
+```{r}
+
+```
+
+**3. Find Spearman's correlation coefficient between total length and weight.**
+
+```{r}
+
+```
+
+**4. Model weight as a function of total length; be sure to report the final estimated regression model.**
+
+```{r}
+
+```
+
+**5. Construct the 95\% confidence interval for $\beta_1$. Remember to state the CI.**
+
+```{r}
+
+```
+
+**6. Use the appropriate hypothesis test to determine if total length of the bear is a significant predictor of the bear's weight. Test at the $\alpha=0.05$ level.**
+
+```{r}
+
+```
+
+**7. (Challenge! ...but required for full lab credit!) Use R to assess the regression assumptions. Is our regression model valid? (Hint: you will need to go back to previous code to find what you need... and remember that ANOVA = regression!)**
+
+```{r}
+
+```

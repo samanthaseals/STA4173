@@ -1,0 +1,94 @@
+---
+title: "Lab: July 13"
+author: "Your Name Here"
+format: 
+  html:
+    self-contained: true
+execute:
+  echo: true
+  warning: false
+  message: false
+editor: source
+---
+
+An obstetrician knew that there were more live births during the week than on weekends. She wanted to determine whether the mean number of births was the same for each of the five days of the week. She randomly selected eight dates for each of the five days of the week and obtained the following data:
+
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse)
+births <- c(10456, 10023, 10691, 10283, 10265, 11189, 11198, 11465,
+            11621, 11944, 11045, 12927, 12577, 11753, 12509, 13521,
+            11084, 11570, 11346, 11875, 12193, 11593, 11216, 11818,
+            11171, 11745, 12023, 12433, 12132, 11903, 11233, 12543,
+            11545, 12321, 11749, 12192, 12422, 11627, 11624, 12543)
+day <- c(rep("M", 8), rep("T", 8), rep("W", 8), rep("R", 8), rep("F", 8))
+data <- tibble(day, births)
+```
+
+**1. From last lab: Use the appropriate hypothesis test to determine if the mean number of births is the same for each of the five days of the week. Test at the $\alpha=0.05$ level. Remember to typeset the results.**
+
+```{r}
+
+```
+
+**2. From last lab: Use Tukey's test to determine what pairwise differences exist. Test at the $\alpha=0.05$ level. Remember to state which pairwise differences exist.**
+
+```{r}
+
+```
+
+**3. Use the Kruskal-Wallis test to determine if there is a difference in number of births between week days. Test at the $\alpha=0.05$ level. Remember to typeset the results.**
+
+```{r}
+
+```
+
+**4. Use the Kruskal-Wallis posthoc procedure to determine what pairwise differences exist. Test at the $\alpha=0.05$ level. Remember to state which pairwise differences exist.**
+
+```{r}
+
+```
+
+**5. State and explain the ANOVA assumptions.**
+
+
+
+**6. Call in the `almost_sas()` function, shown in lecture, that will construct the graphs necessary to check the ANOVA assumptions. Note! I am only asking you to paste in the function, not to use it (yet).**
+
+```{r}
+
+```
+
+**7. Use the `almost_sas()` function to create the graphs necessary to check the ANOVA assumptions. (i.e., use the function from question 4 :)).**
+
+```{r}
+
+```
+
+**8. Perform the Brown-Forsyth-Levine test to determine if there is a difference between the variances. Test at the $\alpha=0.05$ level. Remember to typeset your results**
+
+```{r}
+
+```
+
+**9. Assess the assumptions using the graph constructed in question 7 and the conclusion from question 8. Remember to comment on each graph, including which assumption is being assessed. (Note: no code is needed here - please just write your assessment.)**
+
+
+
+**10. From your answer in question 9, determine if we should report the ANOVA results in questions 2 and 3 or the Kruskal-Wallis results in questions 8 and 9. Make sure that you explain why your choice is the correct choice. (Note: no code is needed here.)**
+
+
+
+**11. Construct an appropriate data visualization to help with explaining the results from the chosen analysis method.**
+
+```{r}
+
+```
+
+**12. Write a brief summary paragraph to explain the results from the method chosen in question 10; make sure that you reference the graph constructed in question 11.**
+
+
+
+
+
+
+

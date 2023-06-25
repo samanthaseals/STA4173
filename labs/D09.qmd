@@ -1,0 +1,76 @@
+---
+title: "Lab: July 27"
+author: "Your Name Here"
+format: 
+  html:
+    self-contained: true
+execute:
+  echo: true
+  warning: false
+  message: false
+editor: source
+---
+
+An economist was interested in modeling the relation among annual income, level of education, and work experience. The level of education is the number of years of education beyond eighth grade, so 1 represents completing 1 year of high school, 8 means completing 4 years of college, and so on. Work experience is the number of years employed in the current profession. From a random sample of 12 individuals,
+
+```{r}
+library(tidyverse)
+income <- c(34.7, 17.9, 22.7, 63.1, 33.0, 41.4, 20.7, 14.6, 97.3, 72.1, 49.1, 52.0)
+education <- c(6, 3, 8, 8, 4, 4, 1, 3, 12, 9, 11, 4)
+workyears <- c(21, 14, 4, 16, 12, 20, 25, 8, 24, 28, 4, 15)
+data <- tibble(income, education, workyears)
+```
+
+**1. Model income as a function of work experience and level of education. What is the resulting regression model?**
+
+```{r}
+
+```
+
+**2. Provide brief interpretations of the slopes.**
+
+
+
+**3. Construct the 95\% confidence intervals for $\beta_i$. Remember to state the resulting CIs.**
+
+```{r}
+
+```
+
+**4. Is this a significant regression line? Justify your answer statistically.**
+
+```{r}
+
+```
+
+**5. Which predictors, if any, are significant predictors of income? Justify your answer statistically.**
+
+```{r}
+
+```
+
+**6. Formally check for outliers. Which observations, if any, should be investigated? Justify your answer.**
+
+```{r}
+
+```
+
+**7. Formally check for multicollinearity. Is there an issue? Justify your answer.**
+
+```{r}
+
+```
+
+**8. Assess the regression assumptions using the model results.**
+
+```{r}
+
+```
+
+**9. Is our regression model valid? Justify your answer using the results from question 8.**
+
+
+
+
+
+

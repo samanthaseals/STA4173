@@ -1,0 +1,70 @@
+---
+title: "Lab: July 18"
+author: "Your Name Here"
+format: 
+  html:
+    self-contained: true
+execute:
+  echo: true
+  warning: false
+  message: false
+editor: source
+---
+
+A large advertising firm specializes in creating television commercials for children's products. The firm wants to design a study to investigate factors that may affect the lengths of time a commercial is able to hold a child's attention. A preliminary study determines that two factors that may be important are the age of the child and the type of product being advertised. The firm wants to determine whether there were large differences in the mean length of time that the commercial is able to hold the child’s attention depending on these two factors. If there proves to be a difference, the firm would then attempt to determine new types of commercials depending on the product and targeted age group. Three age groups are used: 5–6 years, 7–8 years, and 9–10 years. The types of products selected are breakfast cereals and video games. A group of 30 children is recruited in each age group, and 10 are randomly assigned to watch a 60-second commercial for each of the two products. Researchers record their attention spans during the viewing of the commercial. The data are given here.
+
+```{r}
+library(tidyverse)
+attn <- c(19, 36, 40, 30,  4, 10, 30,  5, 34, 21,
+          19, 35, 22, 28,  1, 27, 27, 16,  3, 18,
+          37,  6, 28,  4, 32, 16,  8, 41, 29, 18,
+          39, 18, 32, 22, 16,  2, 36, 43,  7, 16,
+          30, 47,  6, 27, 44, 26, 33, 48, 23, 21,
+          51, 52, 43, 48, 39, 33, 56, 43, 40, 51)
+age <- c(rep("5-6 years", 10), rep("7-8 years", 10), rep("9-10 years", 10), 
+         rep("5-6 years", 10), rep("7-8 years", 10), rep("9-10 years", 10))
+product <- c(rep("breakfast cereal", 30), rep("video game", 30))
+data <- tibble(product, age, attn)
+```
+
+**1. Construct the two-way ANOVA table.**
+
+```{r}
+
+```
+
+**2. Perform the appropriate hypothesis test (remember to typeset results from the ANOVA table in question 1) to demonstrate that the *interaction is significant*. Test at the $\alpha=0.05$ level.**
+
+
+
+**3. Construct the profile plot.**
+
+```{r}
+
+```
+
+**4. Use Tukey's test to make the following comparisons (and fill out the table):**
+
+|Comparison|Significant?|
+|-|-|
+| 5-6 years: video game vs breakfast cereal | INSERT YES OR NO |
+| 7-8 years: video game vs breakfast cereal | INSERT YES OR NO |
+| 9-10 years: video game vs breakfast cereal | INSERT YES OR NO |
+
+```{r}
+
+```
+
+**5. Briefly explain the analysis results to a non-statistician or non-data scientist. Make sure that you reference the profile plot and pairwise comparisons.**
+
+
+
+
+**6. Assess the ANOVA assumptions graphically. Is this a valid analysis? Why or why not?**
+
+```{r}
+
+```
+
+
+
