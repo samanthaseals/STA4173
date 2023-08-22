@@ -1,6 +1,6 @@
 ---
 title: "Review: Summary Statistics and Graphs"
-subtitle: "STA4173 Lecture 1, Summer 2023"
+subtitle: "STA4173: Biostatistics"
 execute:
   echo: true
   warning: false
@@ -43,7 +43,7 @@ editor: source
 
     -   Code is also available on this course's [GitHub repository](http://github.com/samanthaseals/STA4173)
     
-- We can use base R for some things, but other things we will use the [`tidyverse`](https://www.tidyverse.org/) and [`janitor`](https://www.rdocumentation.org/packages/janitor/versions/2.1.0) packages.
+- We can use base R for some things, but I try to stay in the [`tidyverse`](https://www.tidyverse.org/) when possible.
 
 - If we need to install packages, we use the `install.packages()` function,
 ```{r, eval = FALSE}
@@ -53,7 +53,6 @@ install.packages("package name")
 - To call packages in, we use the `library()` function,
 ```{r, warning = FALSE, message = FALSE}
 library(tidyverse)
-library(janitor)
 ```
 
 ## Summary Statistics: Mean
@@ -143,25 +142,23 @@ sd(scores)
 
 ## Summary Statistics: Variance and Standard Deviation
 
--   The following data represent the first exam score of 10 randomly selected students in STA2023. Find the variance and standard deviation.
+-   The following data represent the first exam score of 10 randomly selected students in STA2023. Find the standard deviation.
 
 <center>82, 77, 90, 71, <font color="#db0b9d">62</font>, 68, 74, 84, 94, 88</center>
 
 ```{r}
 scores <- c(82, 77, 90, 71, 62, 68, 74, 84, 94, 88)
-var(scores)
 sd(scores)
 ```
 
 <br>
 
--   What happens to the variance and standard deviation if there is an extreme observation?
+-   What happens to the standard deviation if there is an extreme observation?
 
 <center>82, 77, 90, 71, <font color="#db0b9d">26</font>, 68, 74, 84, 94, 88</center>
 
 ```{r}
 scores <- c(82, 77, 90, 71, 26, 68, 74, 84, 94, 88)
-var(scores)
 sd(scores)
 ```
 
@@ -354,7 +351,7 @@ IQR(scores)
 
 <br>
 
--   What happens to the five number summary if there is an extreme observation?
+-   What happens to the IQR if there is an extreme observation?
 
 <center>82, 77, 90, 71, <font color="#db0b9d">26</font>, 68, 74, 84, 94, 88</center>
 
@@ -378,8 +375,10 @@ IQR(scores)
     
 - R syntax:
 ```{r, eval = FALSE}
-# using the janitor package
-dataset %>% tabyl(variable)
+dataset %>%
+  group_by(var1, var2) %>% # do not change anything under this
+  summarise(n = n()) %>%
+  mutate(freq = n / sum(n))
 ```
 
 ## Summary Statistics: Frequency Tables
@@ -395,47 +394,55 @@ head(mtcars, n=5)
     
 ## Summary Statistics: Frequency Table
 
-- Let's find the frequency tables for the number of cylinders and the type of transmission (automatic vs. manual),
+- Let's find the frequency tables for the number of forward gears (*gear*) and the type of transmission (*am*; automatic vs. manual),
 
 ```{r}
-mtcars %>% tabyl(cyl)
-mtcars %>% tabyl(am)
+mtcars %>%
+  group_by(am, gear) %>%
+  summarise(n = n()) %>%
+  mutate(freq = n / sum(n))
 ```
 
 ## Summary Statistics: Frequency Table
 
-- Let's find the frequency tables for the number of cylinders and transmission type together.
-
-- First, with column percentages,
-
-    - e.g., what percentage of automatic transmissions have an engine with 8 cylinders?
+- Note that these are overall frequencies.
 
 ```{r}
-mtcars %>% 
-  tabyl(cyl, am) %>%
-  adorn_percentages("col") %>%
-  adorn_pct_formatting(digits = 1) %>%
-  adorn_ns()
-```
+#| echo: false
 
+mtcars %>%
+  group_by(am, gear) %>%
+  summarise(n = n()) %>%
+  mutate(freq = n / sum(n))
+```
 
 ## Summary Statistics: Frequency Table
 
-- Let's find the frequency tables for the number of cylinders and transmission type together.
+- If we want conditional probabilities, we need to filter to one level.
 
-- Next, with row percentages,
-
-    - e.g., what percentage of engines with 8 cylinders have automatic transmissions?
+    - Of automatic cars, 15 (78.9%) have 3 forward gears, while 4 (21.1%) have 4 forward gears.
 
 ```{r}
-mtcars %>% 
-  tabyl(cyl, am) %>%
-  adorn_percentages("row") %>%
-  adorn_pct_formatting(digits = 1) %>%
-  adorn_ns()
+mtcars %>%
+  filter(am == 0) %>%
+  group_by(gear) %>%
+  summarise(n = n()) %>%
+  mutate(freq = n / sum(n))
 ```
 
+## Summary Statistics: Frequency Table
 
+- If we want conditional probabilities, we need to filter to one level.
+
+    - Of manual cars, 8 (61.5%) have 4 forward gears, while 5 (38.5%) have 5 forward gears.
+
+```{r}
+mtcars %>%
+  filter(am == 1) %>%
+  group_by(gear) %>%
+  summarise(n = n()) %>%
+  mutate(freq = n / sum(n))
+```
 
 ## Data Visualization: Introduction
 
@@ -870,7 +877,7 @@ mtcars %>% ggplot(aes(x=as.factor(cyl), fill=as.factor(am))) +
 
 - In lab, we will learn how to create a table of descriptives.
 
-- Next class, we will review statistical inference.
+- Next week, we will review statistical inference.
 
     - Confidence intervals
     - Hypothsis testing
