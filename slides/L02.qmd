@@ -1,6 +1,6 @@
 ---
 title: "Review: Inferential Statistics"
-subtitle: "STA4173 Lecture 2, Summer 2023"
+subtitle: "STA4173: Biostatistics"
 execute:
   echo: true
   warning: false
@@ -94,25 +94,13 @@ editor: source
 
 ## Confidence Intervals: Definitions
 
-- **$(1-\alpha)100\%$ CI for a population mean, $\mu$:**
-
-$$
-\bar{x} \pm t_{\alpha/2, n-1} \frac{s}{\sqrt{n}}
-$$
+- **$(1-\alpha)100\%$ CI for a population mean, $\mu$:** $$\bar{x} \pm t_{\alpha/2, n-1} \frac{s}{\sqrt{n}}$$
 
 - The critical value is $t_{\alpha/2,n-1}$.
 
-- Recall the computation of $\bar{x}$,
+- Recall the computation of $\bar{x}$,$$\bar{x} = \frac{\sum_{i=1}^n x_i}{n}$$
 
-$$
-\bar{x} = \frac{\sum_{i=1}^n x_i}{n}
-$$
-
-- and the computation of $s$,
-
-$$
-s = \sqrt{\frac{\sum_{i=1}^n x_i^2 - \frac{(\sum_{i=1}^n x_i)^2}{n}}{n-1}}
-$$
+- and the computation of $s$, $$s = \sqrt{\frac{\sum_{i=1}^n x_i^2 - \frac{(\sum_{i=1}^n x_i)^2}{n}}{n-1}}$$
 
 ## Confidence Intervals: R Syntax
 
@@ -242,12 +230,12 @@ $$ </font>
 
     - Left-tailed test
 
-        - $H_0:$ parameter = some value
+        - $H_0:$ parameter $\ge$ some value
         - $H_1:$ parameter $<$ some value
 
     - Right-tailed test
     
-        - $H_0:$ parameter = some value
+        - $H_0:$ parameter $\le$ some value
         - $H_1:$ parameter $>$ some value 
 
 ## Hypothesis Testing: Example
@@ -281,23 +269,23 @@ $$ </font>
 
     - Two-tailed test
 
-        - $H_0:$ parameter$_1$ -- parameter$_2$ = 0
-        - $H_1:$ parameter$_1$ -- parameter$_2$ $\ne$ 0
+        - $H_0:$ parameter~1~ -- parameter~2~ = 0
+        - $H_1:$ parameter~1~ -- parameter~2~ $\ne$ 0
         
     - Left-tailed test
 
-        - $H_0:$ parameter$_1$ -- parameter$_2$ = 0
-        - $H_1:$ parameter$_1$ -- parameter$_2$ $<$ 0
+        - $H_0:$ parameter~1~ -- parameter~2~  $\ge$ 0
+        - $H_1:$ parameter~1~ -- parameter~2~ $<$ 0
     
     - Right-tailed test
 
-        - $H_0:$ parameter$_1$ -- parameter$_2$ = 0
-        - $H_1:$ parameter$_1$ -- parameter$_2$ $>$ 0
+        - $H_0:$ parameter~1~ -- parameter~2~ $\le$ 0
+        - $H_1:$ parameter~1~ -- parameter~2~ $>$ 0
     
 
 ## Hypothesis Testing: Example
 
-- Dr. Seals will be buying a car this summer and is doing research to determine what to buy. 
+- Dr. Seals will be buying a car soon and is doing research to determine what to buy. 
 
 - She knows that she wants a small car such as a Honda Civic and is willing to purchase in Birmingham, AL if the prices are cheaper.
 
@@ -307,7 +295,7 @@ $$ </font>
 
 ## Hypothesis Testing: Example
 
-- Dr. Seals will be buying a car this summer and is doing research to determine what to buy. 
+- Dr. Seals will be buying a car soon and is doing research to determine what to buy. 
 
 - She knows that she wants a small car such as a Honda Civic and is willing to purchase in Birmingham, AL if the prices are cheaper.
 
@@ -396,7 +384,6 @@ $$ </font>
 
 ## Hypothesis Testing: Errors
 
-
 - As stated earlier, Type I ($\alpha$) and Type II ($\beta$) errors are probabilities.
 
     - $\alpha = \text{P}[\text{reject } H_0 \text{ when } H_0 \text{ is true}]$
@@ -442,16 +429,12 @@ $$ </font>
 
 ## Hypothesis Testing: *p*-Values
 
-- To find *p*-values for right-tailed tests:
-$$ p = \text{P}[\text{distribution} \ge \text{calculated test statistic}] $$
+- To find *p*-values for right-tailed tests: $$ p = \text{P}[\text{distribution} \ge \text{calculated test statistic}] $$
 
-- To find *p*-values for left-tailed tests:
-$$ p = \text{P}[\text{distribution} \ge \text{calculated test statistic}] $$
+- To find *p*-values for left-tailed tests: $$ p = \text{P}[\text{distribution} \ge \text{calculated test statistic}] $$
 
-- To find *p*-values for two-tailed tests:
-$$ p = 2 \times \text{P}[\text{distribution} \ge \text{\textit{positive} calculated test statistic}] $$
-    - e.g., if we are testing $H_1: \mu \ne 5$ and the test statistic is $t_0 = -2.51$ with 13 df,
-$$ p = 2 \times \text{P}[t_{13} \ge 2.51] $$
+- To find *p*-values for two-tailed tests: $$ p = 2 \times \text{P}[\text{distribution} \ge \text{\textit{positive} calculated test statistic}] $$
+    - e.g., if we are testing $H_1: \mu \ne 5$ and the test statistic is $t_0 = -2.51$ with 13 df, $$ p = 2 \times \text{P}[t_{13} \ge 2.51] $$
     
 ## Hypothesis Testing: Conclusions and Interpretations
 
@@ -466,12 +449,11 @@ $$ p = 2 \times \text{P}[t_{13} \ge 2.51] $$
 
         - There is not sufficient evidence to suggest that $H_1$ is true.
 
-
 - Take aways:
 
     - **We never "accept" the null.**
 
-    - We always interpret in terms of $H_1$.
+    - We *always* interpret in terms of $H_1$.
     
 ## Hypothesis Testing: Example
 
