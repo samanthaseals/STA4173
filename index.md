@@ -12,8 +12,8 @@ show_sidebar: false
 |:-:|:-:|:-:|---------|:-:|
 | 1    | T   | 08/22 | Review of summary statistics | [html](https://samanthaseals.github.io/STA4173/slides/L01.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L01.qmd) |
 |     | R   | 08/24 | R Lab | [html](https://samanthaseals.github.io/STA4173/labs/D01.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/D01.qmd) |
-| 2     | T   | 08/29 | Review of statistical inference |  |
-|     | R   | 08/31 | R Lab | |
+| 2     | T   | 08/29 | Review of statistical inference | [html](https://samanthaseals.github.io/STA4173/slides/L02.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L02.qmd) |
+|     | R   | 08/31 | R Lab | [html](https://samanthaseals.github.io/STA4173/labs/D02.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/D02.qmd) |
 | 3    | T   | 09/05 | Independent and dependent two-sample *t*-tests | |
 |     | R   | 09/07 | R Lab |  |
 |  4    | T   | 09/12 | *t*-test assumptions, Wilcoxons |   |
