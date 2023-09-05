@@ -1,5 +1,5 @@
 ---
-title: "Lab: June 27"
+title: "Lab: Week 3"
 author: "Your Name Here"
 format: 
   html:
