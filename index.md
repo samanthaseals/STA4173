@@ -17,24 +17,24 @@ show_sidebar: false
 | 3    | T   | 09/05 | Independent and dependent two-sample *t*-tests | [html](https://samanthaseals.github.io/STA4173/slides/L03.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L03.qmd)  |
 |     | R   | 09/07 | R Lab | [html](https://samanthaseals.github.io/STA4173/labs/D03.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/D03.qmd) |
 |  4    | T   | 09/12 | *t*-test assumptions, Wilcoxons | [html](https://samanthaseals.github.io/STA4173/slides/L04.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L04.qmd)   |
-|     | R   | 09/14 | R Lab | | |
+|     | R   | 09/14 | R Lab | [html](https://samanthaseals.github.io/STA4173/labs/D04.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/D04.qmd) |
 | 5    | T   | 09/19 | Project 1 | |
 |     | R   | 09/21 | Project 1 | | 
-| 6   | T   | 09/26 | One-way ANOVA, posthoc testing  |  |
-|     | R   | 09/28 | R Lab |  |
-| 7     | T   | 10/03 | ANOVA assumptions, Kruskal-Wallis |  |
+| 6   | T   | 09/26 | One-way ANOVA, posthoc testing  | [html](https://samanthaseals.github.io/STA4173/slides/L05.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L05.qmd)  |
+|     | R   | 09/28 | R Lab | [html](https://samanthaseals.github.io/STA4173/labs/D05.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/D05.qmd) |
+| 7     | T   | 10/03 | ANOVA assumptions, Kruskal-Wallis |  [html](https://samanthaseals.github.io/STA4173/slides/L06.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L06.qmd)   |
 |     | R   | 10/05 | R Lab |  |
-| 8    | T   | 10/10 | Two-way ANOVA | |
+| 8    | T   | 10/10 | Two-way ANOVA |  [html](https://samanthaseals.github.io/STA4173/slides/L07.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L07.qmd)  |
 |     | R   | 10/12 | R Lab |  |
 | 9     | T   | 10/17 | Project 2 | |
 |      | R   | 10/19 | Project 2 | |
-| 10    | T   | 10/24 | Simple linear regression, correlation |   |
+| 10    | T   | 10/24 | Simple linear regression, correlation (no class; Dr. Seals traveling) |  [html](https://samanthaseals.github.io/STA4173/slides/L08.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L08.qmd)   |
 |      | R   | 10/26 |  R Lab (no class; Dr. Seals traveling) |  |
-|  11    | T   | 11/07 | Multiple regression |   |
+|  11    | T   | 11/07 | Multiple regression |  [html](https://samanthaseals.github.io/STA4173/slides/L09.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L09.qmd)   |
 |      | R   | 11/09 | R Lab (no class; Dr. Seals traveling) | |
 | 12    | T   | 11/14 | Project 3 | | |
 |     | R  | 11/16 | Project 3 | | |
-| 13     | T   | 11/21 | Categorical analysis |  |
+| 13     | T   | 11/21 | Categorical analysis |  [html](https://samanthaseals.github.io/STA4173/slides/L10.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L10.qmd)  |
 |     | R  | 11/22 | Thanksgiving Holiday, no class |
 | 14    | T   | 11/27 | Project 4 |  | |
 |     | R  | 11/29 | Catch up; Final Exam prep |
