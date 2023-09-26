@@ -1,8 +1,10 @@
 ---
 title: "One-Way Analysis of Variance and Posthoc Testing"
-subtitle: "STA4173 Lecture 5, Summer 2023"
+subtitle: "STA4173: Biostatistics"
 execute:
   echo: true
+  warning: false
+  message: false
 format: 
   revealjs:
     theme: uwf
@@ -22,7 +24,7 @@ editor: source
 
     - What about when there are three or more groups? 
 
-- We will use a method called \textbf{an}alysis \textbf{o}f \textbf{va}riance (ANOVA).
+- We will use a method called **an**alysis **o**f **va**riance (ANOVA).
 
     - This method partitions the variance of the outcome into variance due to the groups and variance due to "other" factors.
 
@@ -149,25 +151,27 @@ Total | SS<sub>Tot</sub> | df<sub>Tot</sub> | | |
 
 ## ANOVA: R Syntax
 
-- We will use both the [`lm()`](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/lm) and [`anova()`](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/anova) functions in R.
+- We can use the `aov()` and `summary()` functions.
 
-    - ANOVA is regression (and regression is ANOVA).
-    - We use `lm()` to define the model.
-    - We use `anova()` to construct the ANOVA table.
+```{r}
+#| eval: false
+m <- aov([continuous variable] ~ [grouping variable],
+         data = [dataset])
+summary(m)
+```
 
-```{r, echo = TRUE, eval = FALSE}
+
+- However, note that ANOVA is regression (and regression is ANOVA).
+    - We can also use `lm()` to define the model and `anova()` to construct the ANOVA table.
+
+```{r}
+#| eval: false
 m <- lm([continuous variable] ~ [grouping variable],
         data = [dataset])
 anova(m)
 ```
 
-- Alternatively, we can use the `aov()` and `summary()` functions.
 
-```{r, echo = TRUE, eval = FALSE}
-m <- aov([continuous variable] ~ [grouping variable],
-         data = [dataset])
-summary(m)
-```
 
 ## Example - Dental
 
@@ -193,6 +197,7 @@ data <- tibble(system, strength)
 ## Example - Dental
 
 ```{r}
+#| echo: false
 head(data, n=3)
 ```
 
@@ -203,6 +208,7 @@ head(data, n=3)
 ## Example - Dental
 
 ```{r}
+#| echo: false
 head(data, n=3)
 ```
 
@@ -216,21 +222,29 @@ head(data, n=3)
 
 ## Example - Dental
 
+- Our first step will be to construct an ANOVA table for the data.
+
+::: {.panel-tabset}
+
+## `aov()`
+
+- Let's look at using the `aov()` and `summary()` functions.
+
+```{r}
+m1 <- aov(strength ~ system, data = data)
+summary(m1)
+```
+
+## `lm()`
+
 - Let's now have R put together the ANOVA table for us using `lm()` and `anova()`.
 
 ```{r}
-m <- lm(strength ~ system, data = data)
-anova(m)
+m2 <- lm(strength ~ system, data = data)
+anova(m2)
 ```
 
-## Example - Dental
-
-- Let's look at the alternative using the `aov()` and `summary()` functions.
-
-```{r}
-m <- aov(strength ~ system, data = data)
-summary(m)
-```
+:::
 
 ## Hypothesis Testing
 
@@ -253,15 +267,19 @@ summary(m)
 
 ## Example - Dental
 
-- Recall the ANOVA table from the dental example:
+- Using the dental data:
+
+::: {.panel-tabset}
+
+## Results
 
 ```{r}
-summary(m)
+summary(m1)
 ```
 
 - Determine if there is a difference in average strength between the groups. Test at the $\alpha=0.01$ level.
 
-## Example - Dental
+## Typesetting
 
 - **Hypotheses**
 
@@ -279,9 +297,9 @@ summary(m)
     
 - **Conclusion/Interpretation**
 
-    - Reject $H_0$ at the $\alpha=0.01$ level.
-    
-    - There is sufficient evidence to suggest that there is a difference in average strength between the four groups.
+    - Reject $H_0$. There is sufficient evidence to suggest that there is a difference in average strength between the four groups.
+
+:::
 
 ## Example - Penguins
 
@@ -291,10 +309,10 @@ summary(m)
 
 - Determine if there is a difference in bill lengths between the three species. Test at the $\alpha=0.05$ level.
 
-```{r, echo = TRUE}
+```{r}
 penguins <- palmerpenguins::penguins
-m1 <- lm(bill_length_mm ~ species, data = penguins)
-anova(m1)
+m3 <- aov(bill_length_mm ~ species, data = penguins)
+summary(m3)
 ```
 ## Example - Penguins
 
@@ -318,16 +336,6 @@ anova(m1)
     
     - There is sufficient evidence to suggest that there is a difference in bill length between the three species.
     
-## Example - Penguins
-
-<center>
-```{r}
-penguins %>% ggplot(aes(y = bill_length_mm, x = species, fill = species)) +
-  geom_boxplot() +
-  theme_bw()
-```
-</center>
-
 ## Introduction: Posthoc Testing
 
 - Today we have introduced ANOVA. Recall the hypotheses,
@@ -396,26 +404,47 @@ penguins %>% ggplot(aes(y = bill_length_mm, x = species, fill = species)) +
     
 ## Example
 
-- Recall the dental example from last lecture,
+- Recall the dental example from earlier,
 
-```{r, echo = FALSE, warning = FALSE, message = FALSE}
-library(tidyverse)
-```
+::: {.panel-tabset}
+
+## Results
 
 ```{r}
+#| echo: false
 strength <- c(15.4, 12.9, 17.2, 16.6, 19.3,
               17.2, 14.3, 17.6, 21.6, 17.5,
                5.5,  7.7, 12.2, 11.4, 16.4,
               11.0, 12.4, 13.5,  8.9,  8.1)
 system <- c(rep("Cojet",5), rep("Silistor",5), rep("Cimara",5), rep("Ceramic",5))
 data <- tibble(system, strength)
-m <- aov(strength ~ system, data = data)
-summary(m)
+m1 <- aov(strength ~ system, data = data)
+summary(m1)
 ```
+
+## Code
+
+```{r}
+#| eval: false
+strength <- c(15.4, 12.9, 17.2, 16.6, 19.3,
+              17.2, 14.3, 17.6, 21.6, 17.5,
+               5.5,  7.7, 12.2, 11.4, 16.4,
+              11.0, 12.4, 13.5,  8.9,  8.1)
+system <- c(rep("Cojet",5), rep("Silistor",5), rep("Cimara",5), rep("Ceramic",5))
+data <- tibble(system, strength)
+m1 <- aov(strength ~ system, data = data)
+summary(m1)
+```
+
+:::
 
 - Are we justified in posthoc testing? (Recall: $\alpha=0.01$).
 
 ## Tukey's Test
+
+::: {.panel-tabset}
+
+## Set Up
 
 - Tukey's test allows us to do all pairwise comparisons while controlling $\alpha$.
 
@@ -425,7 +454,7 @@ summary(m)
     
         - $q_{\alpha}(k, \text{df}_{\text{E}})$ is the critical value from the Studentized range distribution.
 
-## Tukey's Test
+## R Syntax
 
 - We will use the [`TukeyHSD()`](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/TukeyHSD) function.
 
@@ -436,13 +465,15 @@ m <- aov([continuous variable] ~ [grouping variable], data = [dataset name])
 TukeyHSD(m)$[grouping variable]
 ```
 
+:::
+
 ## Tukey's Test
 
 - Let's apply Tukey's to the dental data.
 
 ```{r}
 m <- aov(strength ~ system, data = data)
-TukeyHSD(m)$system
+TukeyHSD(m, conf.level = 0.99)$system
 ```
 
 - Which are significantly different at the $\alpha=0.01$ level?
@@ -462,13 +493,17 @@ TukeyHSD(m, conf.level = 0.99)$system
 
 ## Fisher's Test
 
+::: {.panel-tabset}
+
+## Set Up
+
 - Fisher's allows us to test all pairwise comparisons but \textbf{does not} control the $\alpha$.
 
 - The underlying idea of the comparison:
 
     - We declare $\mu_i \ne \mu_j$ if $|\bar{y}_i - \bar{y}_j| \ge \text{LSD}$, where $$ \text{LSD} = t_{1-\alpha/2, \text{df}_\text{E}} \sqrt{\text{MSE} \left( \frac{1}{n_i} + \frac{1}{n_j} \right)} $$
 
-## Fisher's Test
+## R Syntax
 
 - We will use the [`LSD.test()`](https://www.rdocumentation.org/packages/agricolae/versions/1.3-5/topics/LSD.test) function from the [`agricolae`](https://www.rdocumentation.org/packages/agricolae/versions/1.3-5) package.
 
@@ -484,6 +519,8 @@ results <- summary(m)
           alpha = [alpha level]) # can omit if alpha = 0.05
   )[5] # limit to only the pairwise comparison results
 ```
+
+:::
 
 ## Fisher's Test
 
@@ -524,6 +561,10 @@ LSD.test(data$strength,
 
 ## Dunnett's Test 
 
+::: {.panel-tabset}
+
+## Set Up
+
 - Dunnett's test allows us to do all pairwise comparisons against only the control, while controlling $\alpha$.
 
     - This has fewer comparisons than Tukey's because we are not comparing non-control groups to one another.
@@ -536,7 +577,7 @@ LSD.test(data$strength,
         
         - $d_{\alpha}(k-1, \text{df}_{\text{E}})$ is the critical value from Dunnett's table.
 
-## Dunnett's Test
+## R Syntax
 
 - We will use the [`DunnettTest()`](https://www.rdocumentation.org/packages/DescTools/versions/0.99.32/topics/DunnettTest) function from the DescTools package to perform Dunnett's test.
 
@@ -549,13 +590,15 @@ DunnettTest(x=[dataset]$[continuous variable],
 
 - The *p*-values are adjusted, so you can directly compare them to the specified $\alpha$.
 
+:::
+
 ## Dunnett's Test
 
 - Let's apply Dunnett's to the dental data.
 
     - We will treat "Ceramic" as the control group.
 
-```{r, message = FALSE, mwarning = FALSE}
+```{r, message = FALSE, warning = FALSE}
 library(DescTools)
 DunnettTest(x=data$strength, 
             g=data$system, 
@@ -570,7 +613,7 @@ DunnettTest(x=data$strength,
 
     - We will treat "Ceramic" as the control group.
 
-```{r, message = FALSE, mwarning = FALSE}
+```{r, message = FALSE, warning = FALSE}
 library(DescTools)
 DunnettTest(x=data$strength, 
             g=data$system, 
@@ -585,48 +628,64 @@ DunnettTest(x=data$strength,
 
 - Recall the [Palmer Penguin](https://allisonhorst.github.io/palmerpenguins/) data in R.
 
+::: {.panel-tabset}
+
+## ANOVA
+
 ```{r, echo = TRUE}
-penguins <- palmerpenguins::penguins
-m1 <- aov(bill_length_mm ~ species, data = penguins)
-summary(m1)
+m4 <- aov(bill_length_mm ~ species, data = penguins)
+summary(m4)
 ```
 
-## Example - Penguins
+## Boxplot
 
 <center>
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE}
 penguins %>% ggplot(aes(y = bill_length_mm, x = species, fill = species)) +
   geom_boxplot() +
-  theme_bw()
+  labs(x = "Penguin Species",
+       y = "Bill Length (mm)") +
+  theme_bw() +
+  theme(legend.position="none")
 ```
 </center>
 
+## Graph Code
+
+```{r, echo = TRUE, eval = FALSE}
+penguins %>% ggplot(aes(y = bill_length_mm, x = species, fill = species)) +
+  geom_boxplot() +
+  labs(x = "Penguin Species",
+       y = "Bill Length (mm)") +
+  theme_bw() +
+  theme(legend.position="none")
+```
+
+:::
+
 ## Example - Penguins
+
+::: {.panel-tabset}
+
+## Tukey's
 
 - Let's use Tukey's test to determine what differences exist between the species. 
 
 ```{r}
-TukeyHSD(m1)$species
+TukeyHSD(m4)$species
 ```
 
-- Which species are significantly different at the $\alpha=0.05$ level?
-
-## Example - Penguins
-
-- Let's use Tukey's test to determine what differences exist between the species. 
+## Fisher's 
 
 ```{r}
-TukeyHSD(m1)$species
+results <- summary(m4)
+LSD.test(penguins$bill_length_mm, 
+         penguins$species, 
+         results[[1]]$Df[2], 
+         results[[1]]$`Mean Sq`[2])[5]
 ```
 
-- Which species are significantly different at the $\alpha=0.05$ level?
-
-    - <font color="#db0b9d">Chinstrap-Adelie</font>
-    - <font color="#db0b9d">Gentoo-Adelie</font>
-    - <font color="#db0b9d">Gentoo-Chinstrap</font>
-
-
-
+:::
 
 
 
