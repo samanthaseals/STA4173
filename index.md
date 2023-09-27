@@ -30,13 +30,15 @@ show_sidebar: false
 |      | R   | 10/19 | Project 2 | |
 | 10    | T   | 10/24 | Simple linear regression, correlation (no class; Dr. Seals traveling) |  [html](https://samanthaseals.github.io/STA4173/slides/L08.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L08.qmd)   |
 |      | R   | 10/26 |  R Lab (no class; Dr. Seals traveling) |  |
-|  11    | T   | 11/07 | Multiple regression |  [html](https://samanthaseals.github.io/STA4173/slides/L09.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L09.qmd)   |
-|      | R   | 11/09 | R Lab (no class; Dr. Seals traveling) | |
-| 12    | T   | 11/14 | Project 3 | | |
-|     | R  | 11/16 | Project 3 | | |
-| 13     | T   | 11/21 | Categorical analysis |  [html](https://samanthaseals.github.io/STA4173/slides/L10.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L10.qmd)  |
-|     | R  | 11/22 | Thanksgiving Holiday, no class |
-| 14    | T   | 11/27 | Project 4 |  | |
+| 11 | T | 10/31 |  Multiple regression |  [html](https://samanthaseals.github.io/STA4173/slides/L09.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L09.qmd)   |
+| | R | 11/02 | R Lab | |
+|  12    | T   | 11/07 | Project 3 | |
+|      | R   | 11/09 | Project 3 (no class; Dr. Seals traveling) | |
+| 13    | T   | 11/14 |  Categorical analysis |  [html](https://samanthaseals.github.io/STA4173/slides/L10.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L10.qmd)  |
+|     | R  | 11/16 | R Lab | | |
+| 14     | T   | 11/21 | Project 4 | | 
+|     | R  | 11/22 | Thanksgiving Holiday, no class | |
+| 15    | T   | 11/27 | Catch up; Final Exam prep |  | 
 |     | R  | 11/29 | Catch up; Final Exam prep |
 
 
