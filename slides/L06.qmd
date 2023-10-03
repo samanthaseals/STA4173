@@ -1,8 +1,11 @@
 ---
 title: "ANOVA Assumptions, Kruskal-Wallis, and Posthoc Testing"
-subtitle: "STA4173 Lecture 6, Summer 2023"
+subtitle: "STA4173: Biostatistics"
 execute:
   echo: true
+  warning: false
+  message: false
+  error: true
 format: 
   revealjs:
     theme: uwf
@@ -54,12 +57,6 @@ $$ e_{ij} = y_{ij} - \hat{y}_{ij} $$
 
 ## ANOVA Assumptions: Graphical Assessment
     
-- **Normality**: histogram of residuals
-
-    - Should be mound-shaped and symmetric
-    - Should be centered at $\mu=0$
-    - Note: it may look "wonky" when sample sizes are small
-    
 - **Normality**: quantile-quantile plot
 
     - Should have points close to the 45$^\circ$ line
@@ -70,35 +67,29 @@ $$ e_{ij} = y_{ij} - \hat{y}_{ij} $$
     - Should be "equal spread" between the groups
     - No "pattern"
 
-## ANOVA Assumptions: Assessing Graphically
+## ANOVA Assumptions: Graphical Assessment
 
-- We will construct a matrix of graphs to assess assumptions.
+- Like with *t*-tests, we will assess these assumptions graphically.
 
-    - If we decide that the variance is questionable, we can (and will) formally test it.
-    
-    - I always base my final decision about normality on the q-q plot.
-        
-- R syntax to put together the matrix of graphs (credit: former graduate student, Reid Ginoza)
+- We will return to the `classpackage` package and use the `anova_check()` function.
 
-```{r, eval = FALSE}
-# define function to construct graph for assumptions
-almost_sas <- function(aov.results){
-  aov_residuals <- residuals(aov.results)
-  par(mfrow=c(2,2))
-  plot(aov.results, which=1)
-  hist(aov_residuals)
-  plot(aov.results, which=2)
-}
+```{r}
+#| eval: false
 
-# use the function to create the graph
-almost_sas([model results])
+library(classpackage) 
+anova_check(m)
 ```
 
-## ANOVA Assumptions: Assessing Graphically
+## ANOVA Assumptions: Graphical Assessment
 
-- Recall the dental data,
+- Recall the dental example from last week,
 
-```{r, warning = FALSE, message = FALSE}
+::: {.panel-tabset}
+
+## Results
+
+```{r}
+#| echo: false
 library(tidyverse)
 strength <- c(15.4, 12.9, 17.2, 16.6, 19.3,
               17.2, 14.3, 17.6, 21.6, 17.5,
@@ -110,43 +101,48 @@ m <- aov(strength ~ system, data = data)
 summary(m)
 ```
 
-## ANOVA Assumptions: Assessing Graphically
+## Code
 
-- Let's assess the assumptions graphically,
-
-```{r, eval = FALSE}
-# define function to construct graph for assumptions
-almost_sas <- function(aov.results){
-  aov_residuals <- residuals(aov.results)
-  par(mfrow=c(2,2))
-  plot(aov.results, which=1)
-  hist(aov_residuals)
-  plot(aov.results, which=2)
-}
-
-# use the function to create the graph
-almost_sas(m)
+```{r}
+#| eval: false
+library(tidyverse)
+strength <- c(15.4, 12.9, 17.2, 16.6, 19.3,
+              17.2, 14.3, 17.6, 21.6, 17.5,
+               5.5,  7.7, 12.2, 11.4, 16.4,
+              11.0, 12.4, 13.5,  8.9,  8.1)
+system <- c(rep("Cojet",5), rep("Silistor",5), rep("Cimara",5), rep("Ceramic",5))
+data <- tibble(system, strength)
+m <- aov(strength ~ system, data = data)
+summary(m)
 ```
 
+:::
+
 ## ANOVA Assumptions: Assessing Graphically
 
 - Let's assess the assumptions graphically,
+
+::: {.panel-tabset}
+
+## Code
+
+```{r}
+#| eval: false
+library(classpackage)
+anova_check(m)
+```
+
+## Graph
 
 <center>
-```{r, echo = FALSE}
-# define function to construct graph for assumptions
-almost_sas <- function(aov.results){
-  aov_residuals <- residuals(aov.results)
-  par(mfrow=c(2,2))
-  plot(aov.results, which=1)
-  hist(aov_residuals)
-  plot(aov.results, which=2)
-}
-
-# use the function to create the graph
-almost_sas(m)
+```{r}
+#| echo: false
+library(classpackage)
+anova_check(m)
 ```
 </center>
+
+:::
 
 ## ANOVA Assumptions: Test for Variance
 
@@ -161,9 +157,7 @@ almost_sas(m)
     - $n = \sum_{i=1}^k n_i$, and
     - $z_{ij} = |y_{ij} - \text{median}(y_i)|$
 
-## ANOVA Assumptions: Test for Variance
-
-**Brown-Forsythe-Levine Test for Homoskedasticity**
+## ANOVA Assumptions: Brown-Forsythe-Levine Test for Variance
 
 - **Hypotheses**
 
@@ -176,7 +170,7 @@ almost_sas(m)
     
 - ***p*-Value**
 
-    - $p = P[F_0 \ge F_{\text{df}_{\text{Trt}}, \text{df}_{\text{E}}}]$
+    - $p = P[F_{\text{df}_{\text{Trt}}, \text{df}_{\text{E}}} \ge F_0]$
     
 - **Rejection Region**
 
@@ -239,7 +233,7 @@ anova(m1)
 
 <center>
 ```{r}
-almost_sas(m1)
+anova_check(m1)
 ```
 </center>
 
@@ -275,13 +269,13 @@ leveneTest(m1)
     
 ## Introduction: Kruskal-Wallis
 
-- Last lecture, we discussed the ANOVA assumptions.
+- We just discussed the ANOVA assumptions.
 
 $$\varepsilon_{ij} \overset{\text{iid}}{\sim} N(0, \sigma^2)$$
 
 - We also discussed how to assess the assumptions:
 
-    - Graphically using the `almost_sas()` function.
+    - Graphically using the `anova_check()` function.
     
     - Confirming the variance assumption using the BFL.
 
@@ -305,7 +299,7 @@ $$\varepsilon_{ij} \overset{\text{iid}}{\sim} N(0, \sigma^2)$$
 
 ## Kruskal-Wallis Test
 
-- The test statistic is as follows: $$ H = \frac{12}{n(n+1)} \sum_{i=1}^k \frac{R_i^2}{n_i} - 3(n+1), $$ where
+- The test statistic is as follows: $$ \chi^2_0 = \frac{12}{n(n+1)} \sum_{i=1}^k \frac{R_i^2}{n_i} - 3(n+1), $$ where
     
     - $R_i$ is the sum of the ranks for group $i$,
     - $n_i$ is the sample size for group $i$,
@@ -323,11 +317,11 @@ $$\varepsilon_{ij} \overset{\text{iid}}{\sim} N(0, \sigma^2)$$
   
 **Test Statistic**
 
-  - $H_0 = \frac{12}{n(n+1)} \sum_{i=1}^k \frac{R_i^2}{n_i} - 3(n+1)$ 
+  - $\chi^2_0 = \frac{12}{n(n+1)} \sum_{i=1}^k \frac{R_i^2}{n_i} - 3(n+1)$ 
   
 ***p*-Value**
 
-  - $p = P[H_0 \ge \chi^2_{k-1}]$
+  - $p = P[\chi^2_{k-1} \ge \chi^2_0]$
 
 **Rejection Region**
 
@@ -365,18 +359,14 @@ data <- tibble(age, HDL)
 
 <center>
 ```{r, echo = FALSE}
-almost_sas <- function(aov.results){
-  aov_residuals <- residuals(aov.results)
-  par(mfrow=c(2,2))
-  plot(aov.results, which=1)
-  hist(aov_residuals)
-  plot(aov.results, which=2)
-}
-almost_sas(lm(HDL ~ age, data = data))
+#| echo: false
+anova_check(lm(HDL ~ age, data = data))
 ```
 </center>
 
 ## Example: HDL
+
+- Running the test in R,
 
 ```{r}
 kruskal.test(HDL ~ age, data = data)
@@ -391,7 +381,7 @@ kruskal.test(HDL ~ age, data = data)
   
 **Test Statistic and *p*-Value**
 
-  - $H = 1.012$ 
+  - $\chi_0^2 = 1.012$ 
   - $p = 0.602$
 
 **Rejection Region**
@@ -400,22 +390,13 @@ kruskal.test(HDL ~ age, data = data)
   
 **Conclusion/Interpretation**
 
-  - Fail to reject $H_0$.
-  - There is not sufficient evidence to suggest that there is a difference between the three groups.
-
-\begin{frame}{Kruskal-Wallis Test}
-
-\begin{center}
-    \includegraphics[scale=0.3]{images/L81fig2.png}
-\end{center}
-    
-\end{frame}
+  - Fail to reject $H_0$. There is not sufficient evidence to suggest that there is a difference between the three groups.
 
 ## Kruskal-Wallis: Posthoc Testing
 
-- We can also perform posthoc testing in the Kruskal-Wallis setting.\vskip1em
+- We can also perform posthoc testing in the Kruskal-Wallis setting.
 
-- The set up is just like Tukey's -- we can perform all pairwise comparisons and control for the Type I error rate. \vskip1em
+- The set up is just like Tukey's -- we can perform all pairwise comparisons and control for the Type I error rate.
 
 - Instead of using $|\bar{y}_i - \bar{y}_j|$, we will use $|\bar{R}_i - \bar{R}_j|$, where $\bar{R}_i$ is the average rank of group $i$.
 
@@ -435,70 +416,82 @@ kruskalmc([outcome variable] ~ [grouping variable],
 
 ## Example: HDL
 
+::: {.panel-tabset}
+
+## Set Up
+
 - Revisiting our example,
 
     - Note that if we were doing this "for real" we would not do the posthoc test since we did not see a difference between the three groups.
     
     - We are doing it here for demonstration purposes.
 
+## Code 
+
 ```{r}
+#| eval: false
+library(pgirmess) 
+kruskalmc(HDL ~ age, data = data)
+```
+
+## Results 
+
+```{r}
+#| echo: false
 library(pgirmess) 
 kruskalmc(HDL ~ age, data = data)
 ```
 
 - Thus, none of the groups are different from one another.
 
+:::
+
 ## Example: Penguins
 
 - Recall the [Palmer Penguin](https://allisonhorst.github.io/palmerpenguins/) data in R.
 
-- Let's check the differences in bill lengths using the Kruskal-Wallis.
+::: {.panel-tabset}
 
-```{r, echo = TRUE}
+## Box Plot
+
+<center>
+```{r}
+#| echo: false
+penguins %>% 
+  ggplot(aes(y = bill_length_mm, x = species, fill = species)) +
+  geom_boxplot() +
+  labs(y = "Bill Length (mm)",
+       x = "Species") +
+  theme_bw() +
+  theme(legend.position = "none")
+```
+</center>
+
+## Kruskal-Wallis: Global
+
+- Let's check the overall difference in bill lengths using the Kruskal-Wallis.
+
+```{r}
 penguins <- palmerpenguins::penguins
 kruskal.test(bill_length_mm ~ species, data = penguins)
 ```
 
-## Example: Penguins
+## Kruskal-Wallis: Pairwise
 
-**Hypotheses**
-
-  - $H_0: \ M_1 = M_2 = M_3$
-  - $H_1:$ at least one $M_i$ is different
-  
-**Test Statistic and *p*-Value**
-
-  - $H =244.14$ 
-  - $p < 0.001$
-
-**Rejection Region**
-
-  - Reject $H_0$ if $p < \alpha$
-  
-**Conclusion/Interpretation**
-
-  - Reject $H_0$.
-  - There is sufficient evidence to suggest that there is a difference in bill length between the three species.
-  
-## Example: Penguins
-
-<center>
-```{r, echo = FALSE}
-penguins %>% ggplot(aes(y = bill_length_mm, x = species, fill = species)) +
-  geom_boxplot() +
-  theme_bw()
-```
-</center>
-  
-## Example: Penguins
+- Let's check the pairwise differences in bill lengths using the Kruskal-Wallis approach.
 
 ```{r}
+library(pgirmess) 
 kruskalmc(bill_length_mm ~ species, data = penguins)
 ```
 
 - Adelies are different from both chinstraps and gentoos.
 
 - Chinstraps and gentoos are not different.
+
+:::
+
+
 
 
 
