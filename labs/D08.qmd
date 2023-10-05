@@ -1,5 +1,5 @@
 ---
-title: "Lab: July 25"
+title: "Lab: Week 10"
 author: "Your Name Here"
 format: 
   html:
@@ -8,6 +8,7 @@ execute:
   echo: true
   warning: false
   message: false
+  error: true
 editor: source
 ---
 
