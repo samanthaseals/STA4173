@@ -24,7 +24,7 @@ show_sidebar: false
 |     | R   | 09/28 | R Lab | [html](https://samanthaseals.github.io/STA4173/labs/D05.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/D05.qmd) |
 | 7     | T   | 10/03 | ANOVA assumptions, Kruskal-Wallis |  [html](https://samanthaseals.github.io/STA4173/slides/L06.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L06.qmd)   |
 |     | R   | 10/05 | R Lab | [html](https://samanthaseals.github.io/STA4173/labs/D06.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/D06.qmd) |
-| 8    | T   | 10/10 | Two-way ANOVA |  [html](https://samanthaseals.github.io/STA4173/slides/L07.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L07.qmd)  |
+| 8    | T   | 10/10 | Two-way ANOVA (no class; please watch video on Canvas) |  [html](https://samanthaseals.github.io/STA4173/slides/L07.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L07.qmd)  |
 |     | R   | 10/12 | R Lab | [html](https://samanthaseals.github.io/STA4173/labs/D07.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/D07.qmd) |
 | 9     | T   | 10/17 | Project 2 | |
 |      | R   | 10/19 | Project 2 | |
