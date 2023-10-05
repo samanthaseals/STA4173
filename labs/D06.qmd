@@ -1,5 +1,5 @@
 ---
-title: "Lab: July 13"
+title: "Lab: Week 7"
 author: "Your Name Here"
 format: 
   html:
@@ -8,6 +8,7 @@ execute:
   echo: true
   warning: false
   message: false
+  error: true
 editor: source
 ---
 
@@ -48,43 +49,22 @@ data <- tibble(day, births)
 
 ```
 
-**5. State and explain the ANOVA assumptions.**
-
-
-
-**6. Call in the `almost_sas()` function, shown in lecture, that will construct the graphs necessary to check the ANOVA assumptions. Note! I am only asking you to paste in the function, not to use it (yet).**
+**5. Use the `anova_check()` function to create the graphs necessary to check the ANOVA assumptions.**
 
 ```{r}
 
 ```
 
-**7. Use the `almost_sas()` function to create the graphs necessary to check the ANOVA assumptions. (i.e., use the function from question 4 :)).**
+**6. Assess the assumptions using the graph constructed in question 5. Remember to comment on each graph, including which assumption is being assessed. (Note: no code is needed here - please just write your assessment.)**
+
+
+**7. Perform the Brown-Forsyth-Levine test to determine if there is a difference between the variances. Test at the $\alpha=0.05$ level. Remember to typeset your results.**
 
 ```{r}
 
 ```
 
-**8. Perform the Brown-Forsyth-Levine test to determine if there is a difference between the variances. Test at the $\alpha=0.05$ level. Remember to typeset your results**
-
-```{r}
-
-```
-
-**9. Assess the assumptions using the graph constructed in question 7 and the conclusion from question 8. Remember to comment on each graph, including which assumption is being assessed. (Note: no code is needed here - please just write your assessment.)**
-
-
-
-**10. From your answer in question 9, determine if we should report the ANOVA results in questions 2 and 3 or the Kruskal-Wallis results in questions 8 and 9. Make sure that you explain why your choice is the correct choice. (Note: no code is needed here.)**
-
-
-
-**11. Construct an appropriate data visualization to help with explaining the results from the chosen analysis method.**
-
-```{r}
-
-```
-
-**12. Write a brief summary paragraph to explain the results from the method chosen in question 10; make sure that you reference the graph constructed in question 11.**
+**8. From your answer in question 9, determine if we should report the ANOVA results or the Kruskal-Wallis results in questions 8 and 9. Make sure that you explain why your choice is the correct choice. (Note: no code is needed here.)**
 
 
 
