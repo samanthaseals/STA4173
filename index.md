@@ -23,7 +23,7 @@ show_sidebar: false
 | 6   | T   | 09/26 | One-way ANOVA, posthoc testing  | [html](https://samanthaseals.github.io/STA4173/slides/L05.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L05.qmd)  |
 |     | R   | 09/28 | R Lab | [html](https://samanthaseals.github.io/STA4173/labs/D05.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/D05.qmd) |
 | 7     | T   | 10/03 | ANOVA assumptions, Kruskal-Wallis |  [html](https://samanthaseals.github.io/STA4173/slides/L06.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L06.qmd)   |
-|     | R   | 10/05 | R Lab |  |
+|     | R   | 10/05 | R Lab | [html](https://samanthaseals.github.io/STA4173/labs/D06.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/D06.qmd) |
 | 8    | T   | 10/10 | Two-way ANOVA |  [html](https://samanthaseals.github.io/STA4173/slides/L07.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L07.qmd)  |
 |     | R   | 10/12 | R Lab |  |
 | 9     | T   | 10/17 | Project 2 | |
