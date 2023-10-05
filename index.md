@@ -25,17 +25,17 @@ show_sidebar: false
 | 7     | T   | 10/03 | ANOVA assumptions, Kruskal-Wallis |  [html](https://samanthaseals.github.io/STA4173/slides/L06.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L06.qmd)   |
 |     | R   | 10/05 | R Lab | [html](https://samanthaseals.github.io/STA4173/labs/D06.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/D06.qmd) |
 | 8    | T   | 10/10 | Two-way ANOVA |  [html](https://samanthaseals.github.io/STA4173/slides/L07.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L07.qmd)  |
-|     | R   | 10/12 | R Lab |  |
+|     | R   | 10/12 | R Lab | [html](https://samanthaseals.github.io/STA4173/labs/D07.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/D07.qmd) |
 | 9     | T   | 10/17 | Project 2 | |
 |      | R   | 10/19 | Project 2 | |
 | 10    | T   | 10/24 | Simple linear regression, correlation (no class; Dr. Seals traveling) |  [html](https://samanthaseals.github.io/STA4173/slides/L08.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L08.qmd)   |
-|      | R   | 10/26 |  R Lab (no class; Dr. Seals traveling) |  |
+|      | R   | 10/26 |  R Lab (no class; Dr. Seals traveling) | [html](https://samanthaseals.github.io/STA4173/labs/D08.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/D08.qmd) |
 | 11 | T | 10/31 |  Multiple regression |  [html](https://samanthaseals.github.io/STA4173/slides/L09.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L09.qmd)   |
-| | R | 11/02 | R Lab | |
+| | R | 11/02 | R Lab | [html](https://samanthaseals.github.io/STA4173/labs/D09.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/D09.qmd) |
 |  12    | T   | 11/07 | Project 3 | |
 |      | R   | 11/09 | Project 3 (no class; Dr. Seals traveling) | |
 | 13    | T   | 11/14 |  Categorical analysis |  [html](https://samanthaseals.github.io/STA4173/slides/L10.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L10.qmd)  |
-|     | R  | 11/16 | R Lab | | |
+|     | R  | 11/16 | R Lab | [html](https://samanthaseals.github.io/STA4173/labs/D10.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/labs/D10.qmd) |
 | 14     | T   | 11/21 | Project 4 | | 
 |     | R  | 11/23 | Thanksgiving Holiday, no class | |
 | 15    | T   | 11/28 | Catch up; Final Exam prep |  | 
