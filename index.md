@@ -37,9 +37,9 @@ show_sidebar: false
 | 13    | T   | 11/14 |  Categorical analysis |  [html](https://samanthaseals.github.io/STA4173/slides/L10.html), [qmd](https://github.com/samanthaseals/STA4173/blob/master/slides/L10.qmd)  |
 |     | R  | 11/16 | R Lab | | |
 | 14     | T   | 11/21 | Project 4 | | 
-|     | R  | 11/22 | Thanksgiving Holiday, no class | |
-| 15    | T   | 11/27 | Catch up; Final Exam prep |  | 
-|     | R  | 11/29 | Catch up; Final Exam prep |
+|     | R  | 11/23 | Thanksgiving Holiday, no class | |
+| 15    | T   | 11/28 | Catch up; Final Exam prep |  | 
+|     | R  | 11/30 | Catch up; Final Exam prep |
 
 
 Note: The final exam begins at 8:00 am on December 7!
