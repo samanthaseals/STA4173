@@ -1,6 +1,6 @@
 ---
 title: "Multiple Regression"
-subtitle: "STA4173 Lecture 9, Summer 2023"
+subtitle: "STA4173: Biostatistics"
 execute:
   echo: true
   message: false
@@ -127,7 +127,7 @@ summary(m)
 
 - **Test Statistic and *p*-Value**
 
-    - $t_0 = 1.01$
+    - $t_0 = 4.179$
 
     - $p = 0.002$
 
@@ -150,7 +150,7 @@ summary(m)
 
 - **Test Statistic and *p*-Value**
 
-    - $t_0 = 3.24$
+    - $t_0 = 4.892$
 
     - $p < 0.001$
 
@@ -185,7 +185,7 @@ confint(m)
 - In our example,
 
 | Predictor | Estimate (95% CI) | *p*-Value |
-|-|:-:|-|
+|-|:-:|-:|
 | Age | 1.01 (0.48, 1.55) | 0.002 |
 | Fat | 3.24 (1.78, 4.70) | < 0.001 |
 

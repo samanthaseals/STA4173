@@ -1,10 +1,11 @@
 ---
 title: "Correlation and Simple Linear Regression"
-subtitle: "STA4173 Lecture 8, Summer 2023"
+subtitle: "STA4173: Biostatistics"
 execute:
   echo: true
   message: false
   warning: false
+  error: true
 format: 
   revealjs:
     theme: uwf
@@ -77,19 +78,14 @@ head(golf, n=3)
 
 - Like we have done before, we will graph using the `ggplot2` package.
 
-<center>
-```{r}
-golf %>% ggplot(aes(x = speed, y = distance)) + 
-  geom_point() # plot points
-```
-</center>
+::: {.panel-tabset}
 
-## Example
 
-- Like we have done before, we will graph using the `ggplot2` package.
+## Graph
 
 <center>
 ```{r}
+#| echo: false
 golf %>% ggplot(aes(x = speed, y = distance)) + 
   geom_point(size = 3) + # plot points; make dots bigger
   labs(x = "Club Head Speed (mph)",
@@ -97,6 +93,19 @@ golf %>% ggplot(aes(x = speed, y = distance)) +
   theme_bw() # change background color
 ```
 </center>
+
+## Code
+
+```{r}
+#| eval: false
+golf %>% ggplot(aes(x = speed, y = distance)) + 
+  geom_point(size = 3) + # plot points; make dots bigger
+  labs(x = "Club Head Speed (mph)",
+       y = "Distance (yards)") + # define labels 
+  theme_bw() # change background color
+```
+
+:::
 
 ## Correlation
 
@@ -106,9 +115,9 @@ golf %>% ggplot(aes(x = speed, y = distance)) +
     
 - Now, let's talk about how to quantify that relationship.
 
-    - Today, we will talk about correlation.
+    - Initial quantification: correlation.
     
-    - Next lecture, we will talk about regression.
+    - Further quantification: regression.
 
 ## Correlation
 
@@ -461,4 +470,22 @@ confint(m, level = 0.90) # 90% CI
 
 - The 95% CI for $\beta_{\text{speed}}$ is $(2.00, 4.33)$.
 - The 90% CI for $\beta_{\text{speed}}$ is $(2.24, 4.09)$.
+
+## Wrap Up
+
+- Today we discussed the *modeling* of continuous data.
+
+- We have discussed simple linear regression, which means we have a *single predictor* in the model.
+
+- Next week, we will extend to multiple regression (more than one predictor).
+
+- Regression is ANOVA; ANOVA is regression.
+
+    - Keep this in mind if you are asked to assess assumptions.
+
+
+
+
+
+
 

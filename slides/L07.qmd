@@ -1,6 +1,6 @@
 ---
 title: "Two-Way ANOVA"
-subtitle: "STA4173 Lecture 7, Summer 2023"
+subtitle: "STA4173: Biostatistics"
 execute:
   echo: true
 format: 
@@ -24,9 +24,11 @@ editor: source
 
 - Now, we will discuss two-way ANOVA, which allows us to consider a second factor (grouping variable). 
 
-- We now partition the SS$_{\text{Trt}}$ into the different factors under consideration.
+- We now partition the SS<sub>Trt</sub> into the different factors under consideration.
     
-- Recall that $\text{SS}_{\text{E}}$ is the "catch all" for unexplained variance. -- when we add factors to our model, we are moving part of the $\text{SS}_{\text{E}}$ into the $\text{SS}_{\text{Trt}}$
+- Recall that SS<sub>E</sub> is the "catch all" for unexplained variance. 
+
+    - When we add factors to our model, we are moving part of the SS<sub>E</sub> into the SS<sub>Trt</sub>.
     
 ## Introduction: Two-Way ANOVA
 
@@ -106,19 +108,27 @@ $$\text{MS}_{\text{X}} = \frac{\text{SS}_{\text{X}}}{\text{df}_{\text{X}}} \ \ \
     - include additional terms with +
     - include interaction terms with :
     
-```{r, echo = TRUE, eval = FALSE}
+::: {.panel-tabset}
+
+## Using `aov()`
+
+```{r}
+#| eval: false
+m <- aov([outcome] ~ [factor A] + [factor B] + [factor A]:[factor B],
+         data = [dataset])
+summary(m)
+```
+
+## Using `lm()`
+
+```{r}
+#| eval: false
 m <- lm([outcome] ~ [factor A] + [factor B] + [factor A]:[factor B],
         data = [dataset])
 anova(m)
 ```
 
-OR
-
-```{r, echo = TRUE, eval = FALSE}
-m <- aov([outcome] ~ [factor A] + [factor B] + [factor A]:[factor B],
-         data = [dataset])
-summary(m)
-```
+:::
 
 ## Example
 
@@ -318,7 +328,7 @@ summary(m)
 - **Hypotheses**
 
     - $H_0:$ there is not a main effect of diet ($\mu_1 = \mu_2 = \mu_3$)
-    - $H_1:$ there not a main effect of diet (at least one $\mu_i$ is different)
+    - $H_1:$ there is a main effect of diet (at least one $\mu_i$ is different)
 
 - **Test Statistic and *p*-Value**
 
@@ -340,11 +350,11 @@ summary(m)
 - **Hypotheses**
 
     - $H_0:$ there is not a main effect of age ($\mu_1 = \mu_2$)
-    - $H_1:$ there not a main effect of age ($\mu_1 \ne \mu_2$)
+    - $H_1:$ there is a main effect of age ($\mu_1 \ne \mu_2$)
 
 - **Test Statistic and *p*-Value**
 
-    - $F_{\text{diet}} = 2.728$ 
+    - $F_{\text{age}} = 2.728$ 
     - $p = 0.121$
 
 - **Rejection Region**
@@ -392,13 +402,31 @@ summary(m)
 
 - Let's first find the treatment means for the birth weight data,
 
-```{r, echo = TRUE, warning = FALSE, message = FALSE}
+::: {.panel-tabset}
+
+## Treatment Means
+
+```{r}
+#| echo: false
 means <- data %>%
   group_by(diet, age) %>%
   summarize(mean = mean(birthweight)) %>%
   ungroup()
 head(means)
 ```
+
+## Code
+
+```{r}
+#| eval: false
+means <- data %>%
+  group_by(diet, age) %>%
+  summarize(mean = mean(birthweight)) %>%
+  ungroup()
+head(means)
+```
+
+:::
 
 ## Example
 
@@ -410,7 +438,12 @@ head(means)
 
     - This means I want to restructure the dataset with the means to have a column for each of the diets
 
-```{r, echo = TRUE}
+::: {.panel-tabset}
+
+## Data
+
+```{r}
+#| echo: false
 A <- means %>% filter(diet == 1) %>% rename(d1 = mean) %>% select(-diet)
 B <- means %>% filter(diet == 2) %>% rename(d2 = mean) %>% select(-diet)
 C <- means %>% filter(diet == 3) %>% rename(d3 = mean) %>% select(-diet)
@@ -419,13 +452,31 @@ graph <- full_join(graph, C, by = "age")
 head(graph)
 ```
 
+## Code
+
+```{r}
+#| eval: false
+A <- means %>% filter(diet == 1) %>% rename(d1 = mean) %>% select(-diet)
+B <- means %>% filter(diet == 2) %>% rename(d2 = mean) %>% select(-diet)
+C <- means %>% filter(diet == 3) %>% rename(d3 = mean) %>% select(-diet)
+graph <- full_join(A, B, by = "age")
+graph <- full_join(graph, C, by = "age")
+```
+
+:::
+
 ## Example
 
 - Building profile plots using `ggplot()` is a process.
 
     - First, include a `geom_line()` for each level of the factor creating the lines.
-    
-```{r, echo = TRUE, eval = FALSE}
+
+::: {.panel-tabset}
+
+## Code 
+
+```{r}
+#| eval: false
 graph %>% 
   ggplot(aes(x = age, group = 1)) +
   geom_line(aes(y = d1), color = "pink") + # diet 1
@@ -434,10 +485,11 @@ graph %>%
   theme_bw()
 ```
 
-## Example
+## Graph 
 
 <center>
-```{r, eval = TRUE, echo = FALSE}
+```{r}
+#| echo: false
 graph %>% 
   ggplot(aes(x = age, group = 1)) +
   geom_line(aes(y = d1), color = "pink") + # diet 1
@@ -447,13 +499,20 @@ graph %>%
 ```
 </center>
 
+:::
+
 ## Example
 
 - Building profile plots using `ggplot()` is a process.
 
     - Then, add `geom_text()` to label each line (use the line colors to make sure everything is labeled properly).
  
-```{r, echo = TRUE, eval = FALSE}
+::: {.panel-tabset}
+
+## Code 
+
+```{r}
+#| eval: false
 graph %>% 
   ggplot(aes(x = age, group = 1)) +
   geom_line(aes(y = d1), color = "pink") + # diet 1
@@ -465,10 +524,11 @@ graph %>%
   theme_bw()
 ```
 
-## Example
+## Graph
 
 <center>
-```{r, eval= TRUE, echo = FALSE}
+```{r}
+#| echo: false
 graph %>% 
   ggplot(aes(x = age, group = 1)) +
   geom_line(aes(y = d1), color = "pink") + # diet 1
@@ -481,6 +541,8 @@ graph %>%
 ```
 </center>
 
+:::
+
 ## Example
 
 - Building profile plots using `ggplot()` is a process.
@@ -489,8 +551,13 @@ graph %>%
     
         - Fix axis titles
         - Change line colors to black*
+        
+::: {.panel-tabset}
+
+## Code
     
-```{r, echo = TRUE, eval = FALSE}
+```{r}
+#| eval: false
 graph %>% 
   ggplot(aes(x = age, group = 1)) +
   geom_line(aes(y = d1), color = "black") + # diet 1
@@ -504,10 +571,11 @@ graph %>%
   theme_bw()
 ```
 
-## Example
+## Graph
 
 <center>
-```{r, eval = TRUE, echo = FALSE}
+```{r}
+#| echo: false
 graph %>% 
   ggplot(aes(x = age, group = 1)) +
   geom_line(aes(y = d1), color = "black") + # diet 1
@@ -521,6 +589,8 @@ graph %>%
   theme_bw()
 ```
 </center>
+
+:::
 
 ## Posthoc Tests
 

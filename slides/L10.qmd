@@ -1,6 +1,6 @@
 ---
 title: "Tests for Proportions"
-subtitle: "STA4173 Lecture 10, Summer 2023"
+subtitle: "STA4173: Biostatistics"
 execute:
   echo: true
   message: false
@@ -32,7 +32,7 @@ editor: source
 
 ## One-Sample Proportions
 
-<center><img src = "images/L17a.png"></center>
+<center><img src = "images/L17a 2.png"></center>
 
 ## One-Sample Proportions
 
@@ -216,7 +216,7 @@ prop.test(x = 408,
 
 ## Two-Sample Proportions
 
-<center><img src = "images/L17b.png"></center>
+<center><img src = "images/L17b 2.png"></center>
 
 ## Two-Sample Proportions
 
@@ -529,7 +529,7 @@ chisq.test(counts, p = probs)
 - Let us now discuss testing two categorical variables to determine if a relationship exists. 
 
 - Take, for example, this data:
-<center><img src = "images/L18a.png"></center>
+<center><img src = "images/L18a 2.png"></center>
 
 - We will use the $\chi^2$ test for independence to determine if happiness depends on marital status. 
     
@@ -537,7 +537,7 @@ chisq.test(counts, p = probs)
 
 - Like in the goodness-of-fit test, we will first compute expected values.
 
-<center><img src = "images/L18b.png" width = 1000></center>
+<center><img src = "images/L18b 2.png" width = 1000></center>
 
 - We find the expected values,$$E_{ij} = \frac{R_i C_j}{n}$$ where
     - $R_i$ is the total for row $i$,
@@ -679,10 +679,10 @@ CrossTable(penguins$species, penguins$sex,
 - We will apply McNemar's test for two dependent proportions. 
 
 - This requires a table as below:
-<center><img src = "images/L18d.png"  width = 500></center>
+<center><img src = "images/L18d 2.png"  width = 500></center>
 
 - The data for the poison ivy example is as follows:
-<center><img src = "images/L18e.png"  width = 700></center>
+<center><img src = "images/L18e 2.png"  width = 700></center>
 
 ## Two Dependent Proportions
 
@@ -759,7 +759,7 @@ mcnemar.test(observed_table, correct = FALSE)
 
     - Do you believe that the authorities should have the right to stop and search people on the street at random?
 
-- The results are as follows, <center><img src = "images/L18f.png"></center>
+- The results are as follows, <center><img src = "images/L18f 2.png"></center>
 
 - Do the proportion of people who agree with each scenario differ significantly? Use the $\alpha = 0.05$ level of significance.
 
