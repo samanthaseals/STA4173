@@ -1,9 +1,6 @@
 ---
-title: "About"
 ---
 
-About this site
+**Previous Semesters**
 
-```{r}
-1 + 1
-```
+- [Fall 2023](https://samanthaseals.github.io/STA4173/Fa23/)
