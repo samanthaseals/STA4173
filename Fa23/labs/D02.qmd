@@ -1,0 +1,136 @@
+---
+title: "Lab: Week 2"
+author: "Your Name Here"
+format: 
+  html:
+    self-contained: true
+    message: false
+    warning: false
+    error: true
+execute:
+  echo: true
+editor: source
+---
+
+Let's again consider the [Hollywood Age Gaps](https://github.com/rfordatascience/tidytuesday/blob/master/data/2023/2023-02-14/readme.md) dataset from [Tidy Tuesday](https://github.com/rfordatascience/tidytuesday). This dataset contains information on the age gap between movie love interests with the following rules:
+
+- The two actors play characters with actual romantic interests (i.e., not just friends or coworkers).
+
+- The youngest of the two actors is at least 17 years old.
+
+- Animated characters are excluded.
+
+Pulling in the data,
+
+```{r} 
+# do not change anything in this chunk
+library(tidyverse)
+age_gaps <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-02-14/age_gaps.csv') %>%
+  mutate(both_sexes = case_when(character_1_gender == "woman" & character_2_gender == "man" ~ "woman & man",
+                                character_1_gender == "man" & character_2_gender == "woman" ~ "woman & man",
+                                character_1_gender == "woman" & character_2_gender == "woman" ~ "woman & woman",
+                                character_1_gender == "man" & character_2_gender == "man" ~ "man & man"))
+```
+
+**1. (From last lab!) Find the mean and standard deviation of the age gap (*age_difference*) between romantic interests.**
+
+```{r}
+
+```
+
+**2. Construct the 90% confidence interval for the population mean age gap (*age_difference*) Remember to state the resulting confidence interval.**
+
+```{r}
+
+```
+
+<!-- 
+Please fill in below.
+Note that I will not give you a "fill in" after this lab.
+I include it here to show you how I expect the answer to be given.
+-->
+
+The 90% CI for $\mu$ is (lower bound, upper bound).
+
+**3. Construct the 95% confidence interval for the population mean age gap (*age_difference*) Remember to state the resulting confidence interval.**
+
+```{r}
+
+```
+
+<!-- 
+Please fill in below.
+Note that I will not give you a "fill in" after this lab.
+I include it here to show you how I expect the answer to be given.
+-->
+
+The 95% CI for $\mu$ is (lower bound, upper bound).
+
+**4. Construct the 99% confidence interval for the population mean age gap (*age_difference*) Remember to state the resulting confidence interval.**
+
+```{r}
+
+```
+
+<!-- 
+Please fill in below.
+Note that I will not give you a "fill in" after this lab.
+I include it here to show you how I expect the answer to be given.
+-->
+
+The 99% CI for $\mu$ is (lower bound, upper bound).
+
+**5. Use the appropriate hypothesis test to determine if the population age gap (*age_difference*) is greater than 10 years. Test at the $\alpha=0.10$ level. Remember to typeset your results.**
+
+```{r}
+
+```
+
+<!-- 
+Please fill in below.
+Note that I will not give you a "fill in" after this lab.
+I include it here to show you how I expect the answer to be given.
+In the future, you can grab the code for this from slides.
+(Remember that you have access to the .qmd files for the slides!
+http://samanthaseals.github.io/STA4173)
+-->
+
+- **Hypotheses**
+
+    - $H_0: \ \mu \text{ delete this and fill in the rest}$
+    - $H_1: \ \mu \text{ delete this and fill in the rest}$
+    
+- **Test Statistic and *p*-Value**
+
+    - $t_0 = \text{ delete this and insert the t value}$
+    - $p = \text{ delete this and insert the p-value}$
+    
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha = \text{ delete this and insert the $\alpha$ being used}$.
+    
+- **Conclusion/Interpretation**
+
+    - [Fail to reject or Reject] $H_0$.
+    
+    - There [is or is not] sufficient evidence to suggest [alternative hypothesis in words].
+
+**6. (Challenge!) Graph the confidence intervals found above. Hint: look at [this post on Stack Overflow](https://stackoverflow.com/questions/67846447/confidence-interval-using-ggplot2-manually) and adapt.**
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+

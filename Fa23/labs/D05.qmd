@@ -1,0 +1,61 @@
+---
+title: "Lab: July 11"
+author: "Your Name Here"
+format: 
+  html:
+    self-contained: true
+execute:
+  echo: true
+  warning: false
+  message: false
+editor: source
+---
+
+An obstetrician knew that there were more live births during the week than on weekends. She wanted to determine whether the mean number of births was the same for each of the five days of the week. She randomly selected eight dates for each of the five days of the week and obtained the following data:
+
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse)
+births <- c(10456, 10023, 10691, 10283, 10265, 11189, 11198, 11465,
+            11621, 11944, 11045, 12927, 12577, 11753, 12509, 13521,
+            11084, 11570, 11346, 11875, 12193, 11593, 11216, 11818,
+            11171, 11745, 12023, 12433, 12132, 11903, 11233, 12543,
+            11545, 12321, 11749, 12192, 12422, 11627, 11624, 12543)
+day <- c(rep("M", 8), rep("T", 8), rep("W", 8), rep("R", 8), rep("F", 8))
+data <- tibble(day, births)
+```
+
+**1. Find the day-specific means and standard deviations. (Hint: look back at previous labs and projects for code to adapt.)**
+
+```{r}
+
+```
+
+**2. Find the day-specific 95% confidence intervals. Remember to state the resulting CIs.**
+
+```{r}
+
+```
+
+**3. Construct the one-way ANOVA table.**
+
+```{r}
+
+```
+
+**4. Use the appropriate hypothesis test to determine if the mean number of births is the same for each of the five days of the week. Test at the $\alpha=0.05$ level. Remember to typeset the results.**
+
+
+
+**5. Use Tukey's test to determine what pairwise differences exist. Test at the $\alpha=0.05$ level. Remember to state which pairwise differences exist.**
+
+```{r}
+
+```
+
+**6. Use Fisher's test to determine what pairwise differences exist. Test at the $\alpha=0.05$ level. Remember to state which pairwise differences exist.**
+
+```{r}
+
+```
+
+
