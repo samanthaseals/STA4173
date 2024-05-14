@@ -1,0 +1,16 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Biostatistics - Summer 2024",
+    "section": "",
+    "text": "Week\n\n\nDate\n\n\nTopic\n\n\nLecture\n\n\nLab\n\n\n\n\n\n\n1\n\n\nT 06/18\n\n\nReview, Intro to RStudio/Quarto\n\n\n\n\n\n\n\n\n\n\nR 06/20\n\n\nTwo-sample t-tests\n\n\n\n\n\n\n\n\n2\n\n\nT 06/25\n\n\nAssumptions on t-tests, Wilcoxons\n\n\n\n\n\n\n\n\n\n\nR 06/27\n\n\nProject 1\n\n\n\n\n\n\n\n\n3\n\n\nT 07/02\n\n\nOne-way ANOVA\n\n\n\n\n\n\n\n\n\n\nR 07/04\n\n\nHOLIDAY; NO CLASS\n\n\n\n\n\n\n\n\n4\n\n\nT 07/09\n\n\nANOVA assumptions, Kruskal-Wallis\n\n\n\n\n\n\n\n\n\n\nR 07/11\n\n\nTwo-way ANOVA\n\n\n\n\n\n\n\n\n5\n\n\nT 07/16\n\n\nProject 2\n\n\n\n\n\n\n\n\n\n\nR 07/18\n\n\nSimple linear regression and correlation\n\n\n\n\n\n\n\n\n6\n\n\nT 07/23\n\n\nMultiple linear regression\n\n\n\n\n\n\n\n\n\n\nR 07/25\n\n\nProject 3\n\n\n\n\n\n\n\n\n7\n\n\nT 07/30\n\n\nCategorical analysis\n\n\n\n\n\n\n\n\n\n\nR 08/01\n\n\nProject 4\n\n\n\n\n\n\n\n\n8\n\n\nT 08/06\n\n\nUgly graph contest\n\n\n\n\n\n\n\n\n\n\nR 08/08\n\n\nConceptual Final Exam"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "1 + 1\n\n[1] 2"
+  }
+]

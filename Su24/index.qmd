@@ -1,0 +1,140 @@
+---
+title: ""
+---
+
+**Tentative Schedule**
+
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
+.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+</style>
+<table class="tg">
+<thead>
+  <tr>
+    <th class="tg-c3ow"><span style="font-weight:normal">Week</span></th>
+    <th class="tg-c3ow"><span style="font-weight:normal">Date</span></th>
+    <th class="tg-0pky"><span style="font-weight:normal">Topic</span></th>
+    <th class="tg-c3ow"><span style="font-weight:normal">Lecture</span></th>
+    <th class="tg-0pky">Lab</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="tg-c3ow"><span style="font-weight:normal">1</span></td>
+    <td class="tg-c3ow"><span style="font-weight:normal">T 06/18</span></td>
+    <td class="tg-0pky"><span style="font-weight:normal">Review, Intro to RStudio/Quarto</span></td>
+    <td class="tg-c3ow"></td>
+    <td class="tg-0pky"></td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow"></td>
+    <td class="tg-c3ow"><span style="font-weight:normal">R 06/20</span></td>
+    <td class="tg-0pky"><span style="font-weight:normal">Two-sample t-tests</span></td>
+    <td class="tg-c3ow"></td>
+    <td class="tg-0pky"></td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow"><span style="font-weight:normal">2</span></td>
+    <td class="tg-c3ow"><span style="font-weight:normal">T 06/25</span></td>
+    <td class="tg-0pky"><span style="font-weight:normal">Assumptions on t-tests, Wilcoxons</span></td>
+    <td class="tg-c3ow"></td>
+    <td class="tg-0pky"></td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow"></td>
+    <td class="tg-c3ow"><span style="font-weight:normal">R 06/27</span></td>
+    <td class="tg-0pky"><span style="font-weight:normal">Project 1</span></td>
+    <td class="tg-c3ow"></td>
+    <td class="tg-0pky"></td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow"><span style="font-weight:normal">3</span></td>
+    <td class="tg-c3ow"><span style="font-weight:normal">T 07/02</span></td>
+    <td class="tg-0pky"><span style="font-weight:normal">One-way ANOVA</span></td>
+    <td class="tg-c3ow"></td>
+    <td class="tg-0pky"></td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow"></td>
+    <td class="tg-c3ow"><span style="font-weight:normal">R 07/04</span></td>
+    <td class="tg-0pky"><span style="font-weight:normal">HOLIDAY; NO CLASS</span></td>
+    <td class="tg-c3ow"></td>
+    <td class="tg-0pky"></td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow"><span style="font-weight:normal">4</span></td>
+    <td class="tg-c3ow"><span style="font-weight:normal">T 07/09</span></td>
+    <td class="tg-0pky"><span style="font-weight:normal">ANOVA assumptions, Kruskal-Wallis</span></td>
+    <td class="tg-c3ow"></td>
+    <td class="tg-0pky"></td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow"></td>
+    <td class="tg-c3ow"><span style="font-weight:normal">R 07/11</span></td>
+    <td class="tg-0pky"><span style="font-weight:normal">Two-way ANOVA</span></td>
+    <td class="tg-c3ow"></td>
+    <td class="tg-0pky"></td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow"><span style="font-weight:normal">5</span></td>
+    <td class="tg-c3ow"><span style="font-weight:normal">T 07/16</span></td>
+    <td class="tg-0pky"><span style="font-weight:normal">Project 2</span></td>
+    <td class="tg-c3ow"></td>
+    <td class="tg-0pky"></td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow"></td>
+    <td class="tg-c3ow"><span style="font-weight:normal">R 07/18</span></td>
+    <td class="tg-0pky"><span style="font-weight:normal">Simple linear regression and correlation</span></td>
+    <td class="tg-c3ow"></td>
+    <td class="tg-0pky"></td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow"><span style="font-weight:normal">6</span></td>
+    <td class="tg-c3ow"><span style="font-weight:normal">T 07/23</span></td>
+    <td class="tg-0pky"><span style="font-weight:normal">Multiple linear regression</span></td>
+    <td class="tg-c3ow"></td>
+    <td class="tg-0pky"></td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow"></td>
+    <td class="tg-c3ow"><span style="font-weight:normal">R 07/25</span></td>
+    <td class="tg-0pky"><span style="font-weight:normal">Project 3</span></td>
+    <td class="tg-c3ow"></td>
+    <td class="tg-0pky"></td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow"><span style="font-weight:normal">7</span></td>
+    <td class="tg-c3ow"><span style="font-weight:normal">T 07/30</span></td>
+    <td class="tg-0pky"><span style="font-weight:normal">Categorical analysis</span></td>
+    <td class="tg-c3ow"></td>
+    <td class="tg-0pky"></td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow"></td>
+    <td class="tg-c3ow"><span style="font-weight:normal">R 08/01</span></td>
+    <td class="tg-0pky"><span style="font-weight:normal">Project 4</span></td>
+    <td class="tg-c3ow"></td>
+    <td class="tg-0pky"></td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow"><span style="font-weight:normal">8</span></td>
+    <td class="tg-c3ow"><span style="font-weight:normal">T 08/06</span></td>
+    <td class="tg-0pky"><span style="font-weight:normal">Ugly graph contest</span></td>
+    <td class="tg-c3ow"></td>
+    <td class="tg-0pky"></td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow"></td>
+    <td class="tg-c3ow"><span style="font-weight:normal">R 08/08</span></td>
+    <td class="tg-0pky"><span style="font-weight:normal">Conceptual Final Exam</span></td>
+    <td class="tg-c3ow"></td>
+    <td class="tg-0pky"></td>
+  </tr>
+</tbody>
+</table>
